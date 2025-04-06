@@ -3,6 +3,8 @@ import { BarLoader } from 'react-spinners'
 import './App.css'
 import userInfo from './appwrite/auth'
 import service from './appwrite/UserProfile'
+import { Footer, Header } from './component'
+import { Outlet } from 'react-router-dom'
 
 function App() {
   const [count, setCount] = useState('')
@@ -17,6 +19,9 @@ function App() {
 
   return (
     <>
+    <Header/>
+    <Outlet/>
+    <Footer/>
     </>
   )
 }

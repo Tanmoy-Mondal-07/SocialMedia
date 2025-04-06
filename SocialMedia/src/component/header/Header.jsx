@@ -1,8 +1,8 @@
 import React from 'react'
 import '../../App.css'
-import {logoTextSvg,logoSvg,settingSvg} from '../../assets'
-import Setting from '../../assets/setting.svg'
-import Button from '../Button'
+import {logoTextSvg} from '../../assets'
+import {settingSvg} from '../../assets/iconSvg'
+import {Button} from '../'
 
 function Header() {
     return (
@@ -13,7 +13,7 @@ function Header() {
             </div>
             <div className='navbarRight'>
                 <Button>Login/Signup</Button>
-                <img src={settingSvg} alt="Settings" />
+                {settingSvg}
             </div>
         </div>
     )

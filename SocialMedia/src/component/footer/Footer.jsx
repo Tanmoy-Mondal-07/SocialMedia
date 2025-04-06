@@ -1,11 +1,12 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import '../../App.css'
 import Button from '../Button'
-import {homeSvg,inboxSvg,loginSvg,profileSvg,searchSvg} from '../../assets'
+import { inboxSvg, homeSvg, loginSvg, profileSvg, searchSvg } from '../../assets/iconSvg'
 
 function Footer() {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
+    const location = useLocation()
     const authStatus = true
 
     const navItems = [
@@ -29,13 +30,13 @@ function Footer() {
         },
         {
             name: "Profile",
-            svgImage:profileSvg,
+            svgImage: profileSvg,
             slug: "/profile",
             active: authStatus,
         },
         {
             name: "Login",
-            svgImage:loginSvg,
+            svgImage: loginSvg,
             slug: "/login",
             active: !authStatus,
         }
@@ -46,7 +47,9 @@ function Footer() {
                 {navItems.map((item) =>
                     item.active ? (
                         <Button key={item.name} svgImage={item.svgImage}
+                            classNameActive={location.pathname === item.slug ? 'defaultBtnActive' : null}
                             onClick={() => navigate(item.slug)}
+                            style={{ backgroundColor: 'white', color: 'black' }}
                         >{item.name}</Button>
                     ) : null
                 )}

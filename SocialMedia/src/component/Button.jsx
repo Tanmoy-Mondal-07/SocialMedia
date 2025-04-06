@@ -3,13 +3,14 @@ import '../App.css'
 
 function Button({
     children,
-    svgImage = '',
+    svgImage,
     type = 'button',
-    className='defaultBtn',
+    classNameActive,
+    ...prop
 }) {
   return (
-    <button type={type} className={className}>
-        {svgImage && <img src={svgImage} alt={children} style={{height:'1.5rem'}}/>}
+    <button type={type} className={`defaultBtn  ${classNameActive}`} {...prop}>
+        {svgImage}
         {children}
     </button>
   )
