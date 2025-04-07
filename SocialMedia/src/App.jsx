@@ -1,27 +1,36 @@
 import { useEffect, useState } from 'react'
-import { BarLoader } from 'react-spinners'
-import './App.css'
+import { useDispatch } from 'react-redux'
+import { login, logout } from "./store/authSlice"
 import userInfo from './appwrite/auth'
-import service from './appwrite/UserProfile'
-import { Footer, Header } from './component'
+import { Container, Footer, Header} from './component'
+import { showLoading,hideLoading } from './store/LodingState'
 import { Outlet } from 'react-router-dom'
+import './App.css'
 
 function App() {
-  const [count, setCount] = useState('')
+  const dispatch = useDispatch()
 
-  // useEffect(() => {
-  //   // userInfo.login({email:'aa@gmail.com',password:'aa123456'})
-  //   userInfo.getCurrentUser()
-  //     .then((data) => service.createUserProfile({ userId: data.$id, username: 'clash', bio: '', avatarUrl: 'url', followersCount: 10, followingCount: 10 }))
-
-  // }, [])
+  useEffect(() => {
+    dispatch(showLoading())
+    userInfo.getCurrentUser()
+      .then((userData) => {
+        if (userData) {
+          dispatch(login({ userData }))
+        } else {
+          dispatch(logout())
+        }
+      })
+      .finally(() => dispatch(hideLoading()))
+  }, [])
 
 
   return (
     <>
-    <Header/>
-    <Outlet/>
-    <Footer/>
+      <Header />
+      <Container>
+        <Outlet />
+      </Container>
+      <Footer />
     </>
   )
 }

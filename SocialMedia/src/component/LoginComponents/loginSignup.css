@@ -1,0 +1,34 @@
+:root {
+    --White: #ffffff;
+    --Gray: #ededed;
+    --DarkGray: #808080;
+    --Black: #000000;
+}
+
+.container {
+    justify-content: center;
+    padding: 0;
+    height: 80vh;
+}
+
+.loginContainer {
+    min-width: 20rem;
+    aspect-ratio: 7/10;
+}
+
+.innerCon {
+    height: 92%;
+    display: flex;
+    width: 100%;
+    border: 5px solid var(--Black);
+    padding: 10px;
+    border-radius: 20px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.innerCon img {
+    height: 4rem;
+}

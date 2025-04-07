@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useSelector } from "react-redux";
 import '../../App.css'
 import Button from '../Button'
 import { inboxSvg, homeSvg, loginSvg, profileSvg, searchSvg } from '../../assets/iconSvg'
@@ -7,7 +8,7 @@ import { inboxSvg, homeSvg, loginSvg, profileSvg, searchSvg } from '../../assets
 function Footer() {
     const navigate = useNavigate()
     const location = useLocation()
-    const authStatus = true
+    const authStatus = useSelector((state)=>state.auth.status)
 
     const navItems = [
         {

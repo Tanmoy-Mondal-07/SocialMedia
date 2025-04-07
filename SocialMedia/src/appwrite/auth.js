@@ -31,6 +31,7 @@ export class AuthService {
         try {
             return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
+            // alert(`${error}`);
             throw error
         }
     }
@@ -39,7 +40,7 @@ export class AuthService {
         try {
             return await this.account.get()
         } catch (error) {
-            console.log("current user error");
+            // console.log("current user error");
             throw error
         }
         return null;
