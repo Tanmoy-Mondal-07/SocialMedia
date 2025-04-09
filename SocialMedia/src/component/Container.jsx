@@ -1,23 +1,22 @@
 import React from 'react'
 
-function Container({ children, ...prop }) {
+function Container({ children }) {
+  const baseStyle = {
+    padding: '1rem 0',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    flexWrap: 'nowrap',
+    maxWidth: '500px',
+    minHeight: '80vh',
+    margin: 'auto',
+    marginBottom: '4rem',
+  }
+
   return (
-    <div style={{
-      padding: '1rem 2rem',
-      display: 'flex',
-      maxWidth: '1000px',
-      minHeight: '80vh',
-      margin: 'auto',
-      // backgroundColor: 'green',
-      flexFlow: 'column',
-      alignItems: 'center',
-      flexDirection: 'column',
-      flexWrap: 'nowrap',
-    }} {...prop}>
-
+    <div style={baseStyle}>
       {children}
-
-    </div >
+    </div>
   )
 }
 

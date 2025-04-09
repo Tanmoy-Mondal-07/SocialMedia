@@ -8,7 +8,8 @@ import { inboxSvg, homeSvg, loginSvg, profileSvg, searchSvg } from '../../assets
 function Footer() {
     const navigate = useNavigate()
     const location = useLocation()
-    const authStatus = useSelector((state)=>state.auth.status)
+    const authStatus = useSelector((state) => state.auth.status)
+    const userData = useSelector((state) => state.auth.userData)
 
     const navItems = [
         {
@@ -32,7 +33,7 @@ function Footer() {
         {
             name: "Profile",
             svgImage: profileSvg,
-            slug: "/profile",
+            slug: userData ? `/profile/${userData.$id}` : null,
             active: authStatus,
         },
         {
@@ -42,21 +43,27 @@ function Footer() {
             active: !authStatus,
         }
     ]
+
     return (
         <div className='ultimetFooter'>
             <div className='footerParent'>
                 {navItems.map((item) =>
                     item.active ? (
-                        <Button key={item.name} svgImage={item.svgImage}
+                        <Button
+                            key={item.name}
+                            svgImage={item.svgImage}
                             classNameActive={location.pathname === item.slug ? 'defaultBtnActive' : null}
                             onClick={() => navigate(item.slug)}
                             style={{ backgroundColor: 'white', color: 'black' }}
-                        >{item.name}</Button>
+                        >
+                            {item.name}
+                        </Button>
                     ) : null
                 )}
             </div>
         </div>
     )
 }
+
 
 export default Footer

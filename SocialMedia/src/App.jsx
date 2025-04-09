@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { login, logout } from "./store/authSlice"
+import { login, logout } from './store/authSlice'
 import userInfo from './appwrite/auth'
-import { Container, Footer, Header} from './component'
-import { showLoading,hideLoading } from './store/LodingState'
+import { Container, Footer, Header } from './component'
+import { showLoading, hideLoading } from './store/LodingState'
 import { Outlet } from 'react-router-dom'
 import './App.css'
 
@@ -11,18 +11,24 @@ function App() {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(showLoading())
-    userInfo.getCurrentUser()
-      .then((userData) => {
+    const checkAuthStatus = async () => {
+      dispatch(showLoading())
+      try {
+        const userData = await userInfo.getCurrentUser()
         if (userData) {
           dispatch(login({ userData }))
         } else {
           dispatch(logout())
         }
-      })
-      .finally(() => dispatch(hideLoading()))
-  }, [])
+      } catch (err) {
+        dispatch(logout())
+      } finally {
+        dispatch(hideLoading())
+      }
+    }
 
+    checkAuthStatus()
+  }, [dispatch])
 
   return (
     <>
