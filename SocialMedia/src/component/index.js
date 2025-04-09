@@ -8,10 +8,14 @@ import GlobalLoader from './GlobalLoder'
 import ProfileComponent from './profileTop/Profile'
 import Postcard from './Postcard'
 import Postfooter from './Postfooter'
-import { AuthLayout } from '../../../../New folder (2)/Mega_project/BlogPost_Project/src/components'
+import AuthLayout from './AuthLayout'
+import PasswordInputBox from './LoginComponents/PasswordInput'
+import EditProfileComponent from './profileTop/EditProfile'
 
 
 export { Container, Footer, Header,
     Button, LoginContainer, Input ,
     GlobalLoader,ProfileComponent,Postcard,
-    Postfooter, AuthLayout}
+    Postfooter, AuthLayout, PasswordInputBox,
+    EditProfileComponent
+}

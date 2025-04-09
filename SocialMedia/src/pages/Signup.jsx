@@ -1,70 +1,100 @@
 import React, { useState } from 'react'
-import { login } from '../store/authSlice'
+import { useForm } from 'react-hook-form'
+import { login as authLogin } from '../store/authSlice'
 import authService from '../appwrite/auth'
-import { LoginContainer, Button, Input } from '../component'
 import userProfileService from '../appwrite/UserProfile'
+import { LoginContainer, Button, Input, PasswordInputBox } from '../component'
 import { signUpSvg } from '../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { BeatLoader } from 'react-spinners'
 
 function Signup() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [email, setemail] = useState('')
-    const [password, setpassword] = useState('')
-    const [error, setError] = useState('')
-    const [name, setname] = useState('')
-    const [loding, setloding] = useState(false)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-    const create = async (e) => {
-        e.preventDefault()
-        setError("")
-        setloding(true)
-        try {
-            const userData = await authService.createAccount({ email, password, name })
-            if (userData) {
-                const userData = await authService.getCurrentUser()
-                if (userData) {
-                    dispatch(login(userData))
-                    userProfileService.createUserProfile({
-                        userId: userData.$id,
-                        username: name,
-                    })
-                }
-                setloding(false)
-                navigate("/")
-            }
-        } catch (error) {
-            setloding(false)
-            setError(error.massage)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm()
+
+  const onSubmit = async (data) => {
+    setError('')
+    setLoading(true)
+    try {
+      const user = await authService.createAccount({
+        email: data.email,
+        password: data.password,
+        name: data.name,
+      })
+
+      if (user) {
+        const userData = await authService.getCurrentUser()
+        if (userData) {
+          dispatch(authLogin({userData}))
+          await userProfileService.createUserProfile({
+            userId: userData.$id,
+            username: data.name,
+          })
         }
+        setLoading(false)
+        navigate('/')
+      }
+    } catch (err) {
+      setLoading(false)
+      setError(err.message)
     }
+  }
 
-    return (
-        <LoginContainer>
-            <div>
-                <img src={signUpSvg} />
-                <div style={{ height: '1rem', width: '15rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {error && <p style={{ fontSize: '0.5em', color: 'red' }}>{error}</p>}
-                    {loding ? <BeatLoader color="black" size={8} /> : null}
-                </div>
-            </div>
-            <form onSubmit={create}>
-                <Input value={name} onChange={(e) => setname(e.target.value)} placeholder='Name' />
-                <Input value={email} onChange={(e) => setemail(e.target.value)} type='email' placeholder='Email Id' />
-                <Input value={password} onChange={(e) => setpassword(e.target.value)} type='password' placeholder='Password' />
-                <div style={{ padding: '.2em 1rem', }}>
-                    <Button type='submit' style={{
-                        minWidth: '10em',
-                        width: '100%',
-                    }}>SignUp</Button></div>
-            </form>
-            <Link style={{ textDecoration: 'none' }} to='/login'>
-                <p style={{ color: 'black', fontSize: '0.8em' }}>Already have an account? <u>Log In</u></p>
-            </Link>
-        </LoginContainer>
-    )
+  return (
+    <LoginContainer>
+      <div>
+        <img src={signUpSvg} />
+        <div style={{ height: '1.2rem', width: '15rem',textAlign:'justify', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          {error ? (
+            <p style={{ fontSize: '0.6em', color: 'red' }}>{error}</p>
+          ) : (
+            <>
+              {errors.name && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.name.message} ...</p>}
+              {errors.email && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.email.message} ...</p>}
+              {errors.password && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.password.message} ...</p>}
+            </>
+          )}
+          {loading && <BeatLoader color="black" size={8} />}
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+        <Input
+          placeholder="Name"
+          {...register('name', { required: 'Name is required' })}
+        />
+        <Input
+          type="email"
+          placeholder="Email Id"
+          {...register('email', { required: 'Email is required' })}
+        />
+        <PasswordInputBox
+          placeholder="Password"
+          {...register('password', { required: 'Password is required' })}
+        />
+        <div style={{ padding: '.2em 1rem' }}>
+          <Button type="submit" style={{ minWidth: '10em', width: '100%' }}>
+            SignUp
+          </Button>
+        </div>
+      </form>
+
+      <Link style={{ textDecoration: 'none' }} to="/login">
+        <p style={{ color: 'black', fontSize: '0.8em' }}>
+          Already have an account? <u>Log In</u>
+        </p>
+      </Link>
+    </LoginContainer>
+  )
 }
 
 export default Signup

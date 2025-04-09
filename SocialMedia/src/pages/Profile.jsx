@@ -3,7 +3,8 @@ import { Postcard, Postfooter, ProfileComponent } from '../component'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteUserProfileService from '../appwrite/UserProfile'
 import { useDispatch } from 'react-redux'
-import { hideLoading, showLoading } from '../store/LodingState'
+import { showLoading, hideLoading } from '../store/LodingState'
+import getFile from '../appwrite/getFiles'
 
 function Profile() {
   const [userProfile, setUserProfile] = useState(null)
@@ -35,15 +36,19 @@ function Profile() {
     }
 
     fetchProfile()
-  }, [slug, navigate, dispatch])
+  }, [slug, navigate])
 
   if (error) {
     return <h1>{error}</h1>
   }
-
+  
   return userProfile ? (
     <div style={{ width: '100%', overflow: 'hidden' }}>
-      <ProfileComponent {...userProfile} />
+      <ProfileComponent
+        username = {userProfile.username}
+        bio = {userProfile.bio}
+        imageUrl = {getFile(userProfile)}
+       />
     </div>
   ) : null
 }

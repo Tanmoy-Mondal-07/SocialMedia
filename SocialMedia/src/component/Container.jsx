@@ -2,12 +2,12 @@ import React from 'react'
 
 function Container({ children }) {
   const baseStyle = {
-    padding: '1rem 0',
-    display: 'flex',
+    padding: '2rem 0',
+    // display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     flexWrap: 'nowrap',
-    maxWidth: '500px',
+    maxWidth: '800px',
     minHeight: '80vh',
     margin: 'auto',
     marginBottom: '4rem',

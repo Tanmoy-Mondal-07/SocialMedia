@@ -2,6 +2,11 @@ import React from 'react'
 import './ProfileTop.css'
 import { Button } from '../index'
 import { profilePicSvg } from '../../assets/iconSvg'
+import { useNavigate } from 'react-router-dom'
+import authService from '../../appwrite/auth'
+import { showLoading,hideLoading } from '../../store/LodingState'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../store/authSlice'
 
 function Profile({
     imageUrl,
@@ -13,9 +18,16 @@ function Profile({
     isFollowing = false,
     onFollowClick,
     onMessageClick,
-    onLogoutClick,
-    onEditProfileClick
 }) {
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    
+    const logoutUser = () => {
+        dispatch(showLoading())
+        authService.logout().then(() => {
+            dispatch(logout())
+        }).finally(()=>dispatch(hideLoading()))
+    }
 
     return (
         <div className="profile-card">
@@ -39,8 +51,8 @@ function Profile({
             <div className="action-buttons">
                 {isOwnProfile ? (
                     <>
-                        <Button onClick={onEditProfileClick}>Edit Profile</Button>
-                        <Button onClick={onLogoutClick}>Logout</Button>
+                        <Button onClick={() => navigate('/editprofile')}>Edit Profile</Button>
+                        <Button onClick={logoutUser}>Logout</Button>
                     </>
                 ) : (
                     <>
