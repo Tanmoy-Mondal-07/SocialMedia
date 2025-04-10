@@ -34,7 +34,7 @@ function Signup() {
       if (user) {
         const userData = await authService.getCurrentUser()
         if (userData) {
-          dispatch(authLogin({userData}))
+          dispatch(authLogin({ userData }))
           await userProfileService.createUserProfile({
             userId: userData.$id,
             username: data.name,
@@ -51,49 +51,51 @@ function Signup() {
 
   return (
     <LoginContainer>
-      <div>
-        <img src={signUpSvg} />
-        <div style={{ height: '1.2rem', width: '15rem',textAlign:'justify', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="w-full flex flex-col items-center gap-3">
+        <img src={signUpSvg} alt="Sign Up" className="h-12 object-contain" />
+
+        <div className="h-5 w-full text-center">
           {error ? (
-            <p style={{ fontSize: '0.6em', color: 'red' }}>{error}</p>
+            <p className="text-xs text-red-500">{error}</p>
           ) : (
             <>
-              {errors.name && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.name.message} ...</p>}
-              {errors.email && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.email.message} ...</p>}
-              {errors.password && <p style={{ color: 'red', fontSize: '0.6em' }}>{errors.password.message} ...</p>}
+              {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+              {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+              {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
             </>
           )}
           {loading && <BeatLoader color="black" size={8} />}
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full flex flex-col gap-4 mt-4"
+      >
         <Input
           placeholder="Name"
-          {...register('name', { required: 'Name is required' })}
+          {...register("name", { required: "Name is required" })}
         />
         <Input
           type="email"
           placeholder="Email Id"
-          {...register('email', { required: 'Email is required' })}
+          {...register("email", { required: "Email is required" })}
         />
         <PasswordInputBox
           placeholder="Password"
-          {...register('password', { required: 'Password is required' })}
+          {...register("password", { required: "Password is required" })}
         />
-        <div style={{ padding: '.2em 1rem' }}>
-          <Button type="submit" style={{ minWidth: '10em', width: '100%' }}>
-            SignUp
-          </Button>
-        </div>
+
+        <Button type="submit" classNameActive="w-full mt-2">
+          Sign Up
+        </Button>
       </form>
 
-      <Link style={{ textDecoration: 'none' }} to="/login">
-        <p style={{ color: 'black', fontSize: '0.8em' }}>
-          Already have an account? <u>Log In</u>
-        </p>
+      <Link to="/login" className="text-sm text-black hover:underline mt-4">
+        Already have an account? <u>Log In</u>
       </Link>
     </LoginContainer>
+
   )
 }
 

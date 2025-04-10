@@ -33,10 +33,11 @@ function App() {
   return (
     <>
       <Header />
-      <Container>
-        
-        <Outlet />
-      </Container>
+      <main className="min-h-[calc(100vh-160px)] px-4 sm:px-6 lg:px-8">
+        <Container>
+          <Outlet />
+        </Container>
+      </main>
       <Footer />
     </>
   )

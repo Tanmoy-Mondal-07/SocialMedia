@@ -1,20 +1,8 @@
 import React from 'react'
 
-function Container({ children }) {
-  const baseStyle = {
-    padding: '2rem 0',
-    // display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    maxWidth: '800px',
-    minHeight: '80vh',
-    margin: 'auto',
-    marginBottom: '4rem',
-  }
-
+function Container({ children }){
   return (
-    <div style={baseStyle}>
+    <div className="max-w-7xl mb-7  py-5 mx-auto w-full">
       {children}
     </div>
   )

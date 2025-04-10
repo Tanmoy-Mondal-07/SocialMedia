@@ -42,29 +42,26 @@ function Login() {
 
   return (
     <LoginContainer>
-      <div>
-        <img src={loginTextSvg} />
-        <div style={{ height: '1rem', width: '15rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <div className="flex flex-col items-center gap-2 w-full">
+        <img src={loginTextSvg} alt="Login" className="h-16 object-contain" />
+
+        <div className="h-4 min-h-[1rem] w-60 flex justify-center items-center text-xs text-red-500">
           {error ? (
-            <p style={{ fontSize: '0.5em', color: 'red' }}>{error}</p>
+            <p>{error}</p>
           ) : (
             <>
-              {errors.email && (
-                <p style={{ color: 'red', fontSize: '0.5em' }}>{errors.email.message}</p>
-              )}
-              {errors.password && (
-                <p style={{ color: 'red', fontSize: '0.5em' }}>{errors.password.message}</p>
-              )}
+              {errors.email && <p>{errors.email.message}</p>}
+              {errors.password && <p>{errors.password.message}</p>}
             </>
           )}
           {loading && <BeatLoader color="black" size={8} />}
         </div>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
         <Input
-          type='email'
-          placeholder='Email Id'
+          type="email"
+          placeholder="Email Id"
           {...register('email', { required: 'Email is required' })}
         />
 
@@ -72,20 +69,13 @@ function Login() {
           {...register('password', { required: 'Password is required' })}
         />
 
-        <div style={{ padding: '.2em 1rem' }}>
-          <Button
-            type='submit'
-            style={{ minWidth: '10em', width: '100%' }}
-          >
-            Login
-          </Button>
-        </div>
+        <Button type="submit" classNameActive="w-full mt-2">
+          Login
+        </Button>
       </form>
 
-      <Link style={{ textDecoration: 'none' }} to='/signup'>
-        <p style={{ color: 'black', fontSize: '0.8em' }}>
-          Don't have an account? <u>Sign Up</u>
-        </p>
+      <Link to="/signup" className="text-sm text-black mt-2 hover:underline">
+        Don’t have an account? <u>Sign Up</u>
       </Link>
     </LoginContainer>
   )

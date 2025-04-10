@@ -7,10 +7,3 @@ h1{
     margin-top: 2rem;
     color: red;
 }
-
-
-@media (min-width: 1800px) {
-    .innerCon {
-        transform: scale(2);
-    }
-}

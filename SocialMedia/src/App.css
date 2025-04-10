@@ -1,27 +1,16 @@
-/* === Reset & Base Setup === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "tailwindcss";
 
-html,
-body {
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: system-ui, sans-serif;
-  background-color: var(--Gray);
-  color: var(--Black);
+@theme{
+  --color-bground-100: rgb(255, 255, 255);
+  --color-bground-200: rgb(191, 186, 198);
+  --color-fground-100: rgb(59, 59, 59);
+  --color-fground-200: rgb(0, 0, 0);
 }
-
-/* === CSS Variables === */
 :root {
-  --White: #ffffff;
-  --Gray: #ededed;
-  --DarkGray: #808080;
-  --Black: #000000;
+  --White: rgb(255, 255, 255);
+  --Gray: rgb(191, 186, 198);
+  --DarkGray: rgb(59, 59, 59);
+  --Black: rgb(0, 0, 0);
 }
 
 /* === Root Container === */
