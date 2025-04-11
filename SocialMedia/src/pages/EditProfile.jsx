@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { EditProfileComponent } from '../component';
+import { EditComponent } from '../component';
 import { showLoading, hideLoading } from '../store/LodingState';
 import appwriteUserProfileService from '../appwrite/UserProfile';
 import getFile from '../appwrite/getFiles';
@@ -15,7 +15,7 @@ function EditProfile() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // only run when userId becomes available
+        
         if (!userId) return;
 
         const fetchProfile = async () => {
@@ -39,18 +39,15 @@ function EditProfile() {
 
     const handleProfileSubmit = async (data) => {
         dispatch(showLoading());
-        console.log(data);
 
         try {
             let avatarUrl = userProfile.avatar;
 
             if (data.profilePic && data.profilePic[0]) {
                 const uploadRes = await appwriteUserProfileService.uploadAvatar(data.profilePic[0]);
-                console.log('hlo');
+                appwriteUserProfileService.deleteAvatar(userProfile?.avatarUrl)
                 if (uploadRes) {
                     avatarUrl = uploadRes.$id;
-                    console.log(uploadRes);
-                    console.log('hlo');
                 }
             }
 
@@ -61,7 +58,6 @@ function EditProfile() {
             });
 
             if (updateRes) {
-                // alert("Profile updated successfully")
                 navigate(`/profile/${userId}`)
             } else {
                 alert("Failed to update profile");
@@ -79,7 +75,7 @@ function EditProfile() {
     if (!userProfile) return null;
 
     return (
-        <EditProfileComponent
+        <EditComponent
             username={userProfile?.username}
             avatarUrl={getFile(userProfile)}
             bio={userProfile?.bio}

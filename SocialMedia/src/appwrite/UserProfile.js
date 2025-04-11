@@ -77,7 +77,7 @@ export class Service{
         }
     }
 
-    async deleteFile(AvatarId){
+    async deleteAvatar(AvatarId){
         try {
             await this.bucket.deleteFile(
                 conf.appwriteAvatarBucketidid,

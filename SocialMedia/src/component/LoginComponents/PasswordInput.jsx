@@ -23,7 +23,7 @@ function PasswordInputBox({ label, classNameEX = '', ...props }, ref) {
         {...props}
       />
       <label htmlFor={id}
-        className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-gray-600 hover:text-black transition"
+        className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-fground-100 hover:text-fground-200 transition"
         onClick={togglePassword}
       >
         {showPassword ? (

@@ -54,7 +54,7 @@ function Login() {
               {errors.password && <p>{errors.password.message}</p>}
             </>
           )}
-          {loading && <BeatLoader color="black" size={8} />}
+          {loading && <BeatLoader color="fground-200" size={8} />}
         </div>
       </div>
 
@@ -74,9 +74,10 @@ function Login() {
         </Button>
       </form>
 
-      <Link to="/signup" className="text-sm text-black mt-2 hover:underline">
+      <Link to="/signup" className="text-sm text-center text-fground-200 mt-4">
         Don’t have an account? <u>Sign Up</u>
       </Link>
+      <Link to='/termsandprivacy' className='pt-0 text-fground-100 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
     </LoginContainer>
   )
 }

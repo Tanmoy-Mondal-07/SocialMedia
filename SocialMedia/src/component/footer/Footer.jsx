@@ -1,69 +1,67 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useSelector } from "react-redux";
-import '../../App.css'
-import Button from '../Button'
-import { inboxSvg, homeSvg, loginSvg, profileSvg, searchSvg } from '../../assets/iconSvg'
+import { useSelector } from 'react-redux'
+import { Home, Search, Mail, User, LogIn } from 'lucide-react'
 
 function Footer() {
-    const navigate = useNavigate()
-    const location = useLocation()
-    const authStatus = useSelector((state) => state.auth.status)
-    const userData = useSelector((state) => state.auth.userData)
+  const navigate = useNavigate()
+  const location = useLocation()
+  const authStatus = useSelector((state) => state.auth.status)
+  const userData = useSelector((state) => state.auth.userData)
 
-    const navItems = [
-        {
-            name: 'Home',
-            svgImage: homeSvg,
-            slug: '/',
-            active: true
-        },
-        {
-            name: "Search",
-            svgImage: searchSvg,
-            slug: "/search",
-            active: true,
-        },
-        {
-            name: "Inbox",
-            svgImage: inboxSvg,
-            slug: "/inbox",
-            active: authStatus,
-        },
-        {
-            name: "Profile",
-            svgImage: profileSvg,
-            slug: userData ? `/profile/${userData.$id}` : null,
-            active: authStatus,
-        },
-        {
-            name: "Login",
-            svgImage: loginSvg,
-            slug: "/login",
-            active: !authStatus,
-        }
-    ]
+  const navItems = [
+    {
+      name: 'Home',
+      icon: <Home size={20} />, 
+      slug: '/',
+      active: true
+    },
+    {
+      name: 'Search',
+      icon: <Search size={20} />, 
+      slug: '/search',
+      active: true
+    },
+    {
+      name: 'Inbox',
+      icon: <Mail size={20} />, 
+      slug: '/inbox',
+      active: authStatus
+    },
+    {
+      name: 'Profile',
+      icon: <User size={20} />, 
+      slug: userData ? `/profile/${userData.$id}` : null,
+      active: authStatus
+    },
+    {
+      name: 'Login',
+      icon: <LogIn size={20} />, 
+      slug: '/login',
+      active: !authStatus
+    }
+  ]
 
-    return (
-        <div className='ultimetFooter'>
-            <div className='footerParent'>
-                {navItems.map((item) =>
-                    item.active ? (
-                        <Button
-                            key={item.name}
-                            svgImage={item.svgImage}
-                            classNameActive={location.pathname === item.slug ? 'defaultBtnActive' : null}
-                            onClick={() => navigate(item.slug)}
-                            style={{ backgroundColor: 'white', color: 'black' }}
-                        >
-                            {item.name}
-                        </Button>
-                    ) : null
-                )}
-            </div>
-        </div>
-    )
+  return (
+    <div className="fixed bottom-0 w-full bg-bground-100 border-t border-fground-200 z-50">
+      <div className="flex justify-around pb-2">
+        {navItems.map((item) =>
+          item.active ? (
+            <button
+              key={item.name}
+              onClick={() => navigate(item.slug)}
+              className={`flex flex-col items-center text-xs font-medium px-6 py-1 transition-colors duration-150 hover:cursor-pointer md:px-20 sm:px-10 ${
+                location.pathname === item.slug ? 'text-fground-200' : 'text-mground-100'
+              }`}
+            >
+              {item.icon}
+              <span className="mt-1 ">{item.name}</span>
+            </button>
+          ) : null
+        )}
+      </div>
+    </div>
+  )
 }
-
 
 export default Footer

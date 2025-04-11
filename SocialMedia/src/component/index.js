@@ -10,12 +10,13 @@ import Postcard from './Postcard'
 import Postfooter from './Postfooter'
 import AuthLayout from './AuthLayout'
 import PasswordInputBox from './LoginComponents/PasswordInput'
-import EditProfileComponent from './profileTop/EditProfile'
+import EditComponent from './profileTop/EditComponent'
+import PostHandler from './PostHandler'
 
 
 export { Container, Footer, Header,
     Button, LoginContainer, Input ,
     GlobalLoader,ProfileComponent,Postcard,
     Postfooter, AuthLayout, PasswordInputBox,
-    EditProfileComponent
+    EditComponent,PostHandler
 }

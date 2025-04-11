@@ -51,10 +51,10 @@ function Signup() {
 
   return (
     <LoginContainer>
-      <div className="w-full flex flex-col items-center gap-3">
+      <div className="w-full flex flex-col items-center gap-2">
         <img src={signUpSvg} alt="Sign Up" className="h-12 object-contain" />
 
-        <div className="h-5 w-full text-center">
+        <div className="h-4 w-full text-center">
           {error ? (
             <p className="text-xs text-red-500">{error}</p>
           ) : (
@@ -64,13 +64,13 @@ function Signup() {
               {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
             </>
           )}
-          {loading && <BeatLoader color="black" size={8} />}
+          {loading && <BeatLoader color="fground-200" size={8} />}
         </div>
       </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full flex flex-col gap-4 mt-4"
+        className="w-full flex flex-col gap-4"
       >
         <Input
           placeholder="Name"
@@ -91,9 +91,10 @@ function Signup() {
         </Button>
       </form>
 
-      <Link to="/login" className="text-sm text-black hover:underline mt-4">
+      <Link to="/login" className="text-sm text-center text-fground-200 mt-4">
         Already have an account? <u>Log In</u>
       </Link>
+      <Link to='/termsandprivacy' className='pt-0 text-fground-100 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
     </LoginContainer>
 
   )

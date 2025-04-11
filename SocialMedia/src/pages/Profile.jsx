@@ -41,14 +41,17 @@ function Profile() {
   if (error) {
     return <h1>{error}</h1>
   }
-  
+
   return userProfile ? (
     <div style={{ width: '100%', overflow: 'hidden' }}>
       <ProfileComponent
-        username = {userProfile.username}
-        bio = {userProfile.bio}
-        imageUrl = {getFile(userProfile)}
-       />
+        profile = {true}
+        username={userProfile.username}
+        bio={userProfile.bio}
+        followersCount={userProfile.followersCount}
+        followingCount={userProfile.followingCount}
+        imageUrl={getFile(userProfile)}
+      />
     </div>
   ) : null
 }
