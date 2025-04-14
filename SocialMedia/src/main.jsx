@@ -8,6 +8,12 @@ import store from './store/store.js'
 import { Login, Home, Profile, Signup, EditProfile, TermsAndPrivacy, CreatPosts } from './pages'
 import { AuthLayout } from './component/index.js'
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(console.error)
+  })
+}
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -55,11 +61,11 @@ const router = createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </StrictMode>,
+  // </StrictMode>,
 )
 
 

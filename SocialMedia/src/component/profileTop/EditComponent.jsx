@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Image } from 'lucide-react';
+import Button from '../Button';
 
 export default function EditProfile({ username, avatarUrl, bio, onSubmit }) {
   const {
@@ -22,7 +23,11 @@ export default function EditProfile({ username, avatarUrl, bio, onSubmit }) {
     const file = e.target.files?.[0];
     if (file) {
       setPreview(URL.createObjectURL(file));
-      setValue('profilePic', [file]);
+      setValue('profilePic', file); // Changed to directly set the file object
+    } else {
+      // If no file is selected (e.g., user cancels), reset the preview to the initial avatarUrl
+      setPreview(avatarUrl || '');
+      setValue('profilePic', null); // Or undefined, depending on your backend expectation
     }
   };
 
@@ -76,12 +81,12 @@ export default function EditProfile({ username, avatarUrl, bio, onSubmit }) {
         />
       </div>
 
-      <button
+      <Button
         type="submit"
-        className="w-full bg-fground-200 text-bground-100 py-2 rounded hover:opacity-90 transition"
+        classNameActive="w-full"
       >
         Save Changes
-      </button>
+      </Button>
     </form>
   );
 }

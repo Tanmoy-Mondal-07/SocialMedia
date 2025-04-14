@@ -6,30 +6,29 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showLoading, hideLoading } from '../../store/LodingState'
 import { logout } from '../../store/authSlice'
 import authService from '../../appwrite/auth'
-import { Cog } from 'lucide-react'
+import { Bell, CirclePlus, Cog } from 'lucide-react'
 
 function Header() {
     const authStatus = useSelector((state) => state.auth.status)
     const dispatch = useDispatch()
 
-    const logoutUser = () => {
-        dispatch(showLoading())
-        authService.logout()
-            .then(() => dispatch(logout()))
-            .finally(() => dispatch(hideLoading()))
-    }
+    // const logoutUser = () => {
+    //     dispatch(showLoading())
+    //     authService.logout()
+    //         .then(() => dispatch(logout()))
+    //         .finally(() => dispatch(hideLoading()))
+    // }
 
     return (
         <>
             <header className="bg-bground-100 w-full max-h-[60px]">
                 <div className="grid grid-cols-2 items-center max-w-7xl mx-auto px-4 pt-2 pb-1 overflow-x-hidden">
-                    {/* Logo */}
                     <div className="flex items-center gap-2">
                         <img
                             src={logoTextSvg}
                             alt="Logo"
                             className="h-[1.6rem] py-[0.2rem]"
-                        />
+                        /><h5 className='text-bground-200 border-2 border-bground-200 px-2 text-xs rounded-full'>Beta</h5>
                     </div>
 
                     <div className="flex items-center justify-end gap-5">
@@ -37,11 +36,23 @@ function Header() {
                             <Link to="/signup" className="no-underline">
                                 <Button>Signup</Button>
                             </Link>
-                        ) : (
-                            <Button onClick={logoutUser}>Logout</Button>
-                        )}
+                        ) : [(
+                              <Link to="/creatpost" key="create">
+                                <div className="h-6 w-6 mr-1.5 cursor-pointer transition-transform duration-250 hover:rotate-40">
+                                  <CirclePlus className="w-full h-full" />
+                                </div>
+                              </Link>
+                            ),
+                            (
+                              <Link to="/notification" key="notify">
+                                <div className="h-6 w-6 mr-1.5 cursor-pointer transition-transform duration-20 hover:rotate-20">
+                                  <Bell className="w-full h-full" />
+                                </div>
+                              </Link>
+                            )
+                          ]}
 
-                        <div className="h-6 w-6 cursor-pointer transition-transform duration-500 hover:rotate-90 text-black hover:text-black">
+                        <div className="h-6 w-6 mr-1.5 cursor-pointer transition-transform duration-250 hover:rotate-40 text-black hover:text-black">
                             <Cog className="w-full h-full" />
                         </div>
 

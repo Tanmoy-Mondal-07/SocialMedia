@@ -31,7 +31,7 @@ export default function PostHandler({
   const [preview, setPreview] = useState(null);
 
   const handleFile = (file) => {
-    if (!file || !["image/jpeg", "image/png"].includes(file.type)) {
+    if (!file || !["image/jpeg","image/jpg", "image/png"].includes(file.type)) {
       setValue("media", null);
       setPreview(null);
       return;
@@ -82,13 +82,13 @@ export default function PostHandler({
         ) : (
           <div className="flex flex-col items-center text-[--color-mground-100]">
             <ImageIcon className="w-10 h-10 mb-2" />
-            <p className="text-sm">Click to upload (.jpg, .png)</p>
+            <p className="text-sm">Click to upload (.jpg .jpeg .png)</p>
           </div>
         )}
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/jpeg,image/png"
+          accept="image/jpg,image/jpeg,image/png"
           onChange={handleChange}
           className="hidden"
         />

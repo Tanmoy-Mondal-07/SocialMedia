@@ -11,13 +11,14 @@ function Profile({
   imageUrl,
   username,
   bio,
-  followersCount,
-  followingCount,
-  isOwnProfile = true,
+  followersCount = 0,
+  followingCount = 0,
+  isOwnProfile = false,
   isFollowing = false,
   onFollowClick,
   onMessageClick,
 }) {
+  // console.log(imageUrl);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
@@ -80,15 +81,15 @@ function Profile({
           </>
         ) : (
           <>
-            <Button onClick={onMessageClick} classNameActive="w-full">
-              Message
-            </Button>
             <Button
               onClick={onFollowClick}
-              classNameActive={`w-full flex items-center justify-center gap-2 ${isFollowing ? 'bg-bground-100 text-fground-200 border border-fground-200' : 'bg-fground-200 text-bground-100'}`}
+              className={`w-full flex items-center justify-center gap-2
+        px-4 py-2 rounded-md  ${isFollowing ? 'bg-bground-100 text-fground-200 border border-fground-200' : 'bg-fground-200 text-bground-100'}`}
             >
-              {isFollowing ? <UserMinus size={16} /> : <UserPlus size={16} />}
               {isFollowing ? 'Unfollow' : 'Follow'}
+            </Button>
+            <Button onClick={onMessageClick} classNameActive="w-full">
+              Message
             </Button>
           </>
         )}
@@ -102,7 +103,7 @@ function Profile({
               className="absolute top-1 right-1 bg-bground-100 text-fground-200 rounded-full p-1 hover:bg-bground-200"
               onClick={() => setModalOpen(false)}
             >
-              <Minimize2 size='20'/>
+              <Minimize2 size='20' />
             </button>
           </div>
         </div>

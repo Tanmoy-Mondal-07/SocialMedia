@@ -42,9 +42,10 @@ function EditProfile() {
 
         try {
             let avatarUrl = userProfile.avatar;
-
-            if (data.profilePic && data.profilePic[0]) {
-                const uploadRes = await appwriteUserProfileService.uploadAvatar(data.profilePic[0]);
+            console.log(data);
+            if (data.profilePic) {
+                console.log(data.profilePic);
+                const uploadRes = await appwriteUserProfileService.uploadAvatar(data.profilePic);
                 appwriteUserProfileService.deleteAvatar(userProfile?.avatarUrl)
                 if (uploadRes) {
                     avatarUrl = uploadRes.$id;

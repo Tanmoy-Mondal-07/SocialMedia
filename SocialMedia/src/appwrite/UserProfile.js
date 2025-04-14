@@ -24,8 +24,6 @@ export class Service{
                     username,
                     bio,
                     avatarUrl,
-                    // followersCount,
-                    // followingCount,
                 }
             )
         } catch (error) {
