@@ -12,11 +12,13 @@ import AuthLayout from './AuthLayout'
 import PasswordInputBox from './LoginComponents/PasswordInput'
 import EditComponent from './profileTop/EditComponent'
 import PostHandler from './PostHandler'
+import PublicPosts from './PublicPosts'
 
 
-export { Container, Footer, Header,
-    Button, LoginContainer, Input ,
-    GlobalLoader,ProfileComponent,Postcard,
+export {
+    Container, Footer, Header,
+    Button, LoginContainer, Input,
+    GlobalLoader, ProfileComponent, Postcard,
     Postfooter, AuthLayout, PasswordInputBox,
-    EditComponent,PostHandler
+    EditComponent, PostHandler, PublicPosts,
 }

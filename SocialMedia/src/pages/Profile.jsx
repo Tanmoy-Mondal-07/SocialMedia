@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ProfileComponent } from '../component'
+import { ProfileComponent, PublicPosts } from '../component'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { showLoading, hideLoading } from '../store/LodingState'
@@ -46,7 +46,7 @@ function Profile() {
     try {
       const profile = await appwriteUserProfileService.getUserProfile(slug)
       const followState = await appwriteFollowStatesService.getFollowState(slug)
-      if (userData.$id !== slug) {
+      if (userData && userData.$id !== slug) {
         const followConnection = await appwriteFollowStatesService.getFollowConnection({
           followerId: userData.$id,
           followeeId: slug,
@@ -109,13 +109,14 @@ function Profile() {
       <ProfileComponent
         followersCount={followCount?.followersCount}
         followingCount={followCount?.followingCount}
-        isOwnProfile={userData.$id === slug}
+        isOwnProfile={userData?.$id === slug}
         username={userProfile.username}
         bio={userProfile.bio}
         imageUrl={getFile(userProfile)}
         onFollowClick={onFollowClick}
         isFollowing={isFollowing}
       />
+      <div className='pt-5 py-2'><PublicPosts userId={slug}/></div>
     </div>
   ) : null
 }

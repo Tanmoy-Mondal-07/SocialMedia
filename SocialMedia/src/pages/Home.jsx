@@ -1,63 +1,52 @@
+// src/pages/Home.js
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Query } from 'appwrite';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import appwritePostConfig from '../appwrite/postConfig.js';
-import appwriteUserProfileService from '../appwrite/UserProfile.js';
-import getFile from '../appwrite/getFiles.js';
-
-import { showLoading, hideLoading } from '../store/LodingState.js';
-import {
-  setPosts,
-  incrementPage,
-  setHasMore,
-  setUser,
-} from '../store/postSlice.js';
-
+import appwritePostConfig from '../appwrite/postConfig';
+import appwriteUserProfileService from '../appwrite/UserProfile';
+import getFile from '../appwrite/getFiles';
+import { showLoading, hideLoading } from '../store/LodingState';
+import { setPosts, appendPosts, setCursor, setHasMore, setUser } from '../store/postSlice';
 import { Postcard } from '../component';
-import { getPostPic } from '../appwrite/getFiles.js';
 import { MoonLoader } from 'react-spinners';
+
+const LIMIT = 5;
 
 function Home() {
   const dispatch = useDispatch();
-
-  //redux states
-  const posts = useSelector(state => state.posts.data);
-  const page = useSelector(state => state.posts.page);
-  const hasMore = useSelector(state => state.posts.hasMore);
-  const users = useSelector(state => state.posts.users);
-  const limit = 2;
+  const posts = useSelector((state) => state.posts.data);
+  const cursor = useSelector((state) => state.posts.cursor);
+  const hasMore = useSelector((state) => state.posts.hasMore);
+  const users = useSelector((state) => state.posts.users);
 
   const fetchPosts = async () => {
     dispatch(showLoading());
 
     try {
-      const response = await appwritePostConfig.getPosts([
-        Query.orderDesc("$createdAt"),
-        Query.limit(limit),
-        Query.offset(page * limit),
-      ]);
+      const queries = [Query.orderDesc('$createdAt'), Query.limit(LIMIT)];
+      if (cursor) {
+        queries.push(Query.cursorAfter(cursor));
+      }
 
-      if (response?.documents?.length) {
-        dispatch(setPosts(response.documents));
-        dispatch(incrementPage());
+      const response = await appwritePostConfig.getPosts(queries);
+      const newPosts = response?.documents || [];
 
-        const newUserIds = [...new Set(
-          response.documents.map(post => post.userId)
-        )].filter(userId => !users[userId]);
+      if (newPosts.length) {
+        dispatch(appendPosts(newPosts));
+        dispatch(setCursor(newPosts[newPosts.length - 1].$id));
 
+        const newUserIds = new Set(newPosts.map((post) => post.userId));
         for (const userId of newUserIds) {
-          try {
-            const userData = await appwriteUserProfileService.getUserProfile(userId);
-            const profilePic = getFile(userData);
-            dispatch(setUser({ userId, userData: { ...userData, profilePic } }));
-          } catch (err) {
-            console.error(`Failed to fetch user ${userId}:`, err.message);
+          if (!users[userId]) {
+            try {
+              const userData = await appwriteUserProfileService.getUserProfile(userId);
+              const profilePic = getFile(userData);
+              dispatch(setUser({ userId, userData: { ...userData, profilePic } }));
+            } catch (err) {
+              console.error(`Failed to fetch user ${userId}:`, err.message);
+            }
           }
-        }
-
-        if (response.documents.length < limit) {
-          dispatch(setHasMore(false));
         }
       } else {
         dispatch(setHasMore(false));
@@ -71,7 +60,7 @@ function Home() {
   };
 
   useEffect(() => {
-    if (posts.length === 0) {
+    if (!posts.length) {
       fetchPosts();
     }
   }, []);
@@ -89,7 +78,7 @@ function Home() {
         }
         endMessage={<p style={{ textAlign: 'center' }}>Nothing to Show</p>}
       >
-        {posts.map(post => {
+        {posts.map((post) => {
           const userInfo = users[post.userId];
           return (
             <Postcard
@@ -100,6 +89,7 @@ function Home() {
               caption={post.content}
               time={post.$createdAt}
               title={post.title}
+              postId={post.$id}
             />
           );
         })}

@@ -15,6 +15,7 @@ function Postcard({
     time,
     title
 }) {
+    // console.log(postId);
     const navigate = useNavigate();
     const currentUserInfo = useSelector((state) => state.auth.userData)
     if (imageUrl) imageUrl = getPostPic(imageUrl)
@@ -67,7 +68,7 @@ function Postcard({
             </div>
             <Postfooter
                 userPost={currentUserInfo?.$id === userId}
-                PostId={postId}
+                postId={postId}
             />
         </div>
     );

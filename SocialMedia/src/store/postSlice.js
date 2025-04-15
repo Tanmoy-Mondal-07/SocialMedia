@@ -1,35 +1,35 @@
+// src/redux/postSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
+const initialState = {
+  data: [],
+  cursor: null,
+  hasMore: true,
+  users: {},
+};
+
 const postSlice = createSlice({
-    name: 'posts',
-    initialState: {
-      data: [],
-      page: 0,
-      hasMore: true,
-      users: {} 
+  name: 'posts',
+  initialState,
+  reducers: {
+    setPosts: (state, action) => {
+      state.data = action.payload;
     },
-    reducers: {
-      setPosts: (state, action) => {
-        state.data = [...state.data, ...action.payload];
-      },
-      resetPosts: (state) => {
-        state.data = [];
-        state.page = 0;
-        state.hasMore = true;
-        state.users = {};
-      },
-      incrementPage: (state) => {
-        state.page += 1;
-      },
-      setHasMore: (state, action) => {
-        state.hasMore = action.payload;
-      },
-      setUser: (state, action) => {
-        const { userId, userData } = action.payload;
-        state.users[userId] = userData;
-      }
-    }
-  });
-  
-  export const { setPosts, resetPosts, incrementPage, setHasMore, setUser } = postSlice.actions;
-  export default postSlice.reducer;  
+    appendPosts: (state, action) => {
+      state.data = [...state.data, ...action.payload];
+    },
+    setCursor: (state, action) => {
+      state.cursor = action.payload;
+    },
+    setHasMore: (state, action) => {
+      state.hasMore = action.payload;
+    },
+    setUser: (state, action) => {
+      const { userId, userData } = action.payload;
+      state.users[userId] = userData;
+    },
+  },
+});
+
+export const { setPosts, appendPosts, setCursor, setHasMore, setUser } = postSlice.actions;
+export default postSlice.reducer;

@@ -2,16 +2,18 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Heart, MessageCircle, Link as LinkIcon, MoreVertical } from 'lucide-react'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom'
+import appwritePostConfig from '../appwrite/postConfig'
 
 function Postfooter({
     userPost = false,
-    postId = '',
+    postId,
     likeColor = ''
 }) {
     const [showMenu, setShowMenu] = useState(false)
     const menuRef = useRef(null)
     const buttonRef = useRef(null)
     const navigate = useNavigate()
+    // console.log(postId);
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -30,6 +32,12 @@ function Postfooter({
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    function dletePost(postId) {
+        if (window.confirm("Please note that this action will permanently remove the post and cannot be undone. Are you certain you wish to proceed")) {
+            appwritePostConfig.deletePost(postId)
+        }
+    }
 
     return (
         <div className="relative flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200">
@@ -73,7 +81,7 @@ function Postfooter({
                                         </button>
                                     </li>
                                     <li>
-                                        <button className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                                        <button onClick={()=>dletePost(postId)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
                                             Delete
                                         </button>
                                     </li>

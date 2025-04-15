@@ -14,7 +14,7 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createPost({ userId, content, mediaUrl, visibility,title, }) {
+    async createPost({ userId, content, mediaUrl, visibility, title, }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseid,
@@ -33,7 +33,7 @@ export class Service {
         }
     }
 
-    async updatePost(postId, { content, mediaUrl, visibility }) {
+    async updatePost(postId, { content, mediaUrl, visibility, title }) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseid,
@@ -43,6 +43,7 @@ export class Service {
                     content,
                     mediaUrl,
                     visibility,
+                    title,
                 }
             )
         } catch (error) {
