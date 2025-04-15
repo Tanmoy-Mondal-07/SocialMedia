@@ -25,32 +25,34 @@ function EditPost() {
   const handlePostSubmit = async (data) => {
     dispatch(showLoading());
     try {
-      let mediaUrl = null
+      // Keep the existing media URL by default
+      let mediaUrl = prevData?.mediaUrl || null;
 
+      // If user uploaded a new file, upload it and overwrite mediaUrl
       if (data.media) {
-        const uploadInfo = await postConfigServices.uploadFile(data.media)
+        const uploadInfo = await postConfigServices.uploadFile(data.media);
         if (uploadInfo) {
-          mediaUrl = uploadInfo.$id
+          mediaUrl = uploadInfo.$id;
         }
-      } else {
-        mediaUrl = data.media
       }
-      // console.log(data);
+
+      // Proceed with the update
       const postinfo = await postConfigServices.updatePost(postId, {
         content: data.content,
-        mediaUrl: mediaUrl,
+        mediaUrl, // keep old or use newly uploaded
         visibility: data.visibility,
         title: data.title,
-      })
+      });
+
       if (postinfo) {
-        navigate(`/profile/${userData.$id}`)
+        navigate(`/profile/${userData.$id}`);
       }
     } catch (error) {
-      console.log(error)
+      console.log("Error updating post:", error);
     } finally {
       dispatch(hideLoading());
     }
-  }
+  };
 
   return prevData ? (
     <div className="min-h-screen p-6">

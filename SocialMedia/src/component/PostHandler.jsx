@@ -2,11 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ImageIcon } from "lucide-react";
 import { Button } from ".";
+import { getPostPic } from "../appwrite/getFiles";
 
 const visibilityOptions = ["public", "friends", "private"];
 
 export default function PostHandler({
-  initialtitle="",
+  initialtitle = "",
   initialContent = "",
   initialVisibility = "public",
   initialMedia = null,
@@ -23,15 +24,15 @@ export default function PostHandler({
       title: initialtitle,
       content: initialContent,
       visibility: initialVisibility,
-      media: initialMedia
     }
   });
 
   const fileInputRef = useRef(null);
-  const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(initialMedia ? getPostPic(initialMedia) : null);
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
 
   const handleFile = (file) => {
-    if (!file || !["image/jpeg","image/jpg", "image/png"].includes(file.type)) {
+    if (!file || !["image/jpeg", "image/jpg", "image/png"].includes(file.type)) {
       setValue("media", null);
       setPreview(null);
       return;
@@ -55,7 +56,8 @@ export default function PostHandler({
 
   useEffect(() => {
     if (initialMedia && typeof initialMedia === "string") {
-      setPreview(initialMedia);
+      setPreview(getPostPic(initialMedia));
+      setFileInputKey(Date.now()); // Update the key to force re-render
     }
   }, [initialMedia]);
 
@@ -87,6 +89,7 @@ export default function PostHandler({
         )}
         <input
           ref={fileInputRef}
+          key={fileInputKey} // Dynamically set the key
           type="file"
           accept="image/jpg,image/jpeg,image/png"
           onChange={handleChange}
