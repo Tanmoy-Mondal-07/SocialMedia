@@ -5,8 +5,11 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import store from './store/store.js'
-import { Login, Home, Profile, Signup, EditProfile, TermsAndPrivacy, CreatPosts } from './pages'
 import { AuthLayout } from './component/index.js'
+import {
+  Login, Home, Profile, Signup, EditProfile,
+  TermsAndPrivacy, CreatPosts, EditPost,
+} from './pages'
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -25,15 +28,15 @@ const router = createBrowserRouter([
       }, {
         path: '/login',
         element: (
-        <AuthLayout authentication={false}>
-          <Login />
-        </AuthLayout>)
+          <AuthLayout authentication={false}>
+            <Login />
+          </AuthLayout>)
       }, {
         path: "/signup",
         element: (
-        <AuthLayout authentication={false}>
-          <Signup />
-        </AuthLayout>)
+          <AuthLayout authentication={false}>
+            <Signup />
+          </AuthLayout>)
       }, {
         path: "/profile/:slug",
         element: (
@@ -41,19 +44,22 @@ const router = createBrowserRouter([
             <Profile />
           </AuthLayout>
         )
-      },{
+      }, {
         path: "/editprofile",
         element: (
           <AuthLayout authentication>
             <EditProfile />
           </AuthLayout>
         )
-      },{
+      }, {
         path: '/creatpost',
-        element: <CreatPosts/>
-      },{
+        element: <CreatPosts />
+      }, {
         path: '/termsandprivacy',
-        element: <TermsAndPrivacy/>
+        element: <TermsAndPrivacy />
+      }, {
+        path: '/editpost/:postId',
+        element: <EditPost />
       },
     ]
   }
@@ -62,9 +68,9 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
+  <Provider store={store}>
+    <RouterProvider router={router} />
+  </Provider>
   // </StrictMode>,
 )
 

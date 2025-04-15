@@ -28,7 +28,7 @@ function Header() {
                             src={logoTextSvg}
                             alt="Logo"
                             className="h-[1.6rem] py-[0.2rem]"
-                        /><h5 className='text-bground-200 border-2 border-bground-200 px-2 text-xs rounded-full'>Beta</h5>
+                        /><h5 className='text-bground-200 border-2 border-bground-200 px-2 text-xs rounded-full'>Alpha</h5>
                     </div>
 
                     <div className="flex items-center justify-end gap-5">

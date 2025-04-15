@@ -1,20 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react'
-import {
-    Heart,
-    MessageCircle,
-    Link as LinkIcon,
-    MoreVertical,
-} from 'lucide-react'
+import { Heart, MessageCircle, Link as LinkIcon, MoreVertical } from 'lucide-react'
 import Button from './Button'
+import { useNavigate } from 'react-router-dom'
 
-function Postfooter({ PostUrl = false, likeColor = '' }) {
-    const [showMenu, setShowMenu] = useState(false) // Initially hidden
+function Postfooter({
+    userPost = false,
+    postId = '',
+    likeColor = ''
+}) {
+    const [showMenu, setShowMenu] = useState(false)
     const menuRef = useRef(null)
     const buttonRef = useRef(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const handleClickOutside = (e) => {
-            // Only close if click is outside both the button and the menu
             if (
                 menuRef.current &&
                 !menuRef.current.contains(e.target) &&
@@ -62,27 +62,39 @@ function Postfooter({ PostUrl = false, likeColor = '' }) {
                 </Button>
 
                 {/* Dropdown */}
-                {showMenu?(
+                {showMenu && (
                     <div className="absolute right-0 bottom-1 mt-1 w-36 bg-white border border-gray-200 rounded-md shadow-lg z-10 text-sm">
                         <ul className="py-1">
-                            <li>
-                                <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
-                                    Edit Post
-                                </button>
-                            </li>
-                            <li>
-                                <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
-                                    Report
-                                </button>
-                            </li>
-                            <li>
-                                <button className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
-                                    Delete
-                                </button>
-                            </li>
+                            {userPost ? (
+                                <>
+                                    <li>
+                                        <button onClick={()=>navigate(`/editpost/${postId}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            Edit Post
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                                            Delete
+                                        </button>
+                                    </li>
+                                </>
+                            ) : (
+                                <>
+                                    <li>
+                                        <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            Report
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            Share
+                                        </button>
+                                    </li>
+                                </>
+                            )}
                         </ul>
                     </div>
-                ):null}
+                )}
             </div>
         </div>
     )

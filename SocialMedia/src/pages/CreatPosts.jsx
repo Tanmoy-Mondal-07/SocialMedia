@@ -39,7 +39,6 @@ function CreatPosts() {
     }
   }
 
-
   return (
     <>
       <div className="min-h-screen p-6">
@@ -51,19 +50,15 @@ function CreatPosts() {
 
 export default CreatPosts
 
-{/* <PostHandler
+/* <PostHandler
           initialtitle="hlo there"
           initialContent="Edit this existing post..."
           initialMedia={null}
           initialVisibility="private"
           onSubmit={handlePostSubmit}
-        /> */}
+        /> */
 
 //content:"anranranrtn"
 //media:File { name: 'ab67616d0000b273451f108719b7161287731033.jpg', lastModified: 1741010408999, lastModifiedDate: Mon Mar 03 2025 19: 30:08 GMT +0530(India Standard Time), webkitRelativePath: '', size: 93599, … }
 //title:"zbaeb"
 //visibility:"public"
-
-// const info = await appwriteFunction.callFunction({
-//   followeeId:data.title,
-// })

@@ -1,36 +1,13 @@
 import React, { useState } from 'react'
 import Postfooter from './Postfooter'
-import appwriteUserProfileService from '../appwrite/UserProfile'
-import getFile from '../appwrite/getFiles';
 import { Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
-
-
-function getTimeAgo(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = (now - date) / 1000; // seconds
-
-    const times = [
-        { unit: 'year', seconds: 31536000 },
-        { unit: 'month', seconds: 2592000 },
-        { unit: 'day', seconds: 86400 },
-        { unit: 'hour', seconds: 3600 },
-        { unit: 'minute', seconds: 60 },
-        { unit: 'second', seconds: 1 },
-    ];
-
-    for (const { unit, seconds } of times) {
-        const value = Math.floor(diff / seconds);
-        if (value >= 1) {
-            return new Intl.RelativeTimeFormat('en', { numeric: 'auto' }).format(-value, unit);
-        }
-    }
-
-    return 'just now';
-}
+import getTimeAgo from '../conf/timeStamp'
+import { useSelector } from 'react-redux'
+import { getPostPic } from '../appwrite/getFiles';
 
 function Postcard({
+    postId,
     userId,
     userInfo,
     imageUrl = null,
@@ -39,12 +16,14 @@ function Postcard({
     title
 }) {
     const navigate = useNavigate();
+    const currentUserInfo = useSelector((state) => state.auth.userData)
+    if (imageUrl) imageUrl = getPostPic(imageUrl)
 
-    if (!userInfo) return null; // Or a fallback/loading state
+    if (!userInfo) return null;
 
     return (
         <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6 w-full max-w-md mx-auto">
-            {/* Header: Profile pic + username */}
+
             <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center p-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
                     {userInfo.profilePic ? (
@@ -64,19 +43,16 @@ function Postcard({
                 </div>
             </div>
 
-            {/* Title */}
             {title && (
                 <div className="px-4 pb-1">
                     <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
                 </div>
             )}
 
-            {/* Caption */}
             <div className="px-4 pb-2">
                 <p className="text-sm text-gray-800">{caption}</p>
             </div>
 
-            {/* Image */}
             <div className="w-full">
                 {!imageUrl ? (
                     <div className="w-full h-1 bg-gray-300" />
@@ -89,9 +65,10 @@ function Postcard({
                     />
                 )}
             </div>
-
-            {/* Optional footer */}
-            <Postfooter />
+            <Postfooter
+                userPost={currentUserInfo?.$id === userId}
+                PostId={postId}
+            />
         </div>
     );
 }

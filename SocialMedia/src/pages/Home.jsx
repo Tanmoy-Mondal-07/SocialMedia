@@ -33,6 +33,7 @@ function Home() {
 
     try {
       const response = await appwritePostConfig.getPosts([
+        Query.orderDesc("$createdAt"),
         Query.limit(limit),
         Query.offset(page * limit),
       ]);
@@ -95,7 +96,7 @@ function Home() {
               key={post.$id}
               userId={post.userId}
               userInfo={userInfo}
-              imageUrl={getPostPic(post)}
+              imageUrl={post?.mediaUrl}
               caption={post.content}
               time={post.$createdAt}
               title={post.title}
