@@ -1,19 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { Heart, MessageCircle, Link as LinkIcon, MoreVertical } from 'lucide-react'
-import Button from './Button'
+import Button from '../Button'
 import { useNavigate } from 'react-router-dom'
-import appwritePostConfig from '../appwrite/postConfig'
+import appwritePostConfig from '../../appwrite/postConfig'
 
 function Postfooter({
     userPost = false,
     postId,
+    userId,
+    postUserName,
+    postTitle,
     likeColor = ''
 }) {
     const [showMenu, setShowMenu] = useState(false)
     const menuRef = useRef(null)
     const buttonRef = useRef(null)
     const navigate = useNavigate()
-    // console.log(postId);
+
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `Checkout the post by ${postUserName}`,
+                    text: {postTitle},
+                    url: `/post/${userId}/${postId}`,
+                });
+            } catch (err) {
+                console.error('Sharing failed', err);
+            }
+        } else {
+            try {
+                navigator.clipboard.writeText(`/post/${userId}/${postId}`)
+                .then(()=>alert('post link hasbeen copyed to clipbord'))
+            } catch (error) {
+                alert('error: faild to share')
+            }
+        }
+    };
 
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -54,7 +77,7 @@ function Postfooter({
                     <MessageCircle className="w-5 h-5" />
                 </Button>
 
-                <Button className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition">
+                <Button onClick={handleShare} className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition">
                     <LinkIcon className="w-5 h-5" />
                 </Button>
             </div>
@@ -76,12 +99,12 @@ function Postfooter({
                             {userPost ? (
                                 <>
                                     <li>
-                                        <button onClick={()=>navigate(`/editpost/${postId}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        <button onClick={() => navigate(`/editpost/${postId}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100">
                                             Edit Post
                                         </button>
                                     </li>
                                     <li>
-                                        <button onClick={()=>dletePost(postId)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                                        <button onClick={() => dletePost(postId)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
                                             Delete
                                         </button>
                                     </li>
@@ -94,7 +117,7 @@ function Postfooter({
                                         </button>
                                     </li>
                                     <li>
-                                        <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        <button onClick={handleShare} className="w-full text-left px-4 py-2 hover:bg-gray-100">
                                             Share
                                         </button>
                                     </li>

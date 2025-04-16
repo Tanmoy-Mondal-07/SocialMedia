@@ -6,8 +6,9 @@ import EditProfile from "./EditProfile";
 import TermsAndPrivacy from "./TermsAndPrivacy";
 import CreatPosts from "./CreatPosts";
 import EditPost from "./EditPost";
+import Posts from "./Posts";
 
 export {
     Login, Signup, Home, Profile, EditProfile,
-    TermsAndPrivacy, CreatPosts, EditPost
+    TermsAndPrivacy, CreatPosts, EditPost, Posts
 }

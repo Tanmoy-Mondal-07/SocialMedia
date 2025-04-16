@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import Postfooter from './Postfooter'
 import { Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
-import getTimeAgo from '../conf/timeStamp'
+import getTimeAgo from '../../conf/timeStamp'
 import { useSelector } from 'react-redux'
-import { getPostPic } from '../appwrite/getFiles';
+import { getPostPic } from '../../appwrite/getFiles';
 
 function Postcard({
     postId,
@@ -15,7 +15,6 @@ function Postcard({
     time,
     title
 }) {
-    // console.log(postId);
     const navigate = useNavigate();
     const currentUserInfo = useSelector((state) => state.auth.userData)
     if (imageUrl) imageUrl = getPostPic(imageUrl)
@@ -44,31 +43,36 @@ function Postcard({
                 </div>
             </div>
 
-            {title && (
-                <div className="px-4 pb-1">
-                    <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
-                </div>
-            )}
-
-            <div className="px-4 pb-2">
-                <p className="text-sm text-gray-800">{caption}</p>
-            </div>
-
-            <div className="w-full">
-                {!imageUrl ? (
-                    <div className="w-full h-1 bg-gray-300" />
-                ) : (
-                    <img
-                        src={imageUrl}
-                        alt="Post"
-                        className="w-full object-cover max-h-[800px]"
-                        loading="lazy"
-                    />
+            <div onClick={() => navigate(`/post/${userId}/${postId}`)}>
+                {title && (
+                    <div className="px-4 pb-1">
+                        <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+                    </div>
                 )}
+
+                <div className="px-4 pb-2">
+                    <p className="text-sm text-gray-800">{caption}</p>
+                </div>
+
+                <div className="w-full">
+                    {!imageUrl ? (
+                        <div className="w-full h-1 bg-gray-300" />
+                    ) : (
+                        <img
+                            src={imageUrl}
+                            alt="Post"
+                            className="w-full object-cover max-h-[800px]"
+                            loading="lazy"
+                        />
+                    )}
+                </div>
             </div>
             <Postfooter
                 userPost={currentUserInfo?.$id === userId}
                 postId={postId}
+                userId={userId}
+                postUserName={userInfo.username}
+                postTitle={title}
             />
         </div>
     );

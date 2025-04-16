@@ -1,8 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ImageIcon } from "lucide-react";
-import { Button } from ".";
-import { getPostPic } from "../appwrite/getFiles";
+import { Button } from "../";
+import { getPostPic } from "../../appwrite/getFiles";
 
 const visibilityOptions = ["public", "friends", "private"];
 

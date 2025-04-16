@@ -3,14 +3,15 @@ import { logoTextSvg } from '../../assets'
 import { Button, GlobalLoader } from '../'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { showLoading, hideLoading } from '../../store/LodingState'
-import { logout } from '../../store/authSlice'
-import authService from '../../appwrite/auth'
+// import { showLoading, hideLoading } from '../../store/LodingState'
+// import { logout } from '../../store/authSlice'
+// import authService from '../../appwrite/auth'
 import { Bell, CirclePlus, Cog } from 'lucide-react'
 
 function Header() {
     const authStatus = useSelector((state) => state.auth.status)
-    const dispatch = useDispatch()
+    
+    // const dispatch = useDispatch()
 
     // const logoutUser = () => {
     //     dispatch(showLoading())
@@ -28,7 +29,7 @@ function Header() {
                             src={logoTextSvg}
                             alt="Logo"
                             className="h-[1.6rem] py-[0.2rem]"
-                        /><h5 className='text-bground-200 border-2 border-bground-200 px-2 text-xs rounded-full'>Alpha</h5>
+                        /><h5 className='text-bground-200 border-2 border-bground-200 px-2 text-xs rounded-full'>Pre-Alpha</h5>
                     </div>
 
                     <div className="flex items-center justify-end gap-5">

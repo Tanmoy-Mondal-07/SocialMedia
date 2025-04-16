@@ -3,11 +3,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { MoonLoader } from 'react-spinners';
 import Postcard from './Postcard';
 import { Query } from 'appwrite';
-import appwritePostConfig from '../appwrite/postConfig';
-import appwriteUserProfileService from '../appwrite/UserProfile';
-import getFile from '../appwrite/getFiles';
+import appwritePostConfig from '../../appwrite/postConfig';
+import appwriteUserProfileService from '../../appwrite/UserProfile';
+import getFile from '../../appwrite/getFiles';
 import { useDispatch } from 'react-redux';
-import { showLoading, hideLoading } from '../store/LodingState';
+import { showLoading, hideLoading } from '../../store/LodingState';
 import Cookies from 'universal-cookie';
 
 const LIMIT = 5;
@@ -92,7 +92,7 @@ export default function PublicPosts({ userId }) {
     } finally {
       dispatch(hideLoading());
     }
-  }, [userId, users, posts, lastCreatedAt, dispatch]);
+  }, [userId, users, posts, lastCreatedAt]);
 
   useEffect(() => {
     const cachedPosts = cookies.get(`posts_${userId}`) || [];

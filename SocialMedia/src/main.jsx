@@ -9,6 +9,7 @@ import { AuthLayout } from './component/index.js'
 import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
+  Posts,
 } from './pages'
 
 if ('serviceWorker' in navigator) {
@@ -60,6 +61,9 @@ const router = createBrowserRouter([
       }, {
         path: '/editpost/:postId',
         element: <EditPost />
+      },{
+        path: '/post/:userId/:postId',
+        element: <Posts />
       },
     ]
   }

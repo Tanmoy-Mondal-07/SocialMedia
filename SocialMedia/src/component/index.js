@@ -6,13 +6,13 @@ import LoginContainer from './LoginComponents/LoginContainer'
 import Input from './InputBox'
 import GlobalLoader from './GlobalLoder'
 import ProfileComponent from './profileTop/Profile'
-import Postcard from './Postcard'
-import Postfooter from './Postfooter'
+import Postcard from './posts/Postcard'
+import Postfooter from './posts/Postfooter'
 import AuthLayout from './AuthLayout'
 import PasswordInputBox from './LoginComponents/PasswordInput'
 import EditComponent from './profileTop/EditComponent'
-import PostHandler from './PostHandler'
-import PublicPosts from './PublicPosts'
+import PostHandler from './posts/PostHandler'
+import PublicPosts from './posts/PublicPosts'
 
 
 export {
