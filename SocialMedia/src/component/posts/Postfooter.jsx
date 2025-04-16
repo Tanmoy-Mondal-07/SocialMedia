@@ -21,8 +21,8 @@ function Postfooter({
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `Checkout the post by ${postUserName}`,
-                    text: {postTitle},
+                    title: `Checkout the post by @${postUserName}`,
+                    text: postTitle,
                     url: `/post/${userId}/${postId}`,
                 });
             } catch (err) {
