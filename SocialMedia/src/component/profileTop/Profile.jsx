@@ -32,7 +32,7 @@ function Profile({
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-bground-100 border border-fground-200 rounded-2xl text-fground-200 space-y-6 shadow-lg">
+    <div className="max-w-xl mx-auto p-6 bg-bground-100 rounded-lg text-fground-200 space-y-6 shadow-lg">
       <div className="flex items-center space-x-6">
         {imageUrl ? (
           <img

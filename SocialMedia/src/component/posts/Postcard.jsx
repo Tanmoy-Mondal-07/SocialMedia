@@ -22,7 +22,7 @@ function Postcard({
     if (!userInfo) return null;
 
     return (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6 w-full max-w-md mx-auto">
+        <div className="bg-white shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto">
 
             <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center p-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
