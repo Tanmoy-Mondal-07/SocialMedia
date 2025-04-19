@@ -13,7 +13,7 @@ function Postcard({
     imageUrl = null,
     caption,
     time,
-    title
+    title=''
 }) {
     const navigate = useNavigate();
     const currentUserInfo = useSelector((state) => state.auth.userData)

@@ -16,12 +16,30 @@ export class Service {
         try {
             const result = await this.functions.createExecution(
                 conf.appwriteFollowFunctionid,
-                JSON.stringify({ followeeId }), // Stringify the data
-            );//this single function took 2 day wtf 
-            console.log("Function execution result:", result);
+                JSON.stringify({ followeeId }), // stringify the data
+            );//this single function took 2 day uggggg 
+            if (result?.responseStatusCode !== 200) {
+                alert("somthing went wrong")
+            }
             return result;
         } catch (error) {
-            console.error("Appwrite service :: callFunction :: error", error);
+            console.error("Appwrite service :: followFunction :: error", error);
+            throw error;
+        }
+    }
+
+    async commentFunction({ postId, commentId, content }) {
+        try {
+            const result = await this.functions.createExecution(
+                conf.appwriteCommentFunctionId,
+                JSON.stringify({ postId, commentId, content }), // stringify the data
+            );
+            if (result?.responseStatusCode !== 200) {
+                alert("somthing went wrong")
+            }
+            return result;
+        } catch (error) {
+            console.error("Appwrite service :: commentFunction :: error", error);
             throw error;
         }
     }
