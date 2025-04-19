@@ -1,11 +1,9 @@
-// src/redux/postSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   data: [],
   cursor: null,
   hasMore: true,
-  users: {},
 };
 
 const postSlice = createSlice({
@@ -24,12 +22,8 @@ const postSlice = createSlice({
     setHasMore: (state, action) => {
       state.hasMore = action.payload;
     },
-    setUser: (state, action) => {
-      const { userId, userData } = action.payload;
-      state.users[userId] = userData;
-    },
   },
 });
 
-export const { setPosts, appendPosts, setCursor, setHasMore, setUser } = postSlice.actions;
+export const { setPosts, appendPosts, setCursor, setHasMore } = postSlice.actions;
 export default postSlice.reducer;

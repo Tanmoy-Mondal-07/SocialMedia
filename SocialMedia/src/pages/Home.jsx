@@ -1,5 +1,4 @@
-// src/pages/Home.js
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Query } from 'appwrite';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -7,9 +6,10 @@ import appwritePostConfig from '../appwrite/postConfig';
 import appwriteUserProfileService from '../appwrite/UserProfile';
 import getFile from '../appwrite/getFiles';
 import { showLoading, hideLoading } from '../store/LodingState';
-import { setPosts, appendPosts, setCursor, setHasMore, setUser } from '../store/postSlice';
+import { appendPosts, setCursor, setHasMore } from '../store/postSlice';
 import { Postcard } from '../component';
 import { MoonLoader } from 'react-spinners';
+import { getUserProfile as getCachedProfile, setUserProfile } from '../utils/userProfileCache';
 
 const LIMIT = 5;
 
@@ -18,16 +18,32 @@ function Home() {
   const posts = useSelector((state) => state.posts.data);
   const cursor = useSelector((state) => state.posts.cursor);
   const hasMore = useSelector((state) => state.posts.hasMore);
-  const users = useSelector((state) => state.posts.users);
 
-  const fetchPosts = async () => {
+  const [users, setUsers] = useState({});
+
+  // Fetch userData and cache in local state
+  const fetchUserData = useCallback(async (userId) => {
+    if (users[userId]) return;  // already cached
+    try {
+      let userData = await getCachedProfile(userId);
+      if (!userData) {
+        userData = await appwriteUserProfileService.getUserProfile(userId);
+        const profilePic = getFile(userData);
+        userData = { ...userData, profilePic };
+        await setUserProfile(userId, userData);
+      }
+      setUsers((prev) => ({ ...prev, [userId]: userData }));
+    } catch (err) {
+      console.error(`Failed to fetch user ${userId}:`, err.message);
+    }
+  }, [users]);
+
+  // Fetch posts
+  const fetchPosts = useCallback(async () => {
     dispatch(showLoading());
-
     try {
       const queries = [Query.orderDesc('$createdAt'), Query.limit(LIMIT)];
-      if (cursor) {
-        queries.push(Query.cursorAfter(cursor));
-      }
+      if (cursor) queries.push(Query.cursorAfter(cursor));
 
       const response = await appwritePostConfig.getPosts(queries);
       const newPosts = response?.documents || [];
@@ -35,19 +51,6 @@ function Home() {
       if (newPosts.length) {
         dispatch(appendPosts(newPosts));
         dispatch(setCursor(newPosts[newPosts.length - 1].$id));
-
-        const newUserIds = new Set(newPosts.map((post) => post.userId));
-        for (const userId of newUserIds) {
-          if (!users[userId]) {
-            try {
-              const userData = await appwriteUserProfileService.getUserProfile(userId);
-              const profilePic = getFile(userData);
-              dispatch(setUser({ userId, userData: { ...userData, profilePic } }));
-            } catch (err) {
-              console.error(`Failed to fetch user ${userId}:`, err.message);
-            }
-          }
-        }
       } else {
         dispatch(setHasMore(false));
       }
@@ -57,13 +60,19 @@ function Home() {
     } finally {
       dispatch(hideLoading());
     }
-  };
+  }, [cursor, dispatch]);
 
+  // Initial posts fetch
   useEffect(() => {
-    if (!posts.length) {
-      fetchPosts();
-    }
-  }, []);
+    if (!posts.length) fetchPosts();
+  }, [posts.length, fetchPosts]);
+
+  // Fetch missing user profiles when posts change
+  useEffect(() => {
+    posts.forEach((post) => {
+      fetchUserData(post.userId);
+    });
+  }, [posts, fetchUserData]);
 
   return (
     <div className="items-center">
@@ -85,7 +94,7 @@ function Home() {
               key={post.$id}
               userId={post.userId}
               userInfo={userInfo}
-              imageUrl={post?.mediaUrl}
+              imageUrl={post.mediaUrl}
               caption={post.content}
               time={post.$createdAt}
               title={post.title}

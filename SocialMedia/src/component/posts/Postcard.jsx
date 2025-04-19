@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Postfooter from './Postfooter'
 import { Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
-import getTimeAgo from '../../conf/timeStamp'
+import getTimeAgo from '../../utils/timeStamp'
 import { useSelector } from 'react-redux'
 import { getPostPic } from '../../appwrite/getFiles';
 

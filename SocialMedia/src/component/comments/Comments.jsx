@@ -15,18 +15,15 @@ function Comments({ postId, userId }) {
 
     const sortComments = useCallback((commentsList) => {
         const uniqueMap = new Map();
-        commentsList.forEach(comment => {
-            if (!uniqueMap.has(comment.$id)) {
-                uniqueMap.set(comment.$id, comment);
-            }
+        commentsList.forEach((comment) => {
+            if (!uniqueMap.has(comment.$id)) uniqueMap.set(comment.$id, comment);
         });
-
         const uniqueComments = Array.from(uniqueMap.values());
 
         return [
-            ...uniqueComments.filter(comment => comment.authorId === userId),
-            ...uniqueComments.filter(comment => comment.authorId === currentUser?.$id && comment.authorId !== userId),
-            ...uniqueComments.filter(comment => comment.authorId !== userId && comment.authorId !== currentUser?.$id),
+            ...uniqueComments.filter((c) => c.authorId === userId),
+            ...uniqueComments.filter((c) => c.authorId === currentUser?.$id && c.authorId !== userId),
+            ...uniqueComments.filter((c) => c.authorId !== userId && c.authorId !== currentUser?.$id),
         ];
     }, [userId, currentUser]);
 
@@ -41,7 +38,10 @@ function Comments({ postId, userId }) {
         try {
             const res = await appwriteCommentsConfig.getPostComments(queries);
             if (res && res.documents) {
-                setComments(prev => sortComments([...prev, ...res.documents]));
+                setComments((prev) => {
+                    const updatedComments = [...prev, ...res.documents];
+                    return sortComments(updatedComments);
+                });
                 if (res.documents.length < COMMENTS_LIMIT) {
                     setHasMore(false);
                 }
@@ -57,23 +57,22 @@ function Comments({ postId, userId }) {
 
     useEffect(() => {
         const unsubscribe = appwriteCommentsConfig.subscribeToComments((response) => {
-            const payload = response.payload;
-
+            const { payload, events } = response;
             if (payload.postId !== postId) return;
 
-            if (response.events.includes("databases.*.collections.*.documents.*.create")) {
-                setComments(prev => sortComments([...prev, payload]));
-            }
+            setComments((prev) => {
+                let updated = [...prev];
 
-            if (response.events.includes("databases.*.collections.*.documents.*.delete")) {
-                setComments(prev => prev.filter(comment => comment.$id !== payload.$id));
-            }
+                if (events.includes("databases.*.collections.*.documents.*.create")) {
+                    updated = [...updated, payload];
+                } else if (events.includes("databases.*.collections.*.documents.*.delete")) {
+                    updated = updated.filter((comment) => comment.$id !== payload.$id);
+                } else if (events.includes("databases.*.collections.*.documents.*.update")) {
+                    updated = updated.map((comment) => (comment.$id === payload.$id ? payload : comment));
+                }
 
-            if (response.events.includes("databases.*.collections.*.documents.*.update")) {
-                setComments(prev => sortComments(prev.map(comment =>
-                    comment.$id === payload.$id ? payload : comment
-                )));
-            }
+                return sortComments(updated);
+            });
         });
 
         return () => unsubscribe();
@@ -84,16 +83,16 @@ function Comments({ postId, userId }) {
             <h3>Comments</h3>
             <InfiniteScroll
                 dataLength={comments.length}
-                next={() => setPage(prev => prev + 1)}
+                next={() => setPage((p) => p + 1)}
                 hasMore={hasMore}
                 loader={<h4>Loading...</h4>}
                 endMessage={<p style={{ textAlign: 'center' }}><b>No more comments</b></p>}
             >
-                {comments.map(comment => (
+                {comments.map((comment) => (
                     <Postcard
                         key={comment.$id}
                         userId={comment.authorId}
-                        userInfo='aa'
+                        userInfo="aa"
                         caption={comment.content}
                         time={comment.$createdAt}
                         postId={comment.$id}
