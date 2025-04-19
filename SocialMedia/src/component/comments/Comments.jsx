@@ -24,9 +24,9 @@ function Comments({ postId, userId }) {
         const uniqueComments = Array.from(uniqueMap.values());
 
         return [
-            ...uniqueComments.filter(comment => comment.userId === userId),
-            ...uniqueComments.filter(comment => comment.userId === currentUser?.$id && comment.userId !== userId),
-            ...uniqueComments.filter(comment => comment.userId !== userId && comment.userId !== currentUser?.$id),
+            ...uniqueComments.filter(comment => comment.authorId === userId),
+            ...uniqueComments.filter(comment => comment.authorId === currentUser?.$id && comment.authorId !== userId),
+            ...uniqueComments.filter(comment => comment.authorId !== userId && comment.authorId !== currentUser?.$id),
         ];
     }, [userId, currentUser]);
 
