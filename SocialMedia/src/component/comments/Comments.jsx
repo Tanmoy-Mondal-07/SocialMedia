@@ -33,6 +33,7 @@ function Comments({ postId, userId }) {
     const fetchComments = useCallback(async () => {
         const queries = [
             Query.equal("postId", postId),
+            Query.orderDesc('$createdAt'),
             Query.limit(COMMENTS_LIMIT),
             Query.offset(page * COMMENTS_LIMIT),
         ];

@@ -204,7 +204,7 @@ function Posts() {
             className="pl-2 flex items-center space-x-1 text-fground-100"
           >
             <MessageCircle size={20} />
-            <span className="text-sm">{likes}</span>
+            <span className="text-sm">{postInfo.commentsCount}</span>
           </button>
         </div>
 

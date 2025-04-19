@@ -133,6 +133,7 @@ export default function PublicPosts({ userId }) {
             time={post.$createdAt}
             title={post.title}
             postId={post.$id}
+            commentCount={post.commentsCount}
           />
         ))}
       </InfiniteScroll>

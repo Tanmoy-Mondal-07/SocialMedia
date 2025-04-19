@@ -13,7 +13,8 @@ function Postcard({
     imageUrl = null,
     caption,
     time,
-    title=''
+    title='',
+    commentCount
 }) {
     const navigate = useNavigate();
     const currentUserInfo = useSelector((state) => state.auth.userData)
@@ -73,6 +74,7 @@ function Postcard({
                 userId={userId}
                 postUserName={userInfo.username}
                 postTitle={title}
+                commentCount={commentCount}
             />
         </div>
     );

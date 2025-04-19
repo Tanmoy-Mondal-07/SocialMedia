@@ -10,7 +10,8 @@ function Postfooter({
     userId,
     postUserName,
     postTitle,
-    likeColor = ''
+    likeColor = '',
+    commentCount = 0
 }) {
     const [showMenu, setShowMenu] = useState(false)
     const menuRef = useRef(null)
@@ -31,7 +32,7 @@ function Postfooter({
         } else {
             try {
                 navigator.clipboard.writeText(`/post/${userId}/${postId}`)
-                .then(()=>alert('post link hasbeen copyed to clipbord'))
+                    .then(() => alert('post link hasbeen copyed to clipbord'))
             } catch (error) {
                 alert('error: faild to share')
             }
@@ -73,8 +74,13 @@ function Postfooter({
                     <Heart className="w-5 h-5" />
                 </Button>
 
-                <Button className="flex items-center justify-center w-8 h-8 hover:text-blue-500 transition">
-                    <MessageCircle className="w-5 h-5" />
+                <Button onClick={() => navigate(`/post/${userId}/${postId}`)} className="flex items-center hover:text-blue-500 transition">
+                    <div className="flex items-center">
+                        <MessageCircle className="w-5 h-5 mr-1" />
+                        {commentCount > 0 && (
+                            <span className="text-sm font-medium">{commentCount}</span>
+                        )}
+                    </div>
                 </Button>
 
                 <Button onClick={handleShare} className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition">

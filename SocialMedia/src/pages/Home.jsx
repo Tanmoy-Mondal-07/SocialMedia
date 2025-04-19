@@ -90,6 +90,7 @@ function Home() {
               time={post.$createdAt}
               title={post.title}
               postId={post.$id}
+              commentCount={post.commentsCount}
             />
           );
         })}
