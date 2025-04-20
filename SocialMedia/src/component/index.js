@@ -14,6 +14,7 @@ import EditComponent from './profileTop/EditComponent'
 import PostHandler from './posts/PostHandler'
 import PublicPosts from './posts/PublicPosts'
 import Comments from './comments/Comments'
+import SubComments from './comments/SubComments'
 
 
 export {
@@ -21,5 +22,5 @@ export {
     LoginContainer, Input, GlobalLoader,
     ProfileComponent, Postcard, Postfooter,
     AuthLayout, PasswordInputBox, EditComponent,
-    PostHandler, PublicPosts, Comments,
+    PostHandler, PublicPosts, Comments, SubComments
 }
