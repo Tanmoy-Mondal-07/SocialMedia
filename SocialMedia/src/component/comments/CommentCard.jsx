@@ -6,6 +6,9 @@ import getTimeAgo from '../../utils/timeStamp';
 import getFile from '../../appwrite/getFiles';
 import appwriteUserProfileService from '../../appwrite/UserProfile'
 import { getUserProfile, setUserProfile } from '../../utils/userProfileCache';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { hideLoading, showLoading } from '../../store/LodingState';
 
 export default function CommentCard({
   userId,
@@ -21,6 +24,8 @@ export default function CommentCard({
   const [authorInfo, setAuthorInfo] = useState(null)
   const { register, handleSubmit, reset, setValue } = useForm();
   const inputRef = useRef()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const formattedTime = useMemo(() => getTimeAgo(time), [time]);
 
@@ -53,11 +58,13 @@ export default function CommentCard({
       if (authorInfo) setAuthorInfo(authorInfo)
 
       if (!authorInfo) {
+        dispatch(showLoading());
         const authorProfileInfo = await appwriteUserProfileService.getUserProfile(userId)
         const profilePic = getFile(authorProfileInfo);
         const userData = { ...authorProfileInfo, profilePic }
         setUserProfile(userId, userData)
         setAuthorInfo(userData)
+        dispatch(hideLoading());
       }
     }
     )();
@@ -68,7 +75,7 @@ export default function CommentCard({
       className={`border shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto p-4 bg-white ${subComments.length > 0 ? 'border-gray-300' : 'border-gray-200'
         }`}
     >
-      <div className="flex items-center mb-3">
+      <div onClick={()=>navigate(`/profile/${userId}`)} className="flex items-center mb-3">
         <div className='w-8 h-8 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center'>
           {authorInfo?.profilePic ?
             <img

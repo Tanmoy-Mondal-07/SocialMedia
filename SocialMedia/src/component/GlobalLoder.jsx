@@ -5,7 +5,7 @@ function GlobalLoader() {
     const isLoading = useSelector((state) => state.loading.active)
 
     return (
-        <div style={{height:'.2rem', width:'100%',backgroundColor:'#ffffff'}}>
+        <div className='h-1 sticky top-0 w-full z-50'>
             {isLoading ? <BarLoader color="red" cssOverride={{ width: '100%' }} /> : null}
         </div>
     )

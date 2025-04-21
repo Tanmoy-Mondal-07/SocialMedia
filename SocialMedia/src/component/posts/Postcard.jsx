@@ -52,7 +52,7 @@ function Postcard({
                 )}
 
                 <div className="px-4 pb-2">
-                    <p className="text-sm text-gray-800">{caption}</p>
+                    <p className="text-sm text-gray-800 whitespace-pre-line">{caption}</p>
                 </div>
 
                 <div className="w-full">

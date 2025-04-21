@@ -23,7 +23,7 @@ function Header() {
     return (
         <>
             <header className="bg-bground-100 w-full max-h-[60px]">
-                <div className="grid grid-cols-2 items-center max-w-7xl mx-auto px-4 pt-2 pb-1 overflow-x-hidden">
+                <div className="grid grid-cols-2 items-center max-w-7xl mx-auto px-4 pt-2 pb-2 overflow-x-hidden">
                     <div className="flex items-center gap-2">
                         <img
                             src={logoTextSvg}

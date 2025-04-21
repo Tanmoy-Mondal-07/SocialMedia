@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Query } from 'appwrite';
 import appwriteCommentsConfig from '../../appwrite/commentsConfig';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CommentCard from './CommentCard';
 import { MoonLoader } from 'react-spinners';
+import { hideLoading, showLoading } from '../../store/LodingState';
 
 function Comments({ postId, userId, onSubmit }) {
   const [comments, setComments] = useState([]);
@@ -13,6 +14,7 @@ function Comments({ postId, userId, onSubmit }) {
   const [hasMore, setHasMore] = useState(true);
   const currentUser = useSelector(state => state.auth.userData);
   const subscribedRef = useRef(false);
+  const dispatch = useDispatch()
   const COMMENTS_LIMIT = 50;
 
   const sortComments = useCallback((list) => {
@@ -28,6 +30,7 @@ function Comments({ postId, userId, onSubmit }) {
   }, [userId, currentUser]);
 
   const groupReplies = useCallback((list) => {
+    dispatch(showLoading());
     const replies = {};
     list.filter(c => c.commentId).forEach(reply => {
       const parentId = reply.commentId;
@@ -35,11 +38,13 @@ function Comments({ postId, userId, onSubmit }) {
       replies[parentId].push(reply);
     });
     Object.values(replies).forEach(arr => arr.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt)));
+    dispatch(hideLoading());
     return replies;
   }, []);
 
   useEffect(() => {
     const fetchComments = async () => {
+      dispatch(showLoading());
       try {
         const res = await appwriteCommentsConfig.getPostComments([
           Query.equal('postId', postId),
@@ -47,15 +52,20 @@ function Comments({ postId, userId, onSubmit }) {
           Query.limit(COMMENTS_LIMIT),
           Query.offset(page * COMMENTS_LIMIT),
         ]);
-        if (!res.documents) return;
+        if (!res.documents) {
+          dispatch(hideLoading());
+          return;
+        }
 
         const newReplies = groupReplies(res.documents);
         setGroupedReplies(prev => ({ ...prev, ...newReplies }));
         setComments(prev => sortComments([...prev, ...res.documents]));
 
         if (res.documents.length < COMMENTS_LIMIT) setHasMore(false);
+        dispatch(hideLoading());
       } catch (err) {
         console.error('Error fetching comments:', err);
+        dispatch(hideLoading());
       }
     };
 
