@@ -61,7 +61,7 @@ export default function CommentCard({
       }
     }
     )();
-}, [userId,content])
+  }, [userId, content])
 
   return (
     <div
@@ -69,18 +69,22 @@ export default function CommentCard({
         }`}
     >
       <div className="flex items-center mb-3">
-        {authorInfo?.profilePic ?
-          <img
-            src={`${authorInfo.profilePic}`}
-            alt="avatar"
-            className="w-8 h-8 rounded-full mr-2"
-          />
-          :
-          <img
-            src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
-            alt="avatar"
-            className="w-8 h-8 rounded-full mr-2"
-          />}
+        <div className='w-8 h-8 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center'>
+          {authorInfo?.profilePic ?
+            <img
+              src={`${authorInfo.profilePic}`}
+              alt="avatar"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+            :
+            <img
+              src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
+              alt="avatar"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />}
+        </div>
         <div className="flex-1">
           <div className="font-semibold text-gray-800">{authorInfo?.username}</div>
           <div className="text-xs text-gray-500">{formattedTime}</div>

@@ -10,6 +10,7 @@ import appwriteFunctions from '../appwrite/functions';
 const Comments = React.lazy(() => import('../component/comments/Comments'));
 import { setUserProfile } from '../utils/userProfileCache';
 import { hideLoading, showLoading } from '../store/LodingState';
+import { MoonLoader } from 'react-spinners';
 
 function Posts() {
   const dispatch = useDispatch();
@@ -231,8 +232,8 @@ function Posts() {
         </div>
       </div>
       <Suspense fallback={
-        <div className="text-center py-4 text-gray-500">
-          Loading comments…
+        <div className="flex justify-center items-center w-full h-50">
+          <MoonLoader size={40} speedMultiplier={2} color="red" />
         </div>
       }>
         <Comments

@@ -4,6 +4,7 @@ import appwriteCommentsConfig from '../../appwrite/commentsConfig';
 import { useSelector } from 'react-redux';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import CommentCard from './CommentCard';
+import { MoonLoader } from 'react-spinners';
 
 function Comments({ postId, userId, onSubmit }) {
   const [comments, setComments] = useState([]);
@@ -105,7 +106,10 @@ function Comments({ postId, userId, onSubmit }) {
         dataLength={topComments.length}
         next={() => setPage(p => p + 1)}
         hasMore={hasMore}
-        loader={<h4>Loading...</h4>}
+        loader={
+          <div className="flex justify-center items-center w-full h-25">
+            <MoonLoader size={40} speedMultiplier={2} color="red" />
+          </div>}
         endMessage={<p style={{ textAlign: 'center' }}><b>No more comments</b></p>}
       >
         {topComments.map(comment => (

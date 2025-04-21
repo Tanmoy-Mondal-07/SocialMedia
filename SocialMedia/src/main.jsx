@@ -53,15 +53,22 @@ const router = createBrowserRouter([
           </AuthLayout>
         )
       }, {
+
         path: '/creatpost',
-        element: <CreatPosts />
+        element: (
+          <AuthLayout authentication>
+            <CreatPosts />
+          </AuthLayout>)
       }, {
         path: '/termsandprivacy',
         element: <TermsAndPrivacy />
       }, {
         path: '/editpost/:postId',
-        element: <EditPost />
-      },{
+        element: (
+          <AuthLayout authentication>
+            <EditPost />
+          </AuthLayout>)
+      }, {
         path: '/post/:userId/:postId',
         element: <Posts />
       },
