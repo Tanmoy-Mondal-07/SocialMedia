@@ -10,6 +10,7 @@ import appwriteFunctions from '../appwrite/functions';
 const Comments = React.lazy(() => import('../component/comments/Comments'));
 import { setUserProfile } from '../utils/userProfileCache';
 import { hideLoading, showLoading } from '../store/LodingState';
+import { MoonLoader } from 'react-spinners';
 
 function Posts() {
   const dispatch = useDispatch();
@@ -230,8 +231,16 @@ function Posts() {
           </form>
         </div>
       </div>
-      <Suspense>
-        <Comments postId={postId} userId={userId} onSubmit={(data, commentId) => { onSubmit(data, commentId) }} />
+      <Suspense fallback={
+        <div className="flex justify-center items-center w-full h-50">
+          <MoonLoader size={40} speedMultiplier={2} color="red" />
+        </div>
+      }>
+        <Comments
+          postId={postId}
+          userId={userId}
+          onSubmit={(data, commentId) => onSubmit(data, commentId)}
+        />
       </Suspense>
     </>
   );

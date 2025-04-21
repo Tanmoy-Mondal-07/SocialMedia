@@ -12,11 +12,11 @@ import {
   Posts,
 } from './pages'
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(console.error)
-  })
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js').catch(console.error)
+//   })
+// }
 
 const router = createBrowserRouter([
   {
@@ -53,15 +53,22 @@ const router = createBrowserRouter([
           </AuthLayout>
         )
       }, {
+
         path: '/creatpost',
-        element: <CreatPosts />
+        element: (
+          <AuthLayout authentication>
+            <CreatPosts />
+          </AuthLayout>)
       }, {
         path: '/termsandprivacy',
         element: <TermsAndPrivacy />
       }, {
         path: '/editpost/:postId',
-        element: <EditPost />
-      },{
+        element: (
+          <AuthLayout authentication>
+            <EditPost />
+          </AuthLayout>)
+      }, {
         path: '/post/:userId/:postId',
         element: <Posts />
       },
