@@ -1,23 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import getTimeAgo from '../../conf/timeStamp'
+import { getUserProfile, setUserProfile } from '../../utils/userProfileCache';
+import appwriteUserProfileService from '../../appwrite/UserProfile'
+import getFile from '../../appwrite/getFiles';
 
 function SubComments({ time, userId, content, replayTo }) {
+    const [authorInfo, setAuthorInfo] = useState(null)
 
     // the data gose from child to parent
     const sendUsername = () => {
-        replayTo(`@${userId} `);
+        replayTo(`@${authorInfo?.username} `);
     };
+
+    useEffect(() => {
+        ; (async () => {
+            const authorInfo = await getUserProfile(userId)
+            if (authorInfo) setAuthorInfo(authorInfo)
+
+            if (!authorInfo) {
+                const authorProfileInfo = await appwriteUserProfileService.getUserProfile(userId)
+                const profilePic = getFile(authorProfileInfo);
+                const userData = { ...authorProfileInfo, profilePic }
+                setUserProfile(userId, userData)
+                setAuthorInfo(userData)
+            }
+        }
+        )();
+    }, [userId])
 
     return (
         <div className='p-2'>
             <div className="flex items-center">
-                <img
-                    src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
-                    alt="avatar"
-                    className="w-8 h-8 rounded-full mr-2"
-                />
+                {authorInfo?.profilePic ?
+                    <img
+                        src={`${authorInfo.profilePic}`}
+                        alt="avatar"
+                        className="w-8 h-8 rounded-full mr-2"
+                    />
+                    :
+                    <img
+                        src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
+                        alt="avatar"
+                        className="w-8 h-8 rounded-full mr-2"
+                    />}
                 <div className="flex-1">
-                    <div className="text-xs font-semibold text-gray-800">{userId}</div>
+                    <div className="text-xs font-semibold text-gray-800">{authorInfo?.username}</div>
                     <div className="text-xs text-gray-500">{getTimeAgo(time)}</div>
                 </div>
             </div>

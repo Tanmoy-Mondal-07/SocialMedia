@@ -30,7 +30,7 @@ export class Service {
         return this.client.subscribe(
             [`databases.${conf.appwriteDatabaseid}.collections.${conf.appwriteCommentCollectionid}.documents`],
             response => {
-                console.log("Realtime update:", response);
+                // console.log("Realtime update:", response);
                 callback(response);
             }
         );

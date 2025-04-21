@@ -19,6 +19,7 @@ const now = () => new Date().getTime();
 const MAX_AGE = 24 * 60 * 60 * 1000;
 
 export async function setUserProfile(userId, profileData) {
+  // console.log('cache updated', userId, profileData);
   const db = await dbPromise;
   await db.put(STORE_NAME, { data: profileData, timestamp: now() }, userId);
 }
@@ -63,7 +64,7 @@ export async function cleanOldProfiles() {
 }
 
 // Clear entire DB on load (app reload wipe)
-(async () => {
-  const db = await dbPromise;
-  await db.clear(STORE_NAME);
-})();
+// (async () => {
+//   const db = await dbPromise;
+//   await db.clear(STORE_NAME);
+// })();

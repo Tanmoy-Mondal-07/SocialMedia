@@ -1,8 +1,11 @@
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Heart, CornerUpLeft } from 'lucide-react';
 import { SubComments, Button } from '../index';
 import getTimeAgo from '../../utils/timeStamp';
+import getFile from '../../appwrite/getFiles';
+import appwriteUserProfileService from '../../appwrite/UserProfile'
+import { getUserProfile, setUserProfile } from '../../utils/userProfileCache';
 
 export default function CommentCard({
   userId,
@@ -15,6 +18,7 @@ export default function CommentCard({
 }) {
   const [isReplying, setIsReplying] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
+  const [authorInfo, setAuthorInfo] = useState(null)
   const { register, handleSubmit, reset, setValue } = useForm();
   const inputRef = useRef()
 
@@ -43,19 +47,42 @@ export default function CommentCard({
     [commentId, onSubmit, reset]
   );
 
+  useEffect(() => {
+    ; (async () => {
+      const authorInfo = await getUserProfile(userId)
+      if (authorInfo) setAuthorInfo(authorInfo)
+
+      if (!authorInfo) {
+        const authorProfileInfo = await appwriteUserProfileService.getUserProfile(userId)
+        const profilePic = getFile(authorProfileInfo);
+        const userData = { ...authorProfileInfo, profilePic }
+        setUserProfile(userId, userData)
+        setAuthorInfo(userData)
+      }
+    }
+    )();
+}, [userId,content])
+
   return (
     <div
       className={`border shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto p-4 bg-white ${subComments.length > 0 ? 'border-gray-300' : 'border-gray-200'
         }`}
     >
       <div className="flex items-center mb-3">
-        <img
-          src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
-          alt="avatar"
-          className="w-8 h-8 rounded-full mr-3"
-        />
+        {authorInfo?.profilePic ?
+          <img
+            src={`${authorInfo.profilePic}`}
+            alt="avatar"
+            className="w-8 h-8 rounded-full mr-2"
+          />
+          :
+          <img
+            src={`https://api.dicebear.com/7.x/thumbs/svg?seed=${userId}`}
+            alt="avatar"
+            className="w-8 h-8 rounded-full mr-2"
+          />}
         <div className="flex-1">
-          <div className="font-semibold text-gray-800">{userId}</div>
+          <div className="font-semibold text-gray-800">{authorInfo?.username}</div>
           <div className="text-xs text-gray-500">{formattedTime}</div>
         </div>
       </div>
