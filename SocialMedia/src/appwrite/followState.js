@@ -41,6 +41,20 @@ export class Service {
             return false
         }
     }
+
+    async getFollowLists(query) {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseid,
+                conf.appwriteFollowEventCollectionid,
+                query
+
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: Follow List :: error", error);
+            return false
+        }
+    }
 };
 
 const service = new Service()

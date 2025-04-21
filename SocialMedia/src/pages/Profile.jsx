@@ -115,6 +115,7 @@ function Profile() {
         imageUrl={getFile(userProfile)}
         onFollowClick={onFollowClick}
         isFollowing={isFollowing}
+        userId={slug}
       />
       <div className='pt-5 py-2'><PublicPosts userId={slug}/></div>
     </div>
