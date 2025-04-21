@@ -230,8 +230,16 @@ function Posts() {
           </form>
         </div>
       </div>
-      <Suspense>
-        <Comments postId={postId} userId={userId} onSubmit={(data, commentId) => { onSubmit(data, commentId) }} />
+      <Suspense fallback={
+        <div className="text-center py-4 text-gray-500">
+          Loading comments…
+        </div>
+      }>
+        <Comments
+          postId={postId}
+          userId={userId}
+          onSubmit={(data, commentId) => onSubmit(data, commentId)}
+        />
       </Suspense>
     </>
   );

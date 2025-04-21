@@ -12,11 +12,11 @@ import {
   Posts,
 } from './pages'
 
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(console.error)
-  })
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js').catch(console.error)
+//   })
+// }
 
 const router = createBrowserRouter([
   {
