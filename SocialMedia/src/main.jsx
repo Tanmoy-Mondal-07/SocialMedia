@@ -6,17 +6,21 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import store from './store/store.js'
 import { AuthLayout } from './component/index.js'
+import Test from './Test.jsx'
 import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts,
   Followers,
   Following,
+  Notifications,
 } from './pages'
 
 if ('serviceWorker' in navigator) {
+  // console.log('sw suported');
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(console.error)
+    navigator.serviceWorker.register('/sw.js')
+      .catch(error => console.log(error))
   })
 }
 
@@ -73,12 +77,18 @@ const router = createBrowserRouter([
       }, {
         path: '/post/:userId/:postId',
         element: <Posts />
-      },{
+      }, {
         path: '/followers/:userId',
-        element: <Followers/>
-      },{
+        element: <Followers />
+      }, {
         path: '/following/:userId',
-        element: <Following/>
+        element: <Following />
+      }, {
+        path: '/test',
+        element: <Test/>
+      },{
+        path: '/notification',
+        element: <Notifications/>
       },
     ]
   }
@@ -110,4 +120,3 @@ createRoot(document.getElementById('root')).render(
 //     </Provider>
 //   </StrictMode>
 // )
-

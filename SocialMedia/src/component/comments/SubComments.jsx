@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import getTimeAgo from '../../conf/timeStamp'
-import { getUserProfile, setUserProfile } from '../../utils/userProfileCache';
-import appwriteUserProfileService from '../../appwrite/UserProfile'
-import getFile from '../../appwrite/getFiles';
+import getTimeAgo from '../../utils/timeStamp'
 import { useNavigate } from 'react-router-dom';
+import getProfilesByCache from '../../utils/getProfilesThroughache';
 
 function SubComments({ time, userId, content, replayTo }) {
     const [authorInfo, setAuthorInfo] = useState(null)
@@ -15,19 +13,8 @@ function SubComments({ time, userId, content, replayTo }) {
     };
 
     useEffect(() => {
-        ; (async () => {
-            const authorInfo = await getUserProfile(userId)
-            if (authorInfo) setAuthorInfo(authorInfo)
-
-            if (!authorInfo) {
-                const authorProfileInfo = await appwriteUserProfileService.getUserProfile(userId)
-                const profilePic = getFile(authorProfileInfo);
-                const userData = { ...authorProfileInfo, profilePic }
-                setUserProfile(userId, userData)
-                setAuthorInfo(userData)
-            }
-        }
-        )();
+        getProfilesByCache(userId)
+            .then((responce) => setAuthorInfo(responce))
     }, [userId])
 
     return (

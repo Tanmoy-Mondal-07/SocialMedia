@@ -1,0 +1,87 @@
+import React, { useEffect, useState } from 'react'
+import { NotificationsCard } from '../component'
+import appwriteNotificationsService from '../appwrite/notificationsConfig'
+import { useSelector } from 'react-redux'
+import { Check } from 'lucide-react'
+import { addNotification, getNotification, getNotificationsByUser } from '../utils/notificationsCacheService'
+import getProfilesByCache from '../utils/getProfilesThroughache'
+import appwritePostConfigService from '../appwrite/postConfig'
+
+function Notifications() {
+  const [cachedNotifications, setCachedNotifications] = useState(null)
+  const [error, setError] = useState(null)
+  const userId = useSelector((state) => state.auth.userData?.$id)
+
+  useEffect(() => {
+    const fetchAndCacheNotifications = async () => {
+      try {
+        const response = await appwriteNotificationsService.getNotifications({ userId })
+        const notifications = response?.documents || []
+
+        await Promise.all(notifications.map(processNotification))
+
+      } catch (err) {
+        setError(err.message)
+      }
+    }
+
+    const processNotification = async (notification) => {
+      try {
+        const exists = await getNotification(notification.$id)
+        if (exists) return
+
+        const relatedUserInfo = await getProfilesByCache(notification.relatedUserId)
+        let relatedPostInfo = null
+
+        if (['comment', 'replay'].includes(notification.type)) {
+          relatedPostInfo = await appwritePostConfigService.getPost(notification.relatedPostId)
+        }
+
+        const cacheData = { ...notification, relatedUserInfo, relatedPostInfo }
+        await addNotification(cacheData)
+
+      } catch (err) {
+        console.error(`Failed to process notification ${notification.$id}`, err)
+      }
+    }
+
+    if (userId) fetchAndCacheNotifications()
+
+      ; (async () => {
+        await getNotificationsByUser(userId)
+          .then((responce) => setCachedNotifications(responce))
+      })()
+  }, [userId])
+
+  if (error) return <h1>{error}</h1>
+
+  return cachedNotifications && (
+    <div className='bg-white p-4 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto'>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-semibold">Notifications</h2>
+        <button className="flex items-center text-sm text-gray-600 hover:text-gray-800">
+          <Check className="h-4 w-4 mr-1" />
+          Mark all as read
+        </button>
+      </div>
+      {cachedNotifications?.map((n) => (
+        <NotificationsCard
+          key={n.$id}
+          notificationsId={n.$id}
+          relatedUserId={n.relatedUserInfo.$id}
+          relatedUserAvatar={n.relatedUserInfo.profilePic}
+          relatedUserName={n.relatedUserInfo.username}
+          relatedPostId={n.relatedPostInfo?.$id || null}
+          relatedPostAuthorId={n.relatedPostInfo?.userId || null}
+          relatedPostTitle={n.relatedPostInfo?.title || null} 
+          commentText={n.commentText || null}
+          contentType={n.type}
+          seen={n.seen}
+          time ={n.$createdAt}
+        />
+      ))}
+    </div>
+  )
+}
+
+export default Notifications
