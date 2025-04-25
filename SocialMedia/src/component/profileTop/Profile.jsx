@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Image, UserPlus, UserMinus, Minimize2 } from 'lucide-react';
+import { Image, Minimize2 } from 'lucide-react';
 import { Button } from '../index';
 import authService from '../../appwrite/auth';
 import { showLoading, hideLoading } from '../../store/LodingState';
@@ -17,6 +17,7 @@ function Profile({
   isFollowing = false,
   onFollowClick,
   onMessageClick,
+  userId
 }) {
   // console.log(imageUrl);
   const navigate = useNavigate();
@@ -59,11 +60,11 @@ function Profile({
       )}
 
       <div className="flex justify-between text-center border-y border-fground-200 py-4">
-        <div>
+        <div onClick={()=>navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Followers</p>
           <p className="font-semibold text-xl">{followersCount}</p>
         </div>
-        <div>
+        <div onClick={()=>navigate(`/following/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Following</p>
           <p className="font-semibold text-xl">{followingCount}</p>
         </div>

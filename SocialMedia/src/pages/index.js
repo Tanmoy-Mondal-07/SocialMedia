@@ -7,8 +7,12 @@ import TermsAndPrivacy from "./TermsAndPrivacy";
 import CreatPosts from "./CreatPosts";
 import EditPost from "./EditPost";
 import Posts from "./Posts";
+import Followers from "./follow/Followers";
+import Following from "./follow/Following";
+import Notifications from "./Notifications";
 
 export {
     Login, Signup, Home, Profile, EditProfile,
-    TermsAndPrivacy, CreatPosts, EditPost, Posts
+    TermsAndPrivacy, CreatPosts, EditPost, Posts,
+    Followers, Following, Notifications,
 }

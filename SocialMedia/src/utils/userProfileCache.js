@@ -1,6 +1,6 @@
 import { openDB } from 'idb';
 
-const DB_NAME = 'dante-social-app-cache';
+const DB_NAME = 'dante-profile-cache';
 const STORE_NAME = 'user-profiles';
 const DB_VERSION = 1;
 

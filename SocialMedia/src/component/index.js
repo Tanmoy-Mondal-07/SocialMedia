@@ -15,6 +15,7 @@ import PostHandler from './posts/PostHandler'
 import PublicPosts from './posts/PublicPosts'
 import Comments from './comments/Comments'
 import SubComments from './comments/SubComments'
+import NotificationsCard from './NotificationsCard'
 
 
 export {
@@ -22,5 +23,6 @@ export {
     LoginContainer, Input, GlobalLoader,
     ProfileComponent, Postcard, Postfooter,
     AuthLayout, PasswordInputBox, EditComponent,
-    PostHandler, PublicPosts, Comments, SubComments
+    PostHandler, PublicPosts, Comments, SubComments,
+    NotificationsCard,
 }
