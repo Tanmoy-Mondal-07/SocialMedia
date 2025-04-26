@@ -31,9 +31,14 @@ const now = () => new Date().getTime();
 const MAX_AGE = 24 * 60 * 60 * 1000;
 
 export async function addNotification(notification) {
-  const db = await dbPromise;
-  const notificationWithTimestamp = { ...notification, timestamp: now() };
-  await db.put(STORE_NAME, notificationWithTimestamp);
+  try {
+    const db = await dbPromise;
+    const notificationWithTimestamp = { ...notification, timestamp: now() };
+    await db.put(STORE_NAME, notificationWithTimestamp);
+    return true
+  } catch (error) {
+    return false
+  }
 }
 
 export async function getNotification(id) {
@@ -52,8 +57,12 @@ export async function getNotification(id) {
 }
 
 export async function deleteNotification(id) {
-  const db = await dbPromise;
-  return db.delete(STORE_NAME, id);
+  try {
+    const db = await dbPromise;
+    return db.delete(STORE_NAME, id);
+  } catch (error) {
+    return null
+  }
 }
 
 export async function clearAllNotifications() {

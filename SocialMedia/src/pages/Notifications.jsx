@@ -3,7 +3,10 @@ import { NotificationsCard } from '../component'
 import appwriteNotificationsService from '../appwrite/notificationsConfig'
 import { useSelector } from 'react-redux'
 import { Check } from 'lucide-react'
-import { addNotification, getNotification, getNotificationsByUser } from '../utils/notificationsCacheService'
+import {
+  addNotification, getNotification, getNotificationsByUser,
+  deleteNotification as deleteNotificationFromCache
+} from '../utils/notificationsCacheService'
 import getProfilesByCache from '../utils/getProfilesThroughache'
 import appwritePostConfigService from '../appwrite/postConfig'
 
@@ -53,6 +56,31 @@ function Notifications() {
       })()
   }, [userId])
 
+  const deleteNotification = async (data) => {
+    try {
+      const dleted = deleteNotificationFromCache(data)
+      // console.log(dleted);
+      if (dleted) appwriteNotificationsService.updateNotification(data)
+    } catch (error) {
+      // console.log(error);
+    }
+    await getNotificationsByUser(userId)
+      .then((responce) => setCachedNotifications(responce))
+  }
+
+  const markAsRead = async (data) => {
+    try {
+      const getData = await getNotification(data)
+      const newData = { ...getData, seen: true }
+      const marked = await addNotification(newData)
+      if (marked) appwriteNotificationsService.updateNotification(data)
+    } catch (error) {
+      console.log(error);
+    }
+    await getNotificationsByUser(userId)
+      .then((responce) => setCachedNotifications(responce))
+  }
+
   if (error) return <h1>{error}</h1>
 
   return cachedNotifications && (
@@ -73,11 +101,13 @@ function Notifications() {
           relatedUserName={n.relatedUserInfo.username}
           relatedPostId={n.relatedPostInfo?.$id || null}
           relatedPostAuthorId={n.relatedPostInfo?.userId || null}
-          relatedPostTitle={n.relatedPostInfo?.title || null} 
+          relatedPostTitle={n.relatedPostInfo?.title || null}
           commentText={n.commentText || null}
           contentType={n.type}
           seen={n.seen}
-          time ={n.$createdAt}
+          time={n.$createdAt}
+          senddeleteNotification={deleteNotification}
+          frowredMarkAsRead={markAsRead}
         />
       ))}
     </div>
