@@ -16,6 +16,7 @@ function Notifications() {
   const userId = useSelector((state) => state.auth.userData?.$id)
 
   useEffect(() => {
+    getCacheNotificationFunction()
     const fetchAndCacheNotifications = async () => {
       try {
         const response = await appwriteNotificationsService.getNotifications({ userId })
@@ -42,6 +43,8 @@ function Notifications() {
 
         const cacheData = { ...notification, relatedUserInfo, relatedPostInfo }
         await addNotification(cacheData)
+        getCacheNotificationFunction()
+        // console.log('render');
 
       } catch (err) {
         console.error(`Failed to process notification ${notification.$id}`, err)
@@ -50,11 +53,15 @@ function Notifications() {
 
     if (userId) fetchAndCacheNotifications()
 
-      ; (async () => {
-        await getNotificationsByUser(userId)
-          .then((responce) => setCachedNotifications(responce))
-      })()
   }, [userId])
+
+  // getCacheNotificationFunction()
+
+  async function getCacheNotificationFunction() {
+    // console.log('render');
+    await getNotificationsByUser(userId)
+      .then((responce) => setCachedNotifications(responce))
+  }
 
   const deleteNotification = async (data) => {
     try {
@@ -71,16 +78,20 @@ function Notifications() {
   function markAllAsRead() {
     try {
       cachedNotifications?.map(async (n) => {
-        const getData = await getNotification(n.$id)
-        const newData = { ...getData, seen: true }
-        const marked = await addNotification(newData)
-        if (marked) appwriteNotificationsService.updateNotification(n.$id)
+        if (!n.seen) {
+          const getData = await getNotification(n.$id)
+          const newData = { ...getData, seen: true }
+          const marked = await addNotification(newData)
+          if (marked) {
+            getNotificationsByUser(userId)
+              .then((responce) => setCachedNotifications(responce))
+            appwriteNotificationsService.updateNotification(n.$id)
+          }
+        }
       })
     } catch (error) {
       console.log(error);
     }
-    getNotificationsByUser(userId)
-      .then((responce) => setCachedNotifications(responce))
   }
 
   const markAsRead = async (data) => {
