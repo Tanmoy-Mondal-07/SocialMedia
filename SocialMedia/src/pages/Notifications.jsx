@@ -68,6 +68,21 @@ function Notifications() {
       .then((responce) => setCachedNotifications(responce))
   }
 
+  function markAllAsRead() {
+    try {
+      cachedNotifications?.map(async (n) => {
+        const getData = await getNotification(n.$id)
+        const newData = { ...getData, seen: true }
+        const marked = await addNotification(newData)
+        if (marked) appwriteNotificationsService.updateNotification(n.$id)
+      })
+    } catch (error) {
+      console.log(error);
+    }
+    getNotificationsByUser(userId)
+      .then((responce) => setCachedNotifications(responce))
+  }
+
   const markAsRead = async (data) => {
     try {
       const getData = await getNotification(data)
@@ -87,7 +102,7 @@ function Notifications() {
     <div className='bg-white p-4 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto'>
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Notifications</h2>
-        <button className="flex items-center text-sm text-gray-600 hover:text-gray-800">
+        <button onClick={markAllAsRead} className="flex items-center text-sm text-gray-600 hover:text-gray-800">
           <Check className="h-4 w-4 mr-1" />
           Mark all as read
         </button>
