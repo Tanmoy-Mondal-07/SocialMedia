@@ -10,10 +10,8 @@ import Test from './Test.jsx'
 import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
-  Posts,
-  Followers,
-  Following,
-  Notifications,
+  Posts, Followers, Following, Notifications,
+  Report, Feedback,
 } from './pages'
 
 if ('serviceWorker' in navigator) {
@@ -85,10 +83,16 @@ const router = createBrowserRouter([
         element: <Following />
       }, {
         path: '/test',
-        element: <Test/>
-      },{
+        element: <Test />
+      }, {
         path: '/notification',
-        element: <Notifications/>
+        element: <Notifications />
+      }, {
+        path: '/report/:postId',
+        element: <Report />
+      }, {
+        path: '/feedback',
+        element: <Feedback />
       },
     ]
   }

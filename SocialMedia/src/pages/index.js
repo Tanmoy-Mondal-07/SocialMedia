@@ -10,9 +10,12 @@ import Posts from "./Posts";
 import Followers from "./follow/Followers";
 import Following from "./follow/Following";
 import Notifications from "./Notifications";
+import Report from "./Report";
+import Feedback from "./Feedback";
 
 export {
     Login, Signup, Home, Profile, EditProfile,
     TermsAndPrivacy, CreatPosts, EditPost, Posts,
-    Followers, Following, Notifications,
+    Followers, Following, Notifications, Report,
+    Feedback
 }

@@ -9,6 +9,7 @@ const conf = {
     appwriteFollowEventCollectionid: String(import.meta.env.VITE_APPWRITE_FOLLOW_EVENT_COLLECTION_ID),
     appwriteCommentCollectionid: String(import.meta.env.VITE_APPWRITE_COMMENTS_COLLECTION_ID),
     appwriteNotificationsCollectionid: String(import.meta.env.VITE_APPWRITE_NOTIFICATIONS_COLLECTION_ID),
+    appwriteReportCollectionid: String(import.meta.env.VITE_APPWRITE_REPORT_COLLECTION_ID),
 
     appwriteAvatarBucketidid: String(import.meta.env.VITE_APPWRITE_BUCKET_AVATAR_ID),
 
