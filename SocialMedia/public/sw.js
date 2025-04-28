@@ -7,6 +7,9 @@ const cacheAssets = [
     '../src/utils/userProfileCache.js',
     '../src/component/footer/Footer.jsx',
     '../src/component/header/Header.jsx',
+    // '../src/App.jsx',
+    // '../src/main.jsx',
+    '../src/pages/Loding.jsx',
 ]
 
 self.addEventListener('install', (e) => {

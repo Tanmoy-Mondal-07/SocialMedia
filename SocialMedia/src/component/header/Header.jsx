@@ -3,9 +3,9 @@ import { logoTextSvg } from '../../assets'
 import { Button, GlobalLoader } from '../'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-// import { showLoading, hideLoading } from '../../store/LodingState'
-// import { logout } from '../../store/authSlice'
-// import authService from '../../appwrite/auth'
+import { showLoading, hideLoading } from '../../store/LodingState'
+import { logout } from '../../store/authSlice'
+import authService from '../../appwrite/auth'
 import { Bell, CirclePlus, Cog } from 'lucide-react'
 
 function Header() {

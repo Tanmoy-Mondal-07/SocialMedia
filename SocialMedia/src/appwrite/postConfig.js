@@ -79,6 +79,7 @@ export class Service {
     }
 
     async getPosts(queries = [Query.equal("visibility", "public")]) {
+        // console.log('server hit for posts');
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseid,

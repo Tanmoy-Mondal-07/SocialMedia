@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import logo from './assets/logo01.svg'
+import logo from '../assets/logo01.svg'
 
 const Loader = () => {
   const [progress, setProgress] = useState(0);
@@ -64,7 +64,7 @@ const Loader = () => {
           <img 
             src={logo} 
             alt="Phoenix Logo"
-            className="w-24 h-24 mb-6 animate-float" 
+            className="w-50 h-50 mb-6 animate-float" 
           />
 
           <div className="w-64 h-1 bg-gray-900 relative mb-2 overflow-hidden">
