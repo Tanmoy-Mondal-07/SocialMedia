@@ -1,4 +1,4 @@
-const cacheName = 'utlity-cache-v1'
+const cacheName = 'utlity-cache-v2'
 
 const cacheAssets = [
     '../index.html',
@@ -9,7 +9,7 @@ const cacheAssets = [
     '../src/component/header/Header.jsx',
     // '../src/App.jsx',
     // '../src/main.jsx',
-    '../src/pages/Loding.jsx',
+    '../index.html'
 ]
 
 self.addEventListener('install', (e) => {

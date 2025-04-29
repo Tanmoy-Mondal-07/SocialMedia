@@ -2,7 +2,7 @@ import { openDB } from 'idb';
 
 const DB_NAME = 'dante-notification-cache';
 const STORE_NAME = 'notifications';
-const DB_VERSION = 5;
+const DB_VERSION = 5.1;
 
 const dbPromise = openDB(DB_NAME, DB_VERSION, {
   upgrade(db) {
@@ -28,7 +28,7 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 });
 
 const now = () => new Date().getTime();
-const MAX_AGE = 25 * 24 * 60 * 60 * 1000;
+const MAX_AGE = 24 * 60 * 60 * 1000;
 
 export async function addNotification(notification) {
   try {
@@ -87,6 +87,11 @@ export async function cleanOldNotifications() {
 
 // Optimized query using composite index
 export async function getNotificationsByUser(userId) {
+  if (typeof userId !== 'string' || !userId) {
+    // throw new Error('"its not a problem"/ Invalid userId provided to getNotificationsByUser');
+    return
+  }
+
   const db = await dbPromise;
   const tx = db.transaction(STORE_NAME, 'readonly');
   const index = tx.objectStore(STORE_NAME).index('userId_createdAt');
@@ -100,6 +105,7 @@ export async function getNotificationsByUser(userId) {
     false,
     false
   );
+  // console.log(range);
 
   const notifications = await index.getAll(range);
   const validNotifications = notifications.filter(n => now() - n.timestamp <= MAX_AGE);
