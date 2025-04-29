@@ -80,7 +80,7 @@ function Home() {
         next={fetchPosts}
         hasMore={hasMore}
         loader={
-          <div className="flex justify-center items-center w-full h-25">
+          <div className="flex justify-center items-center min-w-50 w-full h-25">
             <MoonLoader size={30} speedMultiplier={1.5} color="red" />
           </div>
         }

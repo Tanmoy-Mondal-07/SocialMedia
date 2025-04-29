@@ -1,4 +1,4 @@
-const cacheName = 'utlity-cache-v2'
+const cacheName = 'utlity-cache-v2.1.0'
 
 const cacheAssets = [
     '../index.html',
