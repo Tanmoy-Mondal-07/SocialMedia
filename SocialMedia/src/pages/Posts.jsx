@@ -158,7 +158,7 @@ function Posts() {
                   </>
                 ) : (
                   <>
-                    <button className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
+                    <button onClick={() => navigate(`/report/${postId}`)} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
                       Report
                     </button>
 

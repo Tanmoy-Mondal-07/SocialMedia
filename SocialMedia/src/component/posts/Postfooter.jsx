@@ -118,7 +118,9 @@ function Postfooter({
                             ) : (
                                 <>
                                     <li>
-                                        <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        <button
+                                        onClick={() => navigate(`/report/${postId}`)}
+                                         className="w-full text-left px-4 py-2 hover:bg-gray-100">
                                             Report
                                         </button>
                                     </li>

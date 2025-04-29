@@ -1,13 +1,97 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./src/assets/logo.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dante</title>
-  </head>
-  <body class="bg-bground-200">
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/src/assets/logo.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dante</title>
+
+  <style>
+    html, body {
+      background: #c8c8c8;
+    }
+    #splash {
+      position: fixed;
+      inset: 0;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    #splash img {
+      width: 120px;
+      height: auto;
+      animation: float 3s ease-in-out infinite;
+      margin-bottom: 20px;
+    }
+    .progress-container {
+      width: 200px;
+      height: 4px;
+      background-color: #333;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background-color: #e50914;
+      transition: width 0.3s ease;
+    }
+    #progress-text {
+      margin-top: 10px;
+      color: white;
+      font-family: sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="splash">
+    <img src="/src/assets/logo01.svg" alt="Logo">
+    <div class="progress-container">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+    <div id="progress-text">0%</div>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    (function() {
+      var progress = 0;
+      var progressBar = document.getElementById('progress-bar');
+      var progressText = document.getElementById('progress-text');
+      
+      var loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+        }
+        progressBar.style.width = progress + '%';
+        progressText.textContent = Math.floor(progress) + '%';
+      }, 150);
+
+      window.addEventListener('load', function() {
+        clearInterval(loadingInterval);
+        progressBar.style.width = '100%';
+        progressText.textContent = '100%';
+        setTimeout(() => {
+          var splash = document.getElementById('splash');
+          if (splash) splash.remove();
+        }, 500);
+      });
+    })();
+  </script>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>

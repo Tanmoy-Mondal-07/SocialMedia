@@ -12,14 +12,14 @@ export class Service {
         this.databases = new Databases(this.client);
     }
 
-    async updateNotification(notificationId, { read = true }) {
+    async updateNotification(notificationId) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseid,
                 conf.appwriteNotificationsCollectionid,
                 notificationId,
                 {
-                    read
+                    seen: true
                 }
             )
         } catch (error) {

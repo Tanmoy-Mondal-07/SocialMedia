@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Query } from 'appwrite';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -20,10 +20,15 @@ function Home() {
   const hasMore = useSelector((state) => state.posts.hasMore);
 
   const [users, setUsers] = useState({});
+  const usersRef = useRef(users); // mutable ref for latest users
 
-  // Fetch userData and cache in local state
+  // Keep usersRef always updated
+  useEffect(() => {
+    usersRef.current = users;
+  }, [users]);
+
   const fetchUserData = useCallback(async (userId) => {
-    if (users[userId]) return;  // already cached
+    if (usersRef.current[userId]) return;
     try {
       let userData = await getCachedProfile(userId);
       if (!userData) {
@@ -32,25 +37,23 @@ function Home() {
         userData = { ...userData, profilePic };
         await setUserProfile(userId, userData);
       }
-      setUsers((prev) => ({ ...prev, [userId]: userData }));
+      setUsers(prev => ({ ...prev, [userId]: userData }));
     } catch (err) {
       console.error(`Failed to fetch user ${userId}:`, err.message);
     }
-  }, [users]);
+  }, []);
 
-  // Fetch posts
   const fetchPosts = useCallback(async () => {
     dispatch(showLoading());
     try {
       const queries = [Query.orderDesc('$createdAt'), Query.limit(LIMIT)];
       if (cursor) queries.push(Query.cursorAfter(cursor));
 
-      const response = await appwritePostConfig.getPosts(queries);
-      const newPosts = response?.documents || [];
+      const { documents = [] } = await appwritePostConfig.getPosts(queries);
 
-      if (newPosts.length) {
-        dispatch(appendPosts(newPosts));
-        dispatch(setCursor(newPosts[newPosts.length - 1].$id));
+      if (documents.length) {
+        dispatch(appendPosts(documents));
+        dispatch(setCursor(documents[documents.length - 1].$id));
       } else {
         dispatch(setHasMore(false));
       }
@@ -62,30 +65,26 @@ function Home() {
     }
   }, [cursor, dispatch]);
 
-  // Initial posts fetch
   useEffect(() => {
     if (!posts.length) fetchPosts();
   }, [posts.length, fetchPosts]);
 
-  // Fetch missing user profiles when posts change
   useEffect(() => {
-    posts.forEach((post) => {
-      fetchUserData(post.userId);
-    });
+    posts.forEach(post => fetchUserData(post.userId));
   }, [posts, fetchUserData]);
 
   return (
-    <div className="items-center">
+    <div className="flex flex-col items-center">
       <InfiniteScroll
         dataLength={posts.length}
         next={fetchPosts}
         hasMore={hasMore}
         loader={
-          <div className="flex justify-center items-center w-full h-50">
-            <MoonLoader size={40} speedMultiplier={2} color="red" />
+          <div className="flex justify-center items-center w-full h-25">
+            <MoonLoader size={30} speedMultiplier={1.5} color="red" />
           </div>
         }
-        endMessage={<p style={{ textAlign: 'center' }}>Nothing to Show</p>}
+        endMessage={<p className="text-center text-gray-500 py-4">Nothing to Show</p>}
       >
         {posts.map((post) => {
           const userInfo = users[post.userId];
