@@ -58,7 +58,7 @@ function SearchPage() {
                         key={item.$id}
                         userId={item.$id}
                     />
-                )) : existingUserIds.map((item) => (
+                )) : existingUserIds?.map((item) => (
                     <ProfileList
                         key={item}
                         userId={item}
