@@ -142,7 +142,7 @@ function Posts() {
 
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-10">
-                {(currentUserInfo.$id === userId) ? (
+                {(currentUserInfo?.$id === userId) ? (
                   <>
                     <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
                       Share
@@ -208,7 +208,7 @@ function Posts() {
         </div>
 
         {/* comment form */}
-        <div className="mt-6 border-t pt-4">
+        {currentUserInfo?.$id ? <div className="mt-6 border-t pt-4">
           <h4 className="text-md font-semibold ml-2 mb-2">Leave a comment</h4>
           <form onSubmit={handleSubmit((data) => onSubmit(data, null))} className="relative">
             <div className="relative">
@@ -229,7 +229,8 @@ function Posts() {
               </div>
             </div>
           </form>
-        </div>
+        </div>:<h1>Please Login to Comment</h1>
+        }
       </div>
       <Suspense fallback={
         <div className="flex justify-center items-center w-full h-50">

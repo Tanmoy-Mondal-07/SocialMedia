@@ -28,6 +28,7 @@ function SearchPage() {
 
     const handleSearch = useCallback(async (term) => {
         dispatch(showLoading())
+        term=term.trim()
         SerchedTextStorageHandler(term)
         const queries = [
             Query.startsWith("username", term),
