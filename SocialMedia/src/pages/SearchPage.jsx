@@ -10,18 +10,18 @@ import { useDispatch } from 'react-redux';
 import { hideLoading, showLoading } from '../store/LodingState';
 
 const SerchedTextItems = JSON.parse(localStorage.getItem("SerchedText")) || []
-const existingUserIds = JSON.parse(localStorage.getItem("recommendedUserIds"))
 // console.log(SerchedTextItems);
 // localStorage.setItem("SerchedText", null)
 
 function SearchPage() {
     const [filteredData, setFilteredData] = useState(null);
     const dispatch = useDispatch()
+    let existingUserIds = JSON.parse(localStorage.getItem("recommendedUserIds"))
 
 
     function SerchedTextStorageHandler(newSearch) {
         if (!SerchedTextItems.includes(newSearch)) {
-            SerchedTextItems.push(newSearch)
+            SerchedTextItems.push(newSearch),
             localStorage.setItem("SerchedText", JSON.stringify(SerchedTextItems))
         }
     }
@@ -38,12 +38,12 @@ function SearchPage() {
         if (responce.total > 0) {
             setFilteredData(responce?.documents)
             responce?.documents.map((profile) => {
-                profileRecommendationSystem(profile.$id)
                 const profilePic = getFile(profile);
                 const userData = { ...profile, profilePic }
                 setUserProfileGlobalCache(profile.$id, userData)
             })
         }
+        existingUserIds = JSON.parse(localStorage.getItem("recommendedUserIds"))
     }, []);
 
     return (
@@ -51,13 +51,13 @@ function SearchPage() {
             <Search items={SerchedTextItems} onSearch={handleSearch} />
             <ul className="mt-8 space-y-2 w-full">
 
-            {filteredData ? <h4>Search Result</h4> : <h4>Recommendation</h4>}
+                {filteredData ? <h4>Search Result</h4> : <h4>Recommendation</h4>}
                 {/* search result */}
                 {filteredData ? filteredData.map((item) => (
+                    <div key={item.$id} onClick={profileRecommendationSystem(item.$id)}>
                     <ProfileList
-                        key={item.$id}
                         userId={item.$id}
-                    />
+                    /></div>
                 )) : existingUserIds?.map((item) => (
                     <ProfileList
                         key={item}
@@ -66,6 +66,7 @@ function SearchPage() {
                 ))
                 }
             </ul>
+            <h2>.....</h2>
         </div>
     );
 }
