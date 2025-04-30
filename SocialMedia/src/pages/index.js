@@ -12,10 +12,11 @@ import Following from "./follow/Following";
 import Notifications from "./Notifications";
 import Report from "./Report";
 import Feedback from "./Feedback";
+import SearchPage from "./SearchPage";
 
 export {
     Login, Signup, Home, Profile, EditProfile,
     TermsAndPrivacy, CreatPosts, EditPost, Posts,
     Followers, Following, Notifications, Report,
-    Feedback
+    Feedback, SearchPage
 }

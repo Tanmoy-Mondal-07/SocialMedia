@@ -60,8 +60,23 @@ export class Service{
             return false
         }
     }
-    // file upload service
 
+    async getProfiles(queries = [Query.search("username", "Clash"),Query.limit(25)]) {
+        // console.log('server hit for userSearch');
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseid,
+                conf.appwriteUserProfileCollectionid,
+                queries,
+
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: getProfiles :: error", error);
+            return false
+        }
+    }
+
+    // file upload service
     async uploadAvatar(Avatar){
         try {
             return await this.bucket.createFile(

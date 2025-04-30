@@ -11,7 +11,7 @@ import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts, Followers, Following, Notifications,
-  Report, Feedback,
+  Report, Feedback, SearchPage,
 } from './pages'
 
 if ('serviceWorker' in navigator) {
@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         path: '/following/:userId',
         element: <Following />
       }, {
-        path: '/test',
+        path: '/testes',
         element: <Test />
       }, {
         path: '/notification',
@@ -93,6 +93,9 @@ const router = createBrowserRouter([
       }, {
         path: '/feedback',
         element: <Feedback />
+      }, {
+        path: '/search',
+        element: <SearchPage />
       },
     ]
   }

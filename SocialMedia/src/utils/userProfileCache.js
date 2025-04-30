@@ -16,7 +16,7 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 const now = () => new Date().getTime();
 
 // Mmx cache time 24 hours(milliseconds)
-const MAX_AGE = 24 * 60 * 60 * 1000;
+const MAX_AGE = 2 * 24 * 60 * 60 * 1000;
 
 export async function setUserProfile(userId, profileData) {
   // console.log('cache updated', userId, profileData);
