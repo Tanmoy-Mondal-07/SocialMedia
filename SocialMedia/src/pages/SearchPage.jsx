@@ -22,7 +22,7 @@ function SearchPage() {
     function SerchedTextStorageHandler(newSearch) {
         if (!SerchedTextItems.includes(newSearch)) {
             SerchedTextItems.push(newSearch),
-            localStorage.setItem("SerchedText", JSON.stringify(SerchedTextItems))
+                localStorage.setItem("SerchedText", JSON.stringify(SerchedTextItems))
         }
     }
 
@@ -54,10 +54,10 @@ function SearchPage() {
                 {filteredData ? <h4>Search Result</h4> : <h4>Recommendation</h4>}
                 {/* search result */}
                 {filteredData ? filteredData.map((item) => (
-                    <div key={item.$id} onClick={profileRecommendationSystem(item.$id)}>
-                    <ProfileList
-                        userId={item.$id}
-                    /></div>
+                    <div key={item.$id} onClick={() => profileRecommendationSystem(item.$id)}>
+                        <ProfileList
+                            userId={item.$id}
+                        /></div>
                 )) : existingUserIds?.map((item) => (
                     <ProfileList
                         key={item}
