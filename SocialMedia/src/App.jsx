@@ -22,6 +22,7 @@ function App() {
           dispatch(login({ userData }))
         } else {
           dispatch(logout())
+          localStorage.setItem("recommendedUserIds", null)
         }
       } catch (err) {
         dispatch(logout())

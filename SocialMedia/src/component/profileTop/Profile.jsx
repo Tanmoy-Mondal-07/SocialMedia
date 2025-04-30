@@ -6,7 +6,6 @@ import { Button } from '../index';
 import authService from '../../appwrite/auth';
 import { showLoading, hideLoading } from '../../store/LodingState';
 import { logout } from '../../store/authSlice';
-import profileRecommendationSystem from '../../utils/profileRecoSystem';
 
 function Profile({
   imageUrl,
@@ -24,9 +23,6 @@ function Profile({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
-
-  //recommend profile
-  if (!isOwnProfile && !isFollowing && userId) profileRecommendationSystem(userId)
 
   const logoutUser = () => {
     dispatch(showLoading());
