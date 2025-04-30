@@ -49,6 +49,7 @@ export class AuthService {
     async logout(){
         try {
             await this.account.deleteSessions()
+            localStorage.setItem("recommendedUserIds", null)
         } catch (error) {
           throw error  
         }

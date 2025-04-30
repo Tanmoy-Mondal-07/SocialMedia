@@ -6,6 +6,7 @@ import { Button } from '../index';
 import authService from '../../appwrite/auth';
 import { showLoading, hideLoading } from '../../store/LodingState';
 import { logout } from '../../store/authSlice';
+import profileRecommendationSystem from '../../utils/profileRecoSystem';
 
 function Profile({
   imageUrl,
@@ -23,6 +24,9 @@ function Profile({
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isModalOpen, setModalOpen] = useState(false);
+
+  //recommend profile
+  if (!isOwnProfile && !isFollowing && userId) profileRecommendationSystem(userId)
 
   const logoutUser = () => {
     dispatch(showLoading());
@@ -60,11 +64,11 @@ function Profile({
       )}
 
       <div className="flex justify-between text-center border-y border-fground-200 py-4">
-        <div onClick={()=>navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
+        <div onClick={() => navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Followers</p>
           <p className="font-semibold text-xl">{followersCount}</p>
         </div>
-        <div onClick={()=>navigate(`/following/${userId}`)} className='hover:cursor-pointer'>
+        <div onClick={() => navigate(`/following/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Following</p>
           <p className="font-semibold text-xl">{followingCount}</p>
         </div>
