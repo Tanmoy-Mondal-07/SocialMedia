@@ -117,7 +117,7 @@ function Posts() {
       <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8">
         {/* user header */}
         <div className="flex justify-between items-start mb-4 relative">
-          <div className="flex items-center gap-4">
+          <div onClick={()=>navigate(`/profile/${authorInfo.$id}`)} className="flex items-center gap-4">
             <img
               src={getFile(authorInfo)}
               alt={authorInfo?.username}
