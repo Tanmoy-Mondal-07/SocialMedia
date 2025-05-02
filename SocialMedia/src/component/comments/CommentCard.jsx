@@ -89,7 +89,7 @@ export default function CommentCard({
 
   // console.log(likeInfo);
 
-  return likeInfo && (
+  return (
     <div
       className={`border shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto p-4 bg-white ${subComments.length > 0 ? 'border-gray-300' : 'border-gray-200'
         }`}
@@ -120,7 +120,7 @@ export default function CommentCard({
 
       <div className="flex space-x-4 text-sm text-gray-500 mb-3">
 
-        <button
+        {likeInfo && <button
           type="button"
           onClick={onLikeClick}
           className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200"
@@ -132,7 +132,7 @@ export default function CommentCard({
             <Heart className="w-4 h-4" />
           )}
           <span>Like</span>
-        </button>
+        </button>}
 
         <button
           type="button"

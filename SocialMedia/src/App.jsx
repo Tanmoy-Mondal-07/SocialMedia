@@ -6,16 +6,15 @@ import { Container, Footer, Header } from './component'
 import { showLoading, hideLoading } from './store/LodingState'
 import { Outlet } from 'react-router-dom'
 import './App.css'
-// import Loader from './pages/Loding'
 
 function App() {
   const dispatch = useDispatch()
-  // const [loding, setloding] = useState(false)
+  const [lodingComplete, setLlodingComplete] = useState(true)
 
   useEffect(() => {
+    setLlodingComplete(false)
     const checkAuthStatus = async () => {
       dispatch(showLoading())
-      // setloding(true)
       try {
         const userData = await userInfo.getCurrentUser()
         if (userData) {
@@ -27,20 +26,16 @@ function App() {
       } catch (err) {
         dispatch(logout())
       } finally {
-        console.log('render');
+        // console.log('render');
         dispatch(hideLoading())
-        // setloding(false)
+        setLlodingComplete(true)
       }
     }
 
     checkAuthStatus()
   }, [dispatch])
 
-  // if (loding) {
-  //   return <Loader/>
-  // }
-
-  return (
+  return lodingComplete && (
     <>
       <Header />
       <main className="min-h-[100vh] px-4 sm:px-6 lg:px-8">
