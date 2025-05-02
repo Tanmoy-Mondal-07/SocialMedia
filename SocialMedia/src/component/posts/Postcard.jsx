@@ -70,6 +70,7 @@ function Postcard({
             </div>
             <Postfooter
                 userPost={currentUserInfo?.$id === userId}
+                currentUserId={currentUserInfo?.$id}
                 postId={postId}
                 userId={userId}
                 postUserName={userInfo.username}

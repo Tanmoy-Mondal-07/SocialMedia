@@ -3,20 +3,26 @@ import { Heart, MessageCircle, Link as LinkIcon, MoreVertical } from 'lucide-rea
 import Button from '../Button'
 import { useNavigate } from 'react-router-dom'
 import appwritePostConfig from '../../appwrite/postConfig'
+import { ifNotLikedThenLike, postsTotalLikes } from '../../utils/likeHandler'
+import { useSelector } from 'react-redux'
 
 function Postfooter({
+    currentUserId,
     userPost = false,
     postId,
     userId,
     postUserName,
     postTitle,
-    likeColor = '',
     commentCount = 0
 }) {
     const [showMenu, setShowMenu] = useState(false)
+    const [postLikesInfo, setpostLikesInfo] = useState(null)
+    const [userLiked, setuserLiked] = useState(false)
     const menuRef = useRef(null)
     const buttonRef = useRef(null)
     const navigate = useNavigate()
+
+    // if (currentUserId) setuserLiked(false)
 
     const handleShare = async () => {
         if (navigator.share) {
@@ -39,7 +45,35 @@ function Postfooter({
         }
     };
 
+    async function likeClicked() {
+        if (currentUserId) {
+            setuserLiked((prev) => !prev)
+            try {
+                const exicuted = await ifNotLikedThenLike({ postId, currentUserId })
+                if (exicuted) {
+                    const responce = await postsTotalLikes({ postId, currentUserId })
+                    setpostLikesInfo(responce)
+                    if (responce.userLiked.length > 0) {
+                        setuserLiked(true)
+                    }
+                }
+            } catch (error) {
+                setuserLiked((prev) => !prev)
+                console.log(error);
+            }
+        }
+    }
+
     useEffect(() => {
+        
+        ; (async () => {
+            const responce = await postsTotalLikes({ postId, currentUserId })
+            setpostLikesInfo(responce)
+            if (responce.userLiked.length > 0) {
+                setuserLiked(true)
+            }
+        })();
+
         const handleClickOutside = (e) => {
             if (
                 menuRef.current &&
@@ -63,25 +97,32 @@ function Postfooter({
         }
     }
 
-    return (
+    return postLikesInfo && (
         <div className="relative flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200">
             {/* Left side actions */}
             <div className="flex items-center space-x-5">
-                <Button
-                    style={{ color: likeColor }}
+                {postLikesInfo && <Button
+                    onClick={likeClicked}
                     className="flex items-center justify-center w-8 h-8 hover:text-red-500 transition"
                 >
-                    <Heart className="w-5 h-5" />
-                </Button>
+                    <div className="flex items-center">
+                        {userLiked ?
+                            <Heart fill='red' color='red' className="w-5 h-5 mr-1" /> :
+                            <Heart className="w-5 h-5 mr-1" />}
+                        {postLikesInfo.likeCount > 0 && (
+                            <span className="text-sm font-medium">{postLikesInfo.likeCount}</span>
+                        )}
+                    </div>
+                </Button>}
 
-                <Button onClick={() => navigate(`/post/${userId}/${postId}`)} className="flex items-center hover:text-blue-500 transition">
+                {postLikesInfo && <Button onClick={() => navigate(`/post/${userId}/${postId}`)} className="flex items-center hover:text-blue-500 transition">
                     <div className="flex items-center">
                         <MessageCircle className="w-5 h-5 mr-1" />
                         {commentCount > 0 && (
                             <span className="text-sm font-medium">{commentCount}</span>
                         )}
                     </div>
-                </Button>
+                </Button>}
 
                 <Button onClick={handleShare} className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition">
                     <LinkIcon className="w-5 h-5" />
@@ -119,8 +160,8 @@ function Postfooter({
                                 <>
                                     <li>
                                         <button
-                                        onClick={() => navigate(`/report/${postId}`)}
-                                         className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            onClick={() => navigate(`/report/${postId}`)}
+                                            className="w-full text-left px-4 py-2 hover:bg-gray-100">
                                             Report
                                         </button>
                                     </li>
