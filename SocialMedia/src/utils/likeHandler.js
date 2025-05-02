@@ -11,14 +11,13 @@ export async function postsTotalLikes({ postId, currentUserId }) {
     ]
 
     const responce = await appwriteLikeService.getLikes(queries)
-    // console.log(responce);
 
-    const result = {
+    // console.log(currentUserId);
+    const result = await {
         responceResived: true,
         likeCount: responce.total,
         userLiked: responce.documents?.filter((info) => info.userId == currentUserId)
     }
-    // console.log(result);
 
     return result
 }

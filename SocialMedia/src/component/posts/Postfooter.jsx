@@ -21,6 +21,7 @@ function Postfooter({
     const menuRef = useRef(null)
     const buttonRef = useRef(null)
     const navigate = useNavigate()
+    currentUserId = useSelector((state) => (state.auth.userData?.$id))
 
     // if (currentUserId) setuserLiked(false)
 
@@ -69,6 +70,7 @@ function Postfooter({
         ; (async () => {
             const responce = await postsTotalLikes({ postId, currentUserId })
             setpostLikesInfo(responce)
+            // console.log(responce);
             if (responce.userLiked.length > 0) {
                 setuserLiked(true)
             }
@@ -97,7 +99,7 @@ function Postfooter({
         }
     }
 
-    return postLikesInfo && (
+    return (
         <div className="relative flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200">
             {/* Left side actions */}
             <div className="flex items-center space-x-5">
