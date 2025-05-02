@@ -42,6 +42,7 @@ export class Service {
     }
 
     async getNotifications({ userId }) {
+        // console.log(userId);
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseid,

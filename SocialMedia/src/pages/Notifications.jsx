@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { NotificationsCard } from '../component'
 import appwriteNotificationsService from '../appwrite/notificationsConfig'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Check } from 'lucide-react'
 import {
   addNotification, getNotification, getNotificationsByUser,
@@ -9,15 +9,20 @@ import {
 } from '../utils/notificationsCacheService'
 import getProfilesByCache from '../utils/getProfilesThroughache'
 import appwritePostConfigService from '../appwrite/postConfig'
+import { hideLoading, showLoading } from '../store/LodingState'
+import { dontHaveNotification } from '../store/hasNotiStore'
 
 function Notifications() {
   const [cachedNotifications, setCachedNotifications] = useState(null)
   const [error, setError] = useState(null)
   const userId = useSelector((state) => state.auth.userData?.$id)
+  const dispatch = useDispatch()
 
   useEffect(() => {
+    dispatch(dontHaveNotification())
     getCacheNotificationFunction()
     const fetchAndCacheNotifications = async () => {
+      dispatch(showLoading())
       try {
         const response = await appwriteNotificationsService.getNotifications({ userId })
         const notifications = response?.documents || []
@@ -26,6 +31,8 @@ function Notifications() {
 
       } catch (err) {
         setError(err.message)
+      } finally {
+        dispatch(hideLoading())
       }
     }
 
