@@ -18,6 +18,7 @@ function Home() {
   const posts = useSelector((state) => state.posts.data);
   const cursor = useSelector((state) => state.posts.cursor);
   const hasMore = useSelector((state) => state.posts.hasMore);
+  let postList = []
 
   const [users, setUsers] = useState({});
   const usersRef = useRef(users); // mutable ref for latest users
@@ -87,20 +88,23 @@ function Home() {
         endMessage={<p className="text-center text-gray-500 py-4">Nothing to Show</p>}
       >
         {posts.map((post) => {
-          const userInfo = users[post.userId];
-          return (
-            <Postcard
-              key={post.$id}
-              userId={post.userId}
-              userInfo={userInfo}
-              imageUrl={post.mediaUrl}
-              caption={post.content}
-              time={post.$createdAt}
-              title={post.title}
-              postId={post.$id}
-              commentCount={post.commentsCount}
-            />
-          );
+          if (!postList.includes(post.$id)) {
+            postList.push(post.$id)
+            const userInfo = users[post.userId];
+            return (
+              <Postcard
+                key={post.$id}
+                userId={post.userId}
+                userInfo={userInfo}
+                imageUrl={post.mediaUrl}
+                caption={post.content}
+                time={post.$createdAt}
+                title={post.title}
+                postId={post.$id}
+                commentCount={post.commentsCount}
+              />
+            );
+          }
         })}
       </InfiniteScroll>
     </div>

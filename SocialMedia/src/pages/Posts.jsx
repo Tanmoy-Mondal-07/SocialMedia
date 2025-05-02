@@ -55,6 +55,7 @@ function Posts() {
   // load post and user info
   useEffect(() => {
     dispatch(showLoading());
+    window.scrollTo(0, 0);
 
     ; (async () => {
       const responce = await postsTotalLikes({ postId, currentUserId: currentUserInfo?.$id })
