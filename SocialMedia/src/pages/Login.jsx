@@ -7,6 +7,7 @@ import { loginTextSvg } from '../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { BeatLoader } from 'react-spinners'
+import { Github } from 'lucide-react'
 
 function Login() {
   const navigate = useNavigate()
@@ -38,6 +39,11 @@ function Login() {
       setLoading(false)
       setError(err.message)
     }
+  }
+
+  async function loginWithgit() {
+    authService.githubLogin()
+    // console.log('clicked');
   }
 
   return (
@@ -73,6 +79,25 @@ function Login() {
           Login
         </Button>
       </form>
+
+      <div className="mt-6 flex flex-col items-center">
+        {/* Divider */}
+        <div className="relative w-full flex items-center mb-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-3 text-gray-500 text-sm">or continue with</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        {/* GitHub Button */}
+        <button
+          variant="outline"
+          className="w-full max-w-sm flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+          onClick={loginWithgit}
+        >
+          <Github className="w-5 h-5" />
+          <span>Continue with GitHub</span>
+        </button>
+      </div>
 
       <Link to="/signup" className="text-sm text-center text-fground-200 mt-4">
         Don’t have an account? <u>Sign Up</u>

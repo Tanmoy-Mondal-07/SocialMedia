@@ -20,7 +20,7 @@ export class Service {
                 postId
             )
         } catch (error) {
-            console.log("Appwrite serive :: Follow State Collection :: error", error);
+            // console.log("Appwrite serive :: Follow State Collection :: error", error);
             return false
         }
     }

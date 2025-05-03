@@ -13,6 +13,7 @@ import {
   Posts, Followers, Following, Notifications,
   Report, Feedback, SearchPage,
 } from './pages'
+import GithubLogin from './pages/GithubLogin.jsx'
 
 if ('serviceWorker' in navigator) {
   // console.log('sw suported');
@@ -96,6 +97,9 @@ const router = createBrowserRouter([
       }, {
         path: '/search',
         element: <SearchPage />
+      },{
+        path: '/gitlogin',
+        element: <GithubLogin />
       },
     ]
   }

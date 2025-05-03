@@ -1,5 +1,5 @@
 import conf from '../conf/conf.js'
-import { Client, Account, ID } from 'appwrite'
+import { Client, Account, ID, OAuthProvider } from 'appwrite'
 
 
 export class AuthService {
@@ -36,7 +36,36 @@ export class AuthService {
         }
     }
 
-    async getCurrentUser(){
+    async githubLogin() {
+        try {
+            this.account.createOAuth2Token(
+                OAuthProvider.Github,
+                'https://dantetestserver.pages.dev/gitlogin',
+                'https://dantetestserver.pages.dev/login'
+            );
+        } catch (error) {
+            console.error('GitHub login failed:', error);
+            throw error;
+        }
+    }
+
+    async completeOAuthLogin() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('userId');
+            const secret = params.get('secret');
+
+            if (!userId || !secret) throw new Error('Missing OAuth parameters');
+
+            await this.account.createSession(userId, secret);
+            return await this.account.get();
+        } catch (error) {
+            // console.error('OAuth session creation failed:', error);
+            // throw error;
+        }
+    }
+
+    async getCurrentUser() {
         try {
             return await this.account.get()
         } catch (error) {
@@ -46,12 +75,12 @@ export class AuthService {
         return null;
     }
 
-    async logout(){
+    async logout() {
         try {
             await this.account.deleteSessions()
             localStorage.setItem("recommendedUserIds", null)
         } catch (error) {
-          throw error  
+            throw error
         }
     }
 
