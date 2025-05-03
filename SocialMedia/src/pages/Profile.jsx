@@ -108,7 +108,7 @@ function Profile() {
   if (error) return <h1>{error}</h1>;
 
   //recommend profile
-  if (userProfile && !(userData?.$id === slug) && !isFollowing) profileRecommendationSystem(slug)
+  if (userProfile && userData && !(userData.$id == slug) && !isFollowing) profileRecommendationSystem(slug)
 
   return userProfile && userData ? (
     <div style={{ width: '100%', overflow: 'hidden' }}>
