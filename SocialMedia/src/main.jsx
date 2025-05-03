@@ -11,8 +11,9 @@ import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts, Followers, Following, Notifications,
-  Report, Feedback,
+  Report, Feedback, SearchPage,
 } from './pages'
+import GithubLogin from './pages/GithubLogin.jsx'
 
 if ('serviceWorker' in navigator) {
   // console.log('sw suported');
@@ -77,22 +78,28 @@ const router = createBrowserRouter([
         element: <Posts />
       }, {
         path: '/followers/:userId',
-        element: <Followers />
+        element: (<AuthLayout authentication><Followers /></AuthLayout>)
       }, {
         path: '/following/:userId',
-        element: <Following />
+        element: (<AuthLayout authentication><Following /></AuthLayout>)
       }, {
-        path: '/test',
+        path: '/testes',
         element: <Test />
       }, {
         path: '/notification',
-        element: <Notifications />
+        element: (<AuthLayout authentication><Notifications /></AuthLayout>)
       }, {
         path: '/report/:postId',
-        element: <Report />
+        element: (<AuthLayout authentication><Report /></AuthLayout>)
       }, {
         path: '/feedback',
-        element: <Feedback />
+        element: (<AuthLayout authentication><Feedback /></AuthLayout>)
+      }, {
+        path: '/search',
+        element: <SearchPage />
+      },{
+        path: '/gitlogin',
+        element: <GithubLogin />
       },
     ]
   }

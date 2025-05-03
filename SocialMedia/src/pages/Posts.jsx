@@ -11,13 +11,15 @@ const Comments = React.lazy(() => import('../component/comments/Comments'));
 import { setUserProfile } from '../utils/userProfileCache';
 import { hideLoading, showLoading } from '../store/LodingState';
 import { MoonLoader } from 'react-spinners';
+import { ifNotLikedThenLike, postsTotalLikes } from '../utils/likeHandler';
 
 function Posts() {
   const dispatch = useDispatch();
   const [authorInfo, setAuthorInfo] = useState(null);
   const [postInfo, setPostInfo] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [likes, setLikes] = useState(0);
+  const [postLikesInfo, setpostLikesInfo] = useState(null)
+  const [userLiked, setuserLiked] = useState(false)
   const { userId, postId } = useParams();
   const currentUserInfo = useSelector((state) => state.auth.userData);
   const menuRef = useRef(null);
@@ -31,9 +33,38 @@ function Posts() {
     setUserProfile(userId, userData)
   }
 
+  async function likeClicked() {
+    if (currentUserInfo?.$id) {
+      setuserLiked((prev) => !prev)
+      try {
+        const exicuted = await ifNotLikedThenLike({ postId, currentUserId: currentUserInfo?.$id })
+        if (exicuted) {
+          const responce = await postsTotalLikes({ postId, currentUserId: currentUserInfo?.$id })
+          setpostLikesInfo(responce)
+          if (responce.userLiked.length > 0) {
+            setuserLiked(true)
+          }
+        }
+      } catch (error) {
+        setuserLiked((prev) => !prev)
+        console.log(error);
+      }
+    }
+  }
+
   // load post and user info
   useEffect(() => {
     dispatch(showLoading());
+    window.scrollTo(0, 0);
+
+    ; (async () => {
+      const responce = await postsTotalLikes({ postId, currentUserId: currentUserInfo?.$id })
+      setpostLikesInfo(responce)
+      if (responce.userLiked.length > 0) {
+        setuserLiked(true)
+      }
+      // console.log(responce)
+    })();
 
     appwriteUserProfileConfig.getUserProfile(userId)
       .then((response) => setAuthorInfo(response))
@@ -42,11 +73,10 @@ function Posts() {
     appwritePostConfig.getPost(postId)
       .then((response) => {
         setPostInfo(response);
-        setLikes(response.likes || 0);
       })
       .catch((err) => console.log(err))
       .finally(() => dispatch(hideLoading()))
-  }, [userId, postId]);
+  }, [userId, postId, currentUserInfo]);
 
   const onSubmit = async (data, commentId = null) => {
     dispatch(showLoading());
@@ -100,10 +130,6 @@ function Posts() {
     };
   }, [menuOpen]);
 
-  const handleLike = () => {
-    setLikes((prev) => prev + 1);
-  };
-
   function dletePost(postId) {
     if (window.confirm("This action will permanently delete the post. Are you sure?")) {
       appwritePostConfig.deletePost(postId);
@@ -117,7 +143,7 @@ function Posts() {
       <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8">
         {/* user header */}
         <div className="flex justify-between items-start mb-4 relative">
-          <div className="flex items-center gap-4">
+          <div onClick={() => navigate(`/profile/${authorInfo.$id}`)} className="flex items-center gap-4">
             <img
               src={getFile(authorInfo)}
               alt={authorInfo?.username}
@@ -142,7 +168,7 @@ function Posts() {
 
             {menuOpen && (
               <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-10">
-                {(currentUserInfo.$id === userId) ? (
+                {(currentUserInfo?.$id === userId) ? (
                   <>
                     <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
                       Share
@@ -192,14 +218,13 @@ function Posts() {
         {/* Like & Comments */}
         <div className="flex items-center mt-4 gap-4">
           <button
-            onClick={handleLike}
+            onClick={likeClicked}
             className="flex items-center space-x-1 text-red-500 hover:text-red-600"
           >
-            <Heart size={20} />
-            <span className="text-sm">{likes}</span>
+            {userLiked ? <Heart fill='red' size={20} /> : <Heart size={20} />}
+            <span className="text-sm">{postLikesInfo?.likeCount}</span>
           </button>
           <button
-            onClick={handleLike}
             className="flex items-center space-x-1 text-gray-600 hover:text-gray-700"
           >
             <MessageCircle size={20} />
@@ -208,7 +233,7 @@ function Posts() {
         </div>
 
         {/* comment form */}
-        <div className="mt-6 border-t pt-4">
+        {currentUserInfo?.$id ? <div className="mt-6 border-t pt-4">
           <h4 className="text-md font-semibold ml-2 mb-2">Leave a comment</h4>
           <form onSubmit={handleSubmit((data) => onSubmit(data, null))} className="relative">
             <div className="relative">
@@ -229,7 +254,8 @@ function Posts() {
               </div>
             </div>
           </form>
-        </div>
+        </div> : <h1>Please Login to Comment</h1>
+        }
       </div>
       <Suspense fallback={
         <div className="flex justify-center items-center w-full h-50">

@@ -5,22 +5,27 @@ import { SubComments, Button } from '../index';
 import getTimeAgo from '../../utils/timeStamp';
 import { useNavigate } from 'react-router-dom';
 import getProfilesByCache from '../../utils/getProfilesThroughache';
+import { commentLikes, ifNotLikedThenLike, singlePostTotalLikes } from '../../utils/likeHandler';
+import { useSelector } from 'react-redux';
 
 export default function CommentCard({
+  postId,
   userId,
   content,
   time,
   commentId,
   subComments = [],
-  onLike = () => { },
   onSubmit = () => { },
 }) {
   const [isReplying, setIsReplying] = useState(false);
   const [showReplies, setShowReplies] = useState(false);
   const [authorInfo, setAuthorInfo] = useState(null)
+  const [currentUserLiked, setcurrentUserLiked] = useState(false)
+  const [likeInfo, setlikeInfo] = useState(null)
   const { register, handleSubmit, reset, setValue } = useForm();
   const inputRef = useRef()
   const navigate = useNavigate()
+  const currentUserId = useSelector((state) => state.auth.userData?.$id) || null
 
   const formattedTime = useMemo(() => getTimeAgo(time), [time]);
 
@@ -47,10 +52,42 @@ export default function CommentCard({
     [commentId, onSubmit, reset]
   );
 
+  async function onLikeClick() {
+    if (currentUserId) {
+      setcurrentUserLiked((prev) => !prev)
+      try {
+        const exicuted = await ifNotLikedThenLike({ commentId, postId, currentUserId })
+        if (exicuted) {
+          singlePostTotalLikes({ postId, currentUserId, commentIdProvided: commentId })
+            .then(async () => {
+              const responce = await commentLikes({ postId, currentUserId, commentIdProvided: commentId })
+              setlikeInfo(responce)
+              if (responce?.userLiked.length > 0) {
+                setcurrentUserLiked(true)
+              }
+            })
+        }
+      } catch (error) {
+        setcurrentUserLiked((prev) => !prev)
+        console.log(error);
+      }
+    }
+  }
+
   useEffect(() => {
+    singlePostTotalLikes({ postId, currentUserId, commentIdProvided: commentId })
+      .then(() => {
+        commentLikes({ postId, currentUserId, commentIdProvided: commentId })
+          .then((e) => {
+            setlikeInfo(e)
+            setcurrentUserLiked(e?.userLiked.length > 0)
+          })
+      })
     getProfilesByCache(userId)
       .then((responce) => setAuthorInfo(responce))
   }, [userId, content])
+
+  // console.log(likeInfo);
 
   return (
     <div
@@ -82,13 +119,21 @@ export default function CommentCard({
       <div className="text-gray-700 mb-3">{content}</div>
 
       <div className="flex space-x-4 text-sm text-gray-500 mb-3">
-        <button
+
+        {likeInfo && <button
           type="button"
-          onClick={() => onLike(commentId)}
-          className="flex items-center hover:text-blue-600 transition"
+          onClick={onLikeClick}
+          className="flex items-center gap-1 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-200"
         >
-          <Heart className="w-4 h-4 mr-1" /> Like
-        </button>
+          <span>{likeInfo?.likesCount}</span>
+          {currentUserLiked ? (
+            <Heart fill="red" color="red" className="w-4 h-4" />
+          ) : (
+            <Heart className="w-4 h-4" />
+          )}
+          <span>Like</span>
+        </button>}
+
         <button
           type="button"
           onClick={handleReplyClick}
@@ -104,6 +149,7 @@ export default function CommentCard({
           >
             {showReplies ? 'Hide Replies' : `Show Replies (${subComments.length})`}
           </button>
+
         )}
       </div>
 

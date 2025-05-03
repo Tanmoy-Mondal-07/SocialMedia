@@ -124,6 +124,7 @@ function Comments({ postId, userId, onSubmit }) {
       >
         {topComments.map(comment => (
           <CommentCard
+            postId={postId}
             key={comment.$id}
             userId={comment.authorId}
             content={comment.content}

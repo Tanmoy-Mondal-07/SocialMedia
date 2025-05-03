@@ -21,14 +21,14 @@
       z-index: 9999;
     }
     #splash img {
-      width: 120px;
+      width: 150px;
       height: auto;
-      animation: float 3s ease-in-out infinite;
+      animation: float 2s ease-in-out infinite;
     }
     @keyframes float {
       0% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
+      100% { transform: translateY(10); }
     }
   </style>
 </head>
@@ -44,7 +44,7 @@
       setTimeout(() => {
         var splash = document.getElementById('splash');
         if (splash) splash.remove();
-      }, 500);
+      }, 1200);
     });
   </script>
 

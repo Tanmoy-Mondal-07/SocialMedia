@@ -60,11 +60,11 @@ function Profile({
       )}
 
       <div className="flex justify-between text-center border-y border-fground-200 py-4">
-        <div onClick={()=>navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
+        <div onClick={() => navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Followers</p>
           <p className="font-semibold text-xl">{followersCount}</p>
         </div>
-        <div onClick={()=>navigate(`/following/${userId}`)} className='hover:cursor-pointer'>
+        <div onClick={() => navigate(`/following/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Following</p>
           <p className="font-semibold text-xl">{followingCount}</p>
         </div>

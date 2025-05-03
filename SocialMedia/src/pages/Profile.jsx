@@ -8,6 +8,7 @@ import appwriteUserProfileService from '../appwrite/UserProfile';
 import appwriteFollowStatesService from '../appwrite/followState';
 import appwriteFunction from '../appwrite/functions';
 import getFile from '../appwrite/getFiles';
+import profileRecommendationSystem from '../utils/profileRecoSystem';
 
 function Profile() {
   const [userProfile, setUserProfile] = useState(null);
@@ -105,6 +106,9 @@ function Profile() {
   };
 
   if (error) return <h1>{error}</h1>;
+
+  //recommend profile
+  if (userProfile && userData && !(userData.$id == slug) && !isFollowing) profileRecommendationSystem(slug)
 
   return userProfile && userData ? (
     <div style={{ width: '100%', overflow: 'hidden' }}>

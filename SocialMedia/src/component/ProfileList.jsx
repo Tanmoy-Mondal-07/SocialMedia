@@ -4,19 +4,19 @@ import { Image } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 function ProfileList({ userId }) {
-    const [profileDats, setProfileDats] = useState(null)
-    const navigate = useNavigate()
+  const [profileDats, setProfileDats] = useState(null)
+  const navigate = useNavigate()
 
-    useEffect(() => {
-        getProfilesByCache(userId)
-            .then((res) => setProfileDats(res))
-            .catch((err) => console.log(err))
-    }, [userId])
+  useEffect(() => {
+    getProfilesByCache(userId)
+      .then((res) => setProfileDats(res))
+      .catch((err) => console.log(err))
+  }, [userId])
 
-    if (!profileDats) return null
+  if (!profileDats) return null
 
-    return (
-        <div
+  return (
+    <div
       onClick={() => navigate(`/profile/${userId}`)}
       className="
         flex items-center space-x-4
@@ -57,7 +57,7 @@ function ProfileList({ userId }) {
         </p>
       </div>
     </div>
-    )
+  )
 }
 
 export default ProfileList

@@ -6,10 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { showLoading, hideLoading } from '../../store/LodingState'
 import { logout } from '../../store/authSlice'
 import authService from '../../appwrite/auth'
-import { Bell, CirclePlus, Cog } from 'lucide-react'
+import { Bell, BellRing, CirclePlus, Cog } from 'lucide-react'
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status)
+  const hasNotification = useSelector((state) => state.hasNotiStore.active)
   const [showMenu, setShowMenu] = useState(false)
   const menuRef = useRef(null)
   const buttonRef = useRef(null)
@@ -68,7 +69,7 @@ function Header() {
             (
               <Link to="/notification" key="notify">
                 <div className="h-6 w-6 mr-1.5 cursor-pointer transition-transform duration-20 hover:rotate-20">
-                  <Bell className="w-full h-full" />
+                  {hasNotification ? <BellRing className="w-full h-full rotate-20" /> : <Bell className="w-full h-full" />}
                 </div>
               </Link>
             )
