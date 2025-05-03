@@ -8,6 +8,7 @@ import { signUpSvg } from '../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { BeatLoader } from 'react-spinners'
+import { Github } from 'lucide-react'
 
 function Signup() {
   const navigate = useNavigate()
