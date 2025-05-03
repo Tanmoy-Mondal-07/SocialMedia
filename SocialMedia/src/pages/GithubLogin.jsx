@@ -4,6 +4,7 @@ import appwriteUserAuthInfo from '../appwrite/auth';
 import { useDispatch } from 'react-redux';
 import { login, logout } from '../store/authSlice';
 import appwriteUserProfileService from '../appwrite/UserProfile';
+import { MoonLoader } from 'react-spinners';
 
 function GithubLogin() {
     const navigate = useNavigate();
@@ -35,7 +36,11 @@ function GithubLogin() {
         })();
     }, []);
 
-    return <div>user name is</div>;
+    return (
+        <div className="flex justify-center items-center min-w-50 w-full h-25">
+            <MoonLoader size={30} speedMultiplier={1.5} color="red" />
+        </div>
+    );
 }
 
 export default GithubLogin;
