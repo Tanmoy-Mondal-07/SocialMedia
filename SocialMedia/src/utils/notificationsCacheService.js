@@ -28,7 +28,7 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 });
 
 const now = () => new Date().getTime();
-const MAX_AGE = 24 * 60 * 60 * 1000;
+const MAX_AGE = 5 * 24 * 60 * 60 * 1000;
 
 export async function addNotification(notification) {
   try {

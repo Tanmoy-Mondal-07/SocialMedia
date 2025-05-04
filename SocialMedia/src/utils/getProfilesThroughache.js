@@ -1,8 +1,8 @@
 import { getUserProfile, setUserProfile } from './userProfileCache';
 import appwriteUserProfileService from '../appwrite/UserProfile'
 import getFile from '../appwrite/getFiles';
-import { useDispatch } from 'react-redux'
-import { hideLoading, showLoading } from '../store/LodingState';
+// import { useDispatch } from 'react-redux'
+// import { hideLoading, showLoading } from '../store/LodingState';
 
 export default async function getProfilesByCache(userId) {
 
