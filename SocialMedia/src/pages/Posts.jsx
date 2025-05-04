@@ -140,7 +140,8 @@ function Posts() {
 
   return (
     <>
-      <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8">
+      <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8
+      transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop">
         {/* user header */}
         <div className="flex justify-between items-start mb-4 relative">
           <div onClick={() => navigate(`/profile/${authorInfo.$id}`)} className="flex items-center gap-4">

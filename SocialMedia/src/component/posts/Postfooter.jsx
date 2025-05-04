@@ -66,7 +66,7 @@ function Postfooter({
     }
 
     useEffect(() => {
-        
+
         ; (async () => {
             const responce = await postsTotalLikes({ postId, currentUserId })
             setpostLikesInfo(responce)
@@ -103,32 +103,42 @@ function Postfooter({
         <div className="relative flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200">
             {/* Left side actions */}
             <div className="flex items-center space-x-5">
-                {postLikesInfo && <Button
-                    onClick={likeClicked}
-                    className="flex items-center justify-center w-8 h-8 hover:text-red-500 transition"
-                >
-                    <div className="flex items-center">
-                        {userLiked ?
-                            <Heart fill='red' color='red' className="w-5 h-5 mr-1" /> :
-                            <Heart className="w-5 h-5 mr-1" />}
-                        {postLikesInfo.likeCount > 0 && (
-                            <span className="text-sm font-medium">{postLikesInfo.likeCount}</span>
-                        )}
-                    </div>
-                </Button>}
+                {postLikesInfo &&
+                    <div className="transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
+                        <Button
+                            onClick={likeClicked}
+                            className="flex items-center justify-center w-8 h-8 hover:text-red-500 transition-transform duration-200 ease-in-out transform hover:scale-110"
+                        >
+                            <div className="flex items-center">
+                                {userLiked ?
+                                    <Heart fill='red' color='red' className="w-5 h-5 mr-1" /> :
+                                    <Heart className="w-5 h-5 mr-1" />}
+                                {postLikesInfo.likeCount > 0 && (
+                                    <span className="text-sm font-medium">{postLikesInfo.likeCount}</span>
+                                )}
+                            </div>
+                        </Button>
+                    </div>}
 
-                {postLikesInfo && <Button onClick={() => navigate(`/post/${userId}/${postId}`)} className="flex items-center hover:text-blue-500 transition">
-                    <div className="flex items-center">
-                        <MessageCircle className="w-5 h-5 mr-1" />
-                        {commentCount > 0 && (
-                            <span className="text-sm font-medium">{commentCount}</span>
-                        )}
-                    </div>
-                </Button>}
-
-                <Button onClick={handleShare} className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition">
-                    <LinkIcon className="w-5 h-5" />
-                </Button>
+                {postLikesInfo &&
+                    <div className="transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
+                        <Button onClick={() => navigate(`/post/${userId}/${postId}`)}
+                            className="flex items-center hover:text-blue-500 transition-transform duration-200 ease-in-out transform hover:scale-110">
+                            <div className="flex items-center">
+                                <MessageCircle className="w-5 h-5 mr-1" />
+                                {commentCount > 0 && (
+                                    <span className="text-sm font-medium">{commentCount}</span>
+                                )}
+                            </div>
+                        </Button>
+                    </div>}
+                    
+                <div className="transition-opacity duration-300 ease-in-out opacity-0 animate-fade-slide-in">
+                    <Button onClick={handleShare}
+                        className="flex items-center justify-center w-8 h-8 hover:text-green-500 transition-transform duration-200 ease-in-out transform hover:scale-110">
+                        <LinkIcon className="w-5 h-5" />
+                    </Button>
+                </div>
             </div>
 
             {/* 3-dot menu button */}

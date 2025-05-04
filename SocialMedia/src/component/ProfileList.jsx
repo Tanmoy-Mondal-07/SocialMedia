@@ -26,7 +26,7 @@ function ProfileList({ userId }) {
         rounded-lg
         shadow-md
         hover:shadow-lg
-        transition-shadow duration-200 ease-in-out
+        transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop
         cursor-pointer
         focus:outline-none focus:ring-2 focus:ring-indigo-500
       "

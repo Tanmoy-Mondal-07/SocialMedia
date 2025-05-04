@@ -92,7 +92,7 @@ export default function CommentCard({
   return (
     <div
       className={`border shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto p-4 bg-white ${subComments.length > 0 ? 'border-gray-300' : 'border-gray-200'
-        }`}
+        }transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop`}
     >
       <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center mb-3">
         <div className='w-8 h-8 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center'>
