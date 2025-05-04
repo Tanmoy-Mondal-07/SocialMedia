@@ -90,7 +90,7 @@ function Profile({
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </Button>
-            <Button onClick={onMessageClick} classNameActive="w-full">
+            <Button onClick={()=>navigate('/inbox')} classNameActive="w-full">
               Message
             </Button>
           </>
