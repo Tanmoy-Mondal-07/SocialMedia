@@ -171,7 +171,8 @@ export default function CommentCard({
       )}
 
       {showReplies && subComments.length > 0 && (
-        <div className="mt-4 ml-6 border-l border-gray-200 pl-4">
+        <div className="mt-4 ml-6 border-l border-gray-200 pl-4 
+        transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
           {subComments.map(reply => (
             <SubComments
               key={reply.$id || reply.commentId}

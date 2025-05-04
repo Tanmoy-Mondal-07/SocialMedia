@@ -25,7 +25,7 @@ function Postcard({
     return (
         <div 
         className="bg-white shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto 
-        transition-opacity duration-300 ease-in-out animate-fade-slide-in-right">
+        transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
 
             <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center p-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
