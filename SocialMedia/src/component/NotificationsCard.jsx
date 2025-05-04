@@ -38,7 +38,9 @@ function NotificationsCard({
     <ul>
       <li
         className={`flex items-start space-x-3 p-3 rounded-lg mb-2 transition-all duration-200 ease-in-out 
-      hover:bg-gray-100 ${seen ? 'bg-white' : 'bg-bground-200'}`}
+      hover:bg-gray-100 ${seen ? 'bg-white' : 'bg-bground-200'}
+      transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop
+      `}
       >
         <img
           onClick={() => navigate(`/profile/${relatedUserId}`)}

@@ -14,7 +14,7 @@ export class Service {
 
     async createLike({ userId, postId, commentId }) {
         try {
-            console.log('creat like hit');
+            // console.log('creat like hit');
             return await this.databases.createDocument(
                 conf.appwriteDatabaseid,
                 conf.appwriteLikeCollectionid,
@@ -45,7 +45,7 @@ export class Service {
     }
 
     async getLikes(queries = [Query.equal("visibility", "public")]) {
-        console.log('server hit for like info');
+        // console.log('server hit for like info');
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseid,

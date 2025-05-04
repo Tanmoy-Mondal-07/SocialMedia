@@ -118,7 +118,7 @@ function Notifications() {
 
   return cachedNotifications && (
     <div className='bg-white p-4 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto'>
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-xl font-semibold">Notifications</h2>
         <button onClick={markAllAsRead} className="flex items-center text-sm text-gray-600 hover:text-gray-800">
           <Check className="h-4 w-4 mr-1" />

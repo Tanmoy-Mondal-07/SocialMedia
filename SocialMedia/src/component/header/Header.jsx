@@ -69,7 +69,7 @@ function Header() {
             (
               <Link to="/notification" key="notify">
                 <div className="h-6 w-6 mr-1.5 cursor-pointer transition-transform duration-20 hover:rotate-20">
-                  {hasNotification ? <BellRing className="w-full h-full rotate-20" /> : <Bell className="w-full h-full" />}
+                  {hasNotification ? <BellRing stroke='#00005f' className="w-full h-full rotate-20" /> : <Bell className="w-full h-full" />}
                 </div>
               </Link>
             )

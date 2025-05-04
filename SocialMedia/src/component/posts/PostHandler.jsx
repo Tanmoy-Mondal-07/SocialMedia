@@ -103,10 +103,10 @@ export default function PostHandler({
         className="w-full p-3 border rounded-lg text-[--color-fground-100] bg-[--color-bground-100] border-[--color-bground-200]"
       >
         <option value="" disabled>
-          Select visibility
+          Select visibility "temp disabled"
         </option>
         {visibilityOptions.map((option) => (
-          <option key={option} value={option}>
+          <option key={option} value={option} disabled>
             {option.charAt(0).toUpperCase() + option.slice(1)}
           </option>
         ))}

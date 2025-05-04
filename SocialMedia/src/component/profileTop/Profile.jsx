@@ -33,7 +33,8 @@ function Profile({
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-bground-100 rounded-lg text-fground-200 space-y-6 shadow-lg">
+    <div className="max-w-xl mx-auto p-6 bg-bground-100 rounded-lg text-fground-200 space-y-6 shadow-lg
+    transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop">
       <div className="flex items-center space-x-6">
         {imageUrl ? (
           <img
