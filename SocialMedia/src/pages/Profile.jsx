@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserProfile as setUserProfileGlobalCache } from '../utils/userProfileCache';
 import { ProfileComponent, PublicPosts } from '../component';
 import { showLoading, hideLoading } from '../store/LodingState';
-import appwriteUserProfileService from '../appwrite/UserProfile';
 import appwriteFollowStatesService from '../appwrite/followState';
 import appwriteFunction from '../appwrite/functions';
 import getFile from '../appwrite/getFiles';
 import profileRecommendationSystem from '../utils/profileRecoSystem';
+import { deleteUserProfile, getUserProfile as getUserProfileGlobalCache } from '../utils/userProfileCache';
+import getProfilesByCache from '../utils/getProfilesThroughache';
 
 function Profile() {
   const [userProfile, setUserProfile] = useState(null);
@@ -21,30 +21,15 @@ function Profile() {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
 
-  const getCacheKey = (slug) => `user-profile-${slug}`;
-
-  const cacheUserProfile = async (slug, profileData) => {
-    const cache = await caches.open('user-profile-cache');
-    const response = new Response(JSON.stringify(profileData), {
-      headers: { 'Content-Type': 'application/json' },
-    });
-    await cache.put(getCacheKey(slug), response);
-  };
-
-  const loadProfileFromCache = async (slug) => {
-    const cache = await caches.open('user-profile-cache');
-    const cachedResponse = await cache.match(getCacheKey(slug));
-    if (cachedResponse) {
-      const data = await cachedResponse.json();
-      return data;
-    }
-    return null;
-  };
-
   const loadUserProfile = async () => {
     dispatch(showLoading());
     try {
-      const profile = await appwriteUserProfileService.getUserProfile(slug);
+      getUserProfileGlobalCache(slug)
+        .then((e) => setUserProfile(e))
+      await deleteUserProfile(slug)
+      getProfilesByCache(slug)
+        .then((e) => setUserProfile(e))
+
       const followState = await appwriteFollowStatesService.getFollowState(slug);
 
       if (userData && userData.$id !== slug) {
@@ -56,13 +41,6 @@ function Profile() {
       }
 
       setFollowCount(followState || { followersCount: 0, followingCount: 0 });
-
-      if (profile) {
-        setUserProfile(profile);
-        await cacheUserProfile(slug, profile);
-      } else {
-        setError('User not found');
-      }
     } catch (err) {
       console.error(err);
       setError('Something went wrong while fetching the profile.');
@@ -76,13 +54,8 @@ function Profile() {
     const init = async () => {
       setUserProfile(null);
       if (!slug) return navigate('/');
-
-      const cachedProfile = await loadProfileFromCache(slug);
-      if (cachedProfile) setUserProfile(cachedProfile);
-
       await loadUserProfile();
     };
-
     init();
   }, [slug]);
 
@@ -97,18 +70,13 @@ function Profile() {
       console.error('Follow/unfollow failed:', err);
       setIsFollowing(prev);
     }
-
-    if (userProfile) {
-      const profilePic = getFile(userProfile);
-      const userData = { ...userProfile, profilePic }
-      setUserProfileGlobalCache(slug, userData)
-    }
   };
 
   if (error) return <h1>{error}</h1>;
 
-  //recommend profile
-  if (userProfile && userData && !(userData.$id == slug) && !isFollowing) profileRecommendationSystem(slug)
+  if (userProfile && userData && userData.$id !== slug && !isFollowing) {
+    profileRecommendationSystem(slug);
+  }
 
   return userProfile && userData ? (
     <div style={{ width: '100%', overflow: 'hidden' }}>
@@ -118,7 +86,7 @@ function Profile() {
         isOwnProfile={userData?.$id === slug}
         username={userProfile.username}
         bio={userProfile.bio}
-        imageUrl={getFile(userProfile)}
+        imageUrl={userProfile.profilePic}
         onFollowClick={onFollowClick}
         isFollowing={isFollowing}
         userId={slug}
