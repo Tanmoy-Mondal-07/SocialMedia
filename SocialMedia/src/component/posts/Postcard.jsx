@@ -1,37 +1,46 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Postfooter from './Postfooter'
 import { Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'
 import getTimeAgo from '../../utils/timeStamp'
 import { useSelector } from 'react-redux'
 import { getPostPic } from '../../appwrite/getFiles';
+import getProfilesByCache from '../../utils/getProfilesThroughache';
 
 function Postcard({
     postId,
     userId,
-    userInfo,
     imageUrl = null,
     caption,
     time,
-    title='',
+    title = '',
     commentCount
 }) {
     const navigate = useNavigate();
-    const currentUserInfo = useSelector((state) => state.auth.userData)
+    const [profileDats, setProfileDats] = useState(null)
+    const currentprofileDats = useSelector((state) => state.auth.userData)
     if (imageUrl) imageUrl = getPostPic(imageUrl)
 
-    if (!userInfo) return null;
+    useEffect(() => {
+        getProfilesByCache(userId)
+            .then((res) => setProfileDats(res))
+            .catch((err) => console.log(err))
+    }, [userId])
+
+    // console.log(profileDats);
+
+    if (!profileDats) return null;
 
     return (
-        <div 
-        className="bg-white shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto 
+        <div
+            className="bg-white shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto 
         transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
 
             <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center p-4">
                 <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
-                    {userInfo.profilePic ? (
+                    {profileDats.profilePic ? (
                         <img
-                            src={userInfo.profilePic}
+                            src={profileDats.profilePic}
                             alt="Profile"
                             className="w-full h-full object-cover"
                             loading="lazy"
@@ -41,7 +50,7 @@ function Postcard({
                     )}
                 </div>
                 <div>
-                    <strong className="block text-gray-800">{userInfo.username}</strong>
+                    <strong className="block text-gray-800">{profileDats.username}</strong>
                     <span className="text-xs text-gray-500">{getTimeAgo(time)}</span>
                 </div>
             </div>
@@ -71,11 +80,11 @@ function Postcard({
                 </div>
             </div>
             <Postfooter
-                userPost={currentUserInfo?.$id === userId}
-                currentUserId={currentUserInfo?.$id}
+                userPost={currentprofileDats?.$id === userId}
+                currentUserId={currentprofileDats?.$id}
                 postId={postId}
                 userId={userId}
-                postUserName={userInfo.username}
+                postUserName={profileDats.username}
                 postTitle={title}
                 commentCount={commentCount}
             />
