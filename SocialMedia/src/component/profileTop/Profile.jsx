@@ -6,7 +6,6 @@ import { Image, Minimize2 } from 'lucide-react';
 import { Button } from '../index';
 import authService from '../../appwrite/auth';
 import { showLoading, hideLoading } from '../../store/LodingState';
-import { createPortal } from 'react-dom';
 import { logout } from '../../store/authSlice';
 
 function Profile({
