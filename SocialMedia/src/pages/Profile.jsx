@@ -5,7 +5,6 @@ import { ProfileComponent, PublicPosts } from '../component';
 import { showLoading, hideLoading } from '../store/LodingState';
 import appwriteFollowStatesService from '../appwrite/followState';
 import appwriteFunction from '../appwrite/functions';
-import getFile from '../appwrite/getFiles';
 import profileRecommendationSystem from '../utils/profileRecoSystem';
 import { deleteUserProfile, getUserProfile as getUserProfileGlobalCache } from '../utils/userProfileCache';
 import getProfilesByCache from '../utils/getProfilesThroughache';
