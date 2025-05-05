@@ -5,6 +5,7 @@ import { EditComponent } from '../component';
 import { showLoading, hideLoading } from '../store/LodingState';
 import appwriteUserProfileService from '../appwrite/UserProfile';
 import getFile from '../appwrite/getFiles';
+import { deleteUserProfile } from '../utils/userProfileCache';
 
 function EditProfile() {
     const userData = useSelector((state) => state.auth.userData);
@@ -31,6 +32,7 @@ function EditProfile() {
                 setError('Something went wrong');
             } finally {
                 dispatch(hideLoading());
+                deleteUserProfile(userId)
             }
         };
 
@@ -42,9 +44,9 @@ function EditProfile() {
 
         try {
             let avatarUrl = userProfile.avatar;
-            console.log(data);
+            // console.log(data);
             if (data.profilePic) {
-                console.log(data.profilePic);
+                // console.log(data.profilePic);
                 const uploadRes = await appwriteUserProfileService.uploadAvatar(data.profilePic);
                 appwriteUserProfileService.deleteAvatar(userProfile?.avatarUrl)
                 if (uploadRes) {

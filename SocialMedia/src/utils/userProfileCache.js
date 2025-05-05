@@ -2,7 +2,7 @@ import { openDB } from 'idb';
 
 const DB_NAME = 'dante-profile-cache';
 const STORE_NAME = 'user-profiles';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 const dbPromise = openDB(DB_NAME, DB_VERSION, {
   upgrade(db) {
@@ -15,8 +15,8 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 
 const now = () => new Date().getTime();
 
-// Mmx cache time 2 * 24 hours(milliseconds)
-const MAX_AGE = 2 * 24 * 60 * 60 * 1000;
+// Mmx cache time 24 hours(milliseconds)
+const MAX_AGE = 24 * 60 * 60 * 1000;
 
 export async function setUserProfile(userId, profileData) {
   // console.log('cache updated', userId, profileData);
