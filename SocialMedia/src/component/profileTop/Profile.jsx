@@ -5,6 +5,7 @@ import { Image, Minimize2 } from 'lucide-react';
 import { Button } from '../index';
 import authService from '../../appwrite/auth';
 import { showLoading, hideLoading } from '../../store/LodingState';
+import { createPortal } from 'react-dom';
 import { logout } from '../../store/authSlice';
 
 function Profile({
@@ -97,19 +98,22 @@ function Profile({
         )}
       </div>
 
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="relative">
-            <img src={imageUrl} alt="Full Profile" className="max-w-[90vw] max-h-[90vh]" />
-            <button
-              className="absolute top-1 right-1 bg-bground-100 text-fground-200 rounded-full p-1 hover:bg-bground-200"
-              onClick={() => setModalOpen(false)}
-            >
-              <Minimize2 size='20' />
-            </button>
-          </div>
-        </div>
-      )}
+      {isModalOpen &&
+        createPortal(
+          <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50">
+            <div className="relative">
+              <img src={imageUrl} alt="Full Profile" className="max-w-[90vw] max-h-[90vh]" />
+              <button
+                className="absolute top-1 right-1 bg-bground-100 text-fground-200 rounded-full p-1 hover:bg-bground-200"
+                onClick={() => setModalOpen(false)}
+              >
+                <Minimize2 size="20" />
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
     </div>
   );
 }
