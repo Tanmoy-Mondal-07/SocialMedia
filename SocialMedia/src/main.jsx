@@ -15,13 +15,13 @@ import {
 } from './pages'
 import GithubLogin from './pages/GithubLogin.jsx'
 
-if ('serviceWorker' in navigator) {
-  // console.log('sw suported');
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .catch(error => console.log(error))
-  })
-}
+// if ('serviceWorker' in navigator) {
+//   // console.log('sw suported');
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('/sw.js')
+//       .catch(error => console.log(error))
+//   })
+// }
 
 const router = createBrowserRouter([
   {
