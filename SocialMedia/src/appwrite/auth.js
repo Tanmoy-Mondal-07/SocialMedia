@@ -40,8 +40,8 @@ export class AuthService {
         try {
             this.account.createOAuth2Token(
                 OAuthProvider.Github,
-                'https://dantemedia.pages.dev/gitlogin',
-                'https://dantemedia.pages.dev/login'
+                'https://dantetestserver.pages.dev/gitlogin',
+                'https://dantetestserver.pages.dev/login'
             );
         } catch (error) {
             console.error('GitHub login failed:', error);
