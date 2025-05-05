@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import { useDispatch } from 'react-redux';
 import { Image, Minimize2 } from 'lucide-react';
 import { Button } from '../index';
@@ -91,7 +92,7 @@ function Profile({
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </Button>
-            <Button onClick={onMessageClick} classNameActive="w-full">
+            <Button onClick={() => navigate('/inbox')} classNameActive="w-full">
               Message
             </Button>
           </>

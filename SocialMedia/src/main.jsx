@@ -6,22 +6,21 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import store from './store/store.js'
 import { AuthLayout } from './component/index.js'
-import Test from './Test.jsx'
 import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts, Followers, Following, Notifications,
-  Report, Feedback, SearchPage,
+  Report, Feedback, SearchPage, FeatureUnavailable,
 } from './pages'
 import GithubLogin from './pages/GithubLogin.jsx'
 
-// if ('serviceWorker' in navigator) {
-//   // console.log('sw suported');
-//   window.addEventListener('load', () => {
-//     navigator.serviceWorker.register('/sw.js')
-//       .catch(error => console.log(error))
-//   })
-// }
+if ('serviceWorker' in navigator) {
+  // console.log('sw suported');
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .catch(error => console.log(error))
+  })
+}
 
 const router = createBrowserRouter([
   {
@@ -83,8 +82,8 @@ const router = createBrowserRouter([
         path: '/following/:userId',
         element: (<AuthLayout authentication><Following /></AuthLayout>)
       }, {
-        path: '/testes',
-        element: <Test />
+        path: '/inbox',
+        element: <FeatureUnavailable />
       }, {
         path: '/notification',
         element: (<AuthLayout authentication><Notifications /></AuthLayout>)
@@ -97,7 +96,7 @@ const router = createBrowserRouter([
       }, {
         path: '/search',
         element: <SearchPage />
-      },{
+      }, {
         path: '/gitlogin',
         element: <GithubLogin />
       },
