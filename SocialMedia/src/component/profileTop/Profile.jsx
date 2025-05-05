@@ -100,7 +100,7 @@ function Profile({
 
       {isModalOpen &&
         createPortal(
-          <div className="fixed inset-0 flex items-center justify-center z-[9999] bg-black/50">
+          <div className="fixed inset-0 flex items-center justify-center z-10 bg-black/50">
             <div className="relative">
               <img src={imageUrl} alt="Full Profile" className="max-w-[90vw] max-h-[90vh]" />
               <button
