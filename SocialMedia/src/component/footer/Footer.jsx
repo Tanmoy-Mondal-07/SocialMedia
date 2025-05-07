@@ -43,7 +43,7 @@ function Footer() {
   ]
 
   return (
-    <div className="fixed bottom-0 w-full bg-bground-100 border-t border-fground-200 z-50">
+    <div className="fixed bottom-0 max-h-[50px] w-full bg-bground-100 border-t border-fground-200 z-50">
       <div className="flex justify-around pb-2">
         {navItems.map((item) =>
           item.active ? (

@@ -79,8 +79,11 @@ function App() {
 
   return lodingComplete && (
     <>
-      <Header/>
-      <main className="min-h-[100vh] px-4 sm:px-6 lg:px-8">
+      <Header />
+      <h1 className="hidden text-2xl sm:block">
+        This website is optimized for mobile devices only
+      </h1>
+      <main className="min-h-[calc(100vh-250px)] px-4 sm:px-6 lg:px-8">
         <Container>
           <Outlet />
         </Container>
