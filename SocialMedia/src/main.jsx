@@ -102,7 +102,7 @@ const router = createBrowserRouter([
         element: <GithubLogin />
       }, 
       {
-        path: '/testchat',
+        path: '/message/:resiverid',
         element: <ChatPage />
       },
     ]

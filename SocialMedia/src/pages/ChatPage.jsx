@@ -2,17 +2,17 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import appwriteInboxServicConfig from '../appwrite/chatServis'
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Query } from "appwrite";
 import getProfilesByCache from "../utils/getProfilesThroughache";
 
-export default function ChatPage({ resiverid, }) {
+export default function ChatPage() {
+  const {resiverid} = useParams()
   const { register, handleSubmit, reset } = useForm();
   const senderid = useSelector((state) => state.auth.userData?.$id)
   const [messages, setMessages] = useState([]);
   const [senderProfile, setsenderProfile] = useState(null)
   const messagesEndRef = useRef(null);
-
-  resiverid = '67fa62de000aaedcead4'
 
   //write and send message
   const onSubmit = async (data) => {
