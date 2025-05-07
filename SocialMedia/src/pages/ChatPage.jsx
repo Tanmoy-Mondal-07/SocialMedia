@@ -2,12 +2,14 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import appwriteInboxServicConfig from '../appwrite/chatServis'
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Query } from "appwrite";
 import getProfilesByCache from "../utils/getProfilesThroughache";
+import { ArrowLeft } from "lucide-react";
 
 export default function ChatPage() {
-  const {resiverid} = useParams()
+  const navigate = useNavigate()
+  const { resiverid } = useParams()
   const { register, handleSubmit, reset } = useForm();
   const senderid = useSelector((state) => state.auth.userData?.$id)
   const [messages, setMessages] = useState([]);
@@ -55,12 +57,11 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  console.log(senderProfile);
-
   return senderid && (
-    <div className="w-full mb-0 rounded-lg max-w-xl mx-auto h-[calc(100vh-150px)] sm:h-screen flex flex-col sm:p-4 bg-bground-100 text-fground-200 shadow-md">
+    <div className="w-full mb-0 rounded-lg max-w-xl mx-auto h-svh sm:h-screen flex flex-col sm:p-4 bg-bground-100 text-fground-200 shadow-md animate-fadeIn">
       {/* Header */}
-      <div className="flex items-center gap-3 p-3 bg-white shadow rounded-lg">
+      <div className="flex items-center gap-3 p-3 bg-white shadow rounded-lg animate-slideIn">
+        <button onClick={() => navigate(-1)}><ArrowLeft /></button>
         <img
           src={senderProfile?.profilePic}
           alt="Receiver"
@@ -74,12 +75,12 @@ export default function ChatPage() {
         {messages?.map((msg, Index) => (
           <div
             key={Index}
-            className={`flex ${msg.senderid === senderid ? "justify-start" : "justify-end"}`}
+            className={`flex ${msg.senderid === senderid ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`inline-block max-w-[75%] px-4 py-2 rounded-full shadow text-sm sm:text-base ${msg.senderid === senderid
-                ? "bg-green-500 text-white rounded-tl-none"
-                : "bg-white text-gray-900 border border-gray-300 rounded-tr-none"
+              className={`inline-block max-w-[75%] px-4 py-2 rounded-full shadow text-sm sm:text-base animate-fadeInUp ${msg.senderid === senderid
+                ? "bg-mground-100 text-white rounded-tr-none"
+                : "bg-white text-gray-900 border border-gray-300 rounded-tl-none"
                 }`}
             >
               {msg.message}
@@ -92,7 +93,7 @@ export default function ChatPage() {
       {/* Input */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-2 p-2 sm:p-4 bg-white rounded-lg shadow mt-2"
+        className="flex gap-2 p-2 sm:p-4 bg-white rounded-lg shadow mt-2 animate-slideIn"
       >
         <input
           type="text"

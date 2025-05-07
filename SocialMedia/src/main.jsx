@@ -100,12 +100,12 @@ const router = createBrowserRouter([
       }, {
         path: '/gitlogin',
         element: <GithubLogin />
-      }, 
-      {
-        path: '/message/:resiverid',
-        element: <ChatPage />
-      },
+      }
     ]
+  },
+  {
+    path: '/message/:resiverid',
+    element: (<AuthLayout authentication><ChatPage /></AuthLayout>)
   }
 ])
 
