@@ -11,6 +11,7 @@ const conf = {
     appwriteNotificationsCollectionid: String(import.meta.env.VITE_APPWRITE_NOTIFICATIONS_COLLECTION_ID),
     appwriteReportCollectionid: String(import.meta.env.VITE_APPWRITE_REPORT_COLLECTION_ID),
     appwriteLikeCollectionid: String(import.meta.env.VITE_APPWRITE_LIKE_COLLECTION_ID),
+    appwriteInboxCollectionid: String(import.meta.env.VITE_APPWRITE_INBOX_COLLECTION_ID),
 
     appwriteAvatarBucketidid: String(import.meta.env.VITE_APPWRITE_BUCKET_AVATAR_ID),
 

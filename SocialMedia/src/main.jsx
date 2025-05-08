@@ -10,7 +10,8 @@ import {
   Login, Home, Profile, Signup, EditProfile,
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts, Followers, Following, Notifications,
-  Report, Feedback, SearchPage, FeatureUnavailable,
+  Report, Feedback, SearchPage, ChatPage,
+  FeatureUnavailable,
 } from './pages'
 import GithubLogin from './pages/GithubLogin.jsx'
 
@@ -99,8 +100,12 @@ const router = createBrowserRouter([
       }, {
         path: '/gitlogin',
         element: <GithubLogin />
-      },
+      }
     ]
+  },
+  {
+    path: '/message/:resiverid',
+    element: (<AuthLayout authentication><ChatPage /></AuthLayout>)
   }
 ])
 

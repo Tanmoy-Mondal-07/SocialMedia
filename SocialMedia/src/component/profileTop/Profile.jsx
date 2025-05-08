@@ -17,7 +17,6 @@ function Profile({
   isOwnProfile = false,
   isFollowing = false,
   onFollowClick,
-  onMessageClick,
   userId
 }) {
   // console.log(imageUrl);
@@ -91,7 +90,7 @@ function Profile({
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </Button>
-            <Button onClick={() => navigate('/inbox')} classNameActive="w-full">
+            <Button onClick={() => navigate(`/message/${userId}`)} classNameActive="w-full">
               Message
             </Button>
           </>
