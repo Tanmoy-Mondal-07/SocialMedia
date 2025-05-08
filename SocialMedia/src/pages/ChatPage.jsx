@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import appwriteInboxServicConfig from '../appwrite/chatServis'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Query } from "appwrite";
 import getProfilesByCache from "../utils/getProfilesThroughache";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "../component";
@@ -13,9 +12,10 @@ export default function ChatPage() {
   const { resiverid } = useParams()
   const { register, handleSubmit, reset } = useForm();
   const senderid = useSelector((state) => state.auth.userData?.$id)
-  const [messages, setMessages] = useState([]);
+  const [messages, setmessages] = useState([])
   const [senderProfile, setsenderProfile] = useState(null)
   const messagesEndRef = useRef(null);
+  const messagesFromStor = useSelector((state) => state.inbox.userChats)
 
   //write and send message
   const onSubmit = async (data) => {
@@ -24,34 +24,20 @@ export default function ChatPage() {
         senderid,
         resiverid,
         message: data.message,
-        // $permissions: [`update("user:${senderid}")`, `delete("user:${senderid}")`]
       }
-      setMessages((prev) => [...prev, tempSenderMessage])
+      setmessages((prev) => [...prev, tempSenderMessage])
       reset();
-
       await appwriteInboxServicConfig.writeChat({ senderid, resiverid, message: data.message })
-      getMessages()
     } else {
       console.log("message && senderid && resiverid somthing is meesing");
     }
   };
 
-  //resive message and set to setMessages
-  async function getMessages() {
-    if (senderid && resiverid) {
-      await getProfilesByCache(resiverid)
-        .then((profileData) => setsenderProfile(profileData))
-
-      const queries = [
-        Query.equal("senderid", [senderid, resiverid]),
-        Query.equal("resiverid", [resiverid, senderid]),
-      ]
-      await appwriteInboxServicConfig.getChats(queries)
-        .then((e) => setMessages(e.documents))
-        .catch((error) => console.log(error))
-    }
-  }
-  useMemo(() => getMessages(), [resiverid])
+  useEffect(() => {
+    getProfilesByCache(resiverid)
+      .then((profile) => setsenderProfile(profile))
+    setmessages(messagesFromStor)
+  }, [messagesFromStor])
 
   //go to the bottom of the sms list
   useEffect(() => {
@@ -59,14 +45,14 @@ export default function ChatPage() {
   }, [messages]);
 
   return senderid && (
-    <div className="w-full rounded-lg mx-auto h-svh flex flex-col bg-bground-200 text-fground-200 shadow-md animate-fadeIn">
+    <div className="w-full rounded-lg mx-auto h-screen flex flex-col bg-bground-200 text-fground-200 shadow-md animate-fadeIn">
       {/* Header */}
       <div className="flex items-center gap-3 p-3 bg-white shadow animate-slideIn">
         <button onClick={() => navigate(-1)}><ArrowLeft /></button>
         <img
           src={senderProfile?.profilePic}
           alt="Receiver"
-          className="w-10 h-10 rounded-full"
+          className="w-10 h-10 rounded-full object-cover"
         />
         <span className="font-semibold text-gray-800">{senderProfile?.username}</span>
       </div>
@@ -74,7 +60,7 @@ export default function ChatPage() {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto mt-4 space-y-2 px-2 sm:px-4">
         {messages?.map((msg, Index) => (
-          <div
+          (msg.senderid === resiverid || msg.senderid === senderid) ? <div
             key={Index}
             className={`flex ${msg.senderid === senderid ? "justify-end" : "justify-start"}`}
           >
@@ -86,7 +72,7 @@ export default function ChatPage() {
             >
               {msg.message}
             </div>
-          </div>
+          </div> : null
         ))}
         <div ref={messagesEndRef} />
       </div>
@@ -94,7 +80,7 @@ export default function ChatPage() {
       {/* Input */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-2 p-2 sm:p-4 bg-white mb-1.5 sm:mb-0 shadow mt-2 animate-slideIn"
+        className="flex gap-2 p-2 sm:p-4 bg-white pb-2.5 sm:mb-0 shadow mt-2 animate-slideIn"
       >
         <input
           type="text"
@@ -104,7 +90,7 @@ export default function ChatPage() {
         />
         <Button
           type="submit"
-          // className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors text-sm sm:text-base"
+        // className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors text-sm sm:text-base"
         >
           Send
         </Button>

@@ -10,20 +10,52 @@ import appwriteNotificationsService from './appwrite/notificationsConfig'
 import { addNotification, getNotification } from './utils/notificationsCacheService'
 import getProfilesByCache from './utils/getProfilesThroughache'
 import appwritePostConfigService from './appwrite/postConfig'
+import appwriteInboxServicConfig from './appwrite/chatServis'
 import { haveNotification } from './store/hasNotiStore'
+import { addNewChats, refreshChats } from './store/inboxSlice'
+import { Query } from 'appwrite'
 
 function App() {
   const dispatch = useDispatch()
-  const [lodingComplete, setLlodingComplete] = useState(true)
+  const [socketLive, setsocketLive] = useState(false)
+  const [currentUserData, setcurrentUserData] = useState(null)
 
   useEffect(() => {
-    setLlodingComplete(false)
+    if (currentUserData && !socketLive) {
+      ; (async () => {
+        await appwriteInboxServicConfig.subscribeToChat(response => {
+          if (response.senderid === currentUserData || response.resiverid === currentUserData) {
+            dispatch(addNewChats({ userChats: [response] }))
+          }
+        })
+          .then((res) => res ? setsocketLive(true) : setsocketLive(false))
+      })();
+    }
+
+    if (currentUserData) {
+      const queries = [
+        Query.orderDesc("$createdAt"),
+        Query.or([
+          Query.equal("senderid", currentUserData),
+          Query.equal("resiverid", currentUserData)
+        ]),
+        Query.limit(25)
+      ]
+      appwriteInboxServicConfig.getChats(queries)
+        .then((res) => dispatch(refreshChats({ userChats: res.documents?.reverse() })))
+        .catch((error) => console.log(error))
+    }
+
+  }, [currentUserData])
+
+  useEffect(() => {
     const checkAuthStatus = async () => {
       dispatch(showLoading())
       try {
         const userData = await userInfo.getCurrentUser()
         if (userData) {
           dispatch(login({ userData }))
+          setcurrentUserData(userData.$id)
           fetchAndCacheNotifications(userData.$id)
         } else {
           dispatch(logout())
@@ -34,7 +66,6 @@ function App() {
       } finally {
         // console.log('render');
         dispatch(hideLoading())
-        setLlodingComplete(true)
       }
     }
 
@@ -77,7 +108,7 @@ function App() {
 
   }, [dispatch])
 
-  return lodingComplete && (
+  return (
     <>
       <Header />
       <h1 className="hidden text-2xl sm:block">

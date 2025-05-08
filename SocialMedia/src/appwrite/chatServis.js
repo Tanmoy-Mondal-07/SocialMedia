@@ -13,7 +13,6 @@ export class Service {
     }
 
     async writeChat({ senderid, resiverid, message }) {
-        console.log(senderid, resiverid, message);
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseid,
@@ -57,15 +56,21 @@ export class Service {
         }
     }
 
-    subscribeToChat(callback) {
-        return this.client.subscribe(
-            [`databases.${conf.appwriteDatabaseid}.collections.${conf.appwriteInboxCollectionid}.documents`],
-            response => {
-                // console.log("Realtime update:", response);
-                callback(response);
-            }
-        );
+    async subscribeToChat(onMessage) {
+        try {
+            return await this.client.subscribe(
+                [`databases.${conf.appwriteDatabaseid}.collections.${conf.appwriteInboxCollectionid}.documents`],
+                response => {
+                    // console.log('from config', response);
+                    if (onMessage) onMessage(response.payload); //pass response to caller
+                }
+            );
+        } catch (error) {
+            console.log("Appwrite service :: subscribeToChat :: error", error);
+            return false  
+        }
     }
+    
 }
 
 
