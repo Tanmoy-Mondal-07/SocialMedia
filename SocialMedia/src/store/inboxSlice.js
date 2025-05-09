@@ -3,8 +3,34 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     userChats: [],
     resivedUserList: [],
-    allMessageRead: []
-}
+    allMessageRead: {}
+};
+
+const buildUserList = (chats) => {
+    const users = new Set();
+    chats.forEach(({ senderid, resiverid }) => {
+        users.add(senderid);
+        users.add(resiverid);
+    });
+    return Array.from(users).reverse();
+};
+
+const buildMessageReadMap = (chats) => {
+    const messageMap = {};
+    chats.forEach(({ senderid, resiverid, seen, message }) => {
+        const increment = seen ? 0 : 1;
+
+        [senderid, resiverid].forEach(userId => {
+            if (!messageMap[userId]) {
+                messageMap[userId] = { count: increment, latestMessage: message };
+            } else {
+                messageMap[userId].count += userId === senderid ? increment : 0;
+                messageMap[userId].latestMessage = message;
+            }
+        });
+    });
+    return messageMap;
+};
 
 const inboxSlice = createSlice({
     name: "inbox",
@@ -12,54 +38,17 @@ const inboxSlice = createSlice({
     reducers: {
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
-
-            let tempArr = []
-            state.userChats.map(({ senderid, resiverid }) => {
-                if (!state.resivedUserList.includes(senderid)) tempArr.push(senderid)
-                if (!state.resivedUserList.includes(resiverid)) tempArr.push(resiverid)
-            })
-            state.resivedUserList = tempArr
-
-            let allMessageReadTemp = {}
-            function incrementCount(senderid) {
-                allMessageReadTemp[senderid] = (allMessageReadTemp[senderid] || 0) + 1;
-            }
-            state.userChats.map(({ seen, senderid }) => {
-                if (!seen) {
-                    incrementCount(senderid)
-                }
-            })
-            state.allMessageRead = allMessageReadTemp
-
-            // console.log(state.allMessageRead);
+            state.resivedUserList = buildUserList(state.userChats);
+            state.allMessageRead = buildMessageReadMap(state.userChats);
         },
-
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
-
-            let tempArr = []
-            state.userChats.map(({ senderid, resiverid }) => {
-                if (!state.resivedUserList.includes(senderid)) tempArr.push(senderid)
-                if (!state.resivedUserList.includes(resiverid)) tempArr.push(resiverid)
-            })
-            state.resivedUserList = tempArr
-
-            let allMessageReadTemp = {}
-            function incrementCount(senderid) {
-                allMessageReadTemp[senderid] = (allMessageReadTemp[senderid] || 0) + 1;
-            }
-            state.userChats.map(({ seen, senderid }) => {
-                if (!seen) {
-                    incrementCount(senderid)
-                }
-            })
-            state.allMessageRead = allMessageReadTemp
-
-            // console.log(state.allMessageRead);
+            state.resivedUserList = buildUserList(state.userChats);
+            state.allMessageRead = buildMessageReadMap(state.userChats);
         },
     }
-})
+});
 
-export const { addNewChats,refreshChats } = inboxSlice.actions;
+export const { addNewChats, refreshChats } = inboxSlice.actions;
 
 export default inboxSlice.reducer;

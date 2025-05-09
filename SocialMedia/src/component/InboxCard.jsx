@@ -1,0 +1,42 @@
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import getProfilesByCache from '../utils/getProfilesThroughache'
+import {useNavigate} from 'react-router-dom'
+
+function InboxCard({ senderIds }) {
+    const navigate = useNavigate()
+    const Messages = useSelector((state) => state.inbox.allMessageRead) || null
+    const [messageInfo, setMessageInfo] = useState(null)
+    const [userInfo, setuserInfo] = useState(null)
+
+    useEffect(() => {
+        if (Messages && senderIds && Messages[senderIds]) {
+            setMessageInfo(Messages[senderIds])
+            getProfilesByCache(senderIds)
+                .then((profile) => setuserInfo(profile))
+        }
+    }, [Messages, senderIds])
+
+    return messageInfo && (
+        <li onClick={()=>navigate(`/message/${senderIds}`)}
+            className={`flex items-start space-x-4 p-4 hover:bg-gray-50 transition-colors ${messageInfo?.count ? 'bg-gray-100' : ''}`}
+        >
+            <img
+                src={userInfo?.profilePic}
+                alt={userInfo?.profilePic}
+                className="w-10 h-10 rounded-full flex-shrink-0"
+            />
+            <div className="flex-1">
+                <div className="flex justify-between items-center">
+                    <p className="font-medium text-gray-900">{userInfo?.username}</p>
+                    <span className="text-xs text-gray-500">
+                        {messageInfo.count} Unseen Message{messageInfo?.count > 1 ? 's' : ''}
+                    </span>
+                </div>
+                <p className="text-sm text-gray-600 truncate">{messageInfo?.latestMessage}</p>
+            </div>
+        </li>
+    )
+}
+
+export default InboxCard
