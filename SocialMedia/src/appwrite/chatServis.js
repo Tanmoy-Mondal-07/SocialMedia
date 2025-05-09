@@ -30,7 +30,7 @@ export class Service {
     }
 
     async updateSeen(chatId) {
-        console.log('seen hit');
+        // console.log('seen hit');
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseid,

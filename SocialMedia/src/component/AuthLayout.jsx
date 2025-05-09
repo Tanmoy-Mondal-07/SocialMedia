@@ -10,7 +10,11 @@ export default function Protected({ children, authentication = true }) {
   useEffect(() => {
 
     if (authentication && !authStatus) {
-      navigate('/login')
+      try {
+        navigate('/login')
+      } catch (error) {
+        navigate('/')
+      }
     } else if (!authentication && authStatus) {
       navigate('/')
     }
