@@ -84,7 +84,7 @@ const router = createBrowserRouter([
         element: (<AuthLayout authentication><Following /></AuthLayout>)
       }, {
         path: '/inbox',
-        element: <Inbox />
+        element: (<AuthLayout authentication><Inbox /></AuthLayout>)
       }, {
         path: '/notification',
         element: (<AuthLayout authentication><Notifications /></AuthLayout>)
