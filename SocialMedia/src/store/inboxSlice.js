@@ -3,8 +3,34 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     userChats: [],
     resivedUserList: [],
-    allMessageRead: []
-}
+    allMessageRead: {}
+};
+
+const buildUserList = (chats) => {
+    const users = new Set();
+    chats.forEach(({ senderid, resiverid }) => {
+        users.add(senderid);
+        users.add(resiverid);
+    });
+    return Array.from(users).reverse();
+};
+
+const buildMessageReadMap = (chats) => {
+    const messageMap = {};
+    chats.forEach(({ senderid, resiverid, seen, message }) => {
+        const increment = seen ? 0 : 1;
+
+        [senderid, resiverid].forEach(userId => {
+            if (!messageMap[userId]) {
+                messageMap[userId] = { count: increment, latestMessage: message };
+            } else {
+                messageMap[userId].count += userId === senderid ? increment : 0;
+                messageMap[userId].latestMessage = message;
+            }
+        });
+    });
+    return messageMap;
+};
 
 const inboxSlice = createSlice({
     name: "inbox",
@@ -12,109 +38,16 @@ const inboxSlice = createSlice({
     reducers: {
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
-
-            let tempArr = [];
-            state.userChats.forEach(({ senderid, resiverid }) => {
-                // check against tempArr, not the old list
-                if (!tempArr.includes(senderid)) tempArr.push(senderid);
-                if (!tempArr.includes(resiverid)) tempArr.push(resiverid);
-            });
-            // assign the reversed array back
-            state.resivedUserList = tempArr.reverse()
-
-            let allMessageReadTemp = {};
-            function recordUnreadMessage({ senderid, message, seen, resiverid }) {
-                if (seen) {
-                    if (!allMessageReadTemp[senderid]) {
-                        allMessageReadTemp[senderid] = {
-                            count: 0,
-                            latestMessage: message
-                        };
-                        allMessageReadTemp[resiverid] = {
-                            count: 0,
-                            latestMessage: message
-                        };
-                    } else {
-                        allMessageReadTemp[senderid].count += 0;
-                        allMessageReadTemp[senderid].latestMessage = message;
-                        allMessageReadTemp[resiverid].latestMessage = message;
-                    }
-                } else {
-                    if (!allMessageReadTemp[senderid]) {
-                        allMessageReadTemp[senderid] = {
-                            count: 1,
-                            latestMessage: message
-                        };
-                        allMessageReadTemp[resiverid] = {
-                            count: 1,
-                            latestMessage: message
-                        };
-                    } else {
-                        allMessageReadTemp[senderid].count += 1;
-                        allMessageReadTemp[senderid].latestMessage = message;
-                        allMessageReadTemp[resiverid].latestMessage = message;
-                    }
-                }
-            }
-            state.userChats.forEach(({ seen, senderid, message, resiverid }) => {
-                recordUnreadMessage({ senderid, message, seen, resiverid });
-            });
-            state.allMessageRead = allMessageReadTemp
+            state.resivedUserList = buildUserList(state.userChats);
+            state.allMessageRead = buildMessageReadMap(state.userChats);
         },
-
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
-
-            let tempArr = [];
-            state.userChats.forEach(({ senderid, resiverid }) => {
-                // check against tempArr, not the old list
-                if (!tempArr.includes(senderid)) tempArr.push(senderid);
-                if (!tempArr.includes(resiverid)) tempArr.push(resiverid);
-            });
-            // assign the reversed array back
-            state.resivedUserList = tempArr.reverse()
-
-            let allMessageReadTemp = {};
-            function recordUnreadMessage({ senderid, message, seen, resiverid }) {
-                if (seen) {
-                    if (!allMessageReadTemp[senderid]) {
-                        allMessageReadTemp[senderid] = {
-                            count: 0,
-                            latestMessage: message
-                        };
-                        allMessageReadTemp[resiverid] = {
-                            count: 0,
-                            latestMessage: message
-                        };
-                    } else {
-                        allMessageReadTemp[senderid].count += 0;
-                        allMessageReadTemp[senderid].latestMessage = message;
-                        allMessageReadTemp[resiverid].latestMessage = message;
-                    }
-                } else {
-                    if (!allMessageReadTemp[senderid]) {
-                        allMessageReadTemp[senderid] = {
-                            count: 1,
-                            latestMessage: message
-                        };
-                        allMessageReadTemp[resiverid] = {
-                            count: 1,
-                            latestMessage: message
-                        };
-                    } else {
-                        allMessageReadTemp[senderid].count += 1;
-                        allMessageReadTemp[senderid].latestMessage = message;
-                        allMessageReadTemp[resiverid].latestMessage = message;
-                    }
-                }
-            }
-            state.userChats.forEach(({ seen, senderid, message, resiverid }) => {
-                recordUnreadMessage({ senderid, message, seen, resiverid });
-            });
-            state.allMessageRead = allMessageReadTemp
+            state.resivedUserList = buildUserList(state.userChats);
+            state.allMessageRead = buildMessageReadMap(state.userChats);
         },
     }
-})
+});
 
 export const { addNewChats, refreshChats } = inboxSlice.actions;
 

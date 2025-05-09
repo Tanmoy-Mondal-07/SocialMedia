@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { login, logout } from './store/authSlice'
 import userInfo from './appwrite/auth'
 import { Container, Footer, Header } from './component'
@@ -18,14 +18,14 @@ import { Query } from 'appwrite'
 function App() {
   const dispatch = useDispatch()
   const [socketLive, setsocketLive] = useState(false)
-  const [currentUserData, setcurrentUserData] = useState(null)
+  const currentUserData = useSelector((state) => state.auth.userData?.$id)
 
   useEffect(() => {
     if (currentUserData && !socketLive) {
       ; (async () => {
         await appwriteInboxServicConfig.subscribeToChat(response => {
           if (response.senderid === currentUserData || response.resiverid === currentUserData) {
-            if (response.seen === false) {
+            if (!response.seen) {
               dispatch(addNewChats({ userChats: [response] }))
             }
           }
@@ -41,7 +41,7 @@ function App() {
           Query.equal("senderid", currentUserData),
           Query.equal("resiverid", currentUserData)
         ]),
-        Query.limit(250)
+        Query.limit(50)
       ]
       appwriteInboxServicConfig.getChats(queries)
         .then((res) => dispatch(refreshChats({ userChats: res.documents?.reverse() })))
@@ -57,7 +57,6 @@ function App() {
         const userData = await userInfo.getCurrentUser()
         if (userData) {
           dispatch(login({ userData }))
-          setcurrentUserData(userData.$id)
           fetchAndCacheNotifications(userData.$id)
         } else {
           dispatch(logout())
@@ -113,9 +112,6 @@ function App() {
   return (
     <>
       <Header />
-      {/* <h1 className="hidden text-2xl sm:block">
-        This website is optimized for mobile devices only
-      </h1> */}
       <main className="min-h-[calc(100vh-250px)] px-4 sm:px-6 lg:px-8">
         <Container>
           <Outlet />
