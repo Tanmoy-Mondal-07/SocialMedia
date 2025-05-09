@@ -13,53 +13,109 @@ const inboxSlice = createSlice({
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
 
-            let tempArr = []
-            state.userChats.map(({ senderid, resiverid }) => {
-                if (!state.resivedUserList.includes(senderid)) tempArr.push(senderid)
-                if (!state.resivedUserList.includes(resiverid)) tempArr.push(resiverid)
-            })
-            state.resivedUserList = tempArr
+            let tempArr = [];
+            state.userChats.forEach(({ senderid, resiverid }) => {
+                // check against tempArr, not the old list
+                if (!tempArr.includes(senderid)) tempArr.push(senderid);
+                if (!tempArr.includes(resiverid)) tempArr.push(resiverid);
+            });
+            // assign the reversed array back
+            state.resivedUserList = tempArr.reverse()
 
-            let allMessageReadTemp = {}
-            function incrementCount(senderid) {
-                allMessageReadTemp[senderid] = (allMessageReadTemp[senderid] || 0) + 1;
-            }
-            state.userChats.map(({ seen, senderid }) => {
-                if (!seen) {
-                    incrementCount(senderid)
+            let allMessageReadTemp = {};
+            function recordUnreadMessage({ senderid, message, seen, resiverid }) {
+                if (seen) {
+                    if (!allMessageReadTemp[senderid]) {
+                        allMessageReadTemp[senderid] = {
+                            count: 0,
+                            latestMessage: message
+                        };
+                        allMessageReadTemp[resiverid] = {
+                            count: 0,
+                            latestMessage: message
+                        };
+                    } else {
+                        allMessageReadTemp[senderid].count += 0;
+                        allMessageReadTemp[senderid].latestMessage = message;
+                        allMessageReadTemp[resiverid].latestMessage = message;
+                    }
+                } else {
+                    if (!allMessageReadTemp[senderid]) {
+                        allMessageReadTemp[senderid] = {
+                            count: 1,
+                            latestMessage: message
+                        };
+                        allMessageReadTemp[resiverid] = {
+                            count: 1,
+                            latestMessage: message
+                        };
+                    } else {
+                        allMessageReadTemp[senderid].count += 1;
+                        allMessageReadTemp[senderid].latestMessage = message;
+                        allMessageReadTemp[resiverid].latestMessage = message;
+                    }
                 }
-            })
+            }
+            state.userChats.forEach(({ seen, senderid, message, resiverid }) => {
+                recordUnreadMessage({ senderid, message, seen, resiverid });
+            });
             state.allMessageRead = allMessageReadTemp
-
-            // console.log(state.allMessageRead);
         },
 
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
 
-            let tempArr = []
-            state.userChats.map(({ senderid, resiverid }) => {
-                if (!state.resivedUserList.includes(senderid)) tempArr.push(senderid)
-                if (!state.resivedUserList.includes(resiverid)) tempArr.push(resiverid)
-            })
-            state.resivedUserList = tempArr
+            let tempArr = [];
+            state.userChats.forEach(({ senderid, resiverid }) => {
+                // check against tempArr, not the old list
+                if (!tempArr.includes(senderid)) tempArr.push(senderid);
+                if (!tempArr.includes(resiverid)) tempArr.push(resiverid);
+            });
+            // assign the reversed array back
+            state.resivedUserList = tempArr.reverse()
 
-            let allMessageReadTemp = {}
-            function incrementCount(senderid) {
-                allMessageReadTemp[senderid] = (allMessageReadTemp[senderid] || 0) + 1;
-            }
-            state.userChats.map(({ seen, senderid }) => {
-                if (!seen) {
-                    incrementCount(senderid)
+            let allMessageReadTemp = {};
+            function recordUnreadMessage({ senderid, message, seen, resiverid }) {
+                if (seen) {
+                    if (!allMessageReadTemp[senderid]) {
+                        allMessageReadTemp[senderid] = {
+                            count: 0,
+                            latestMessage: message
+                        };
+                        allMessageReadTemp[resiverid] = {
+                            count: 0,
+                            latestMessage: message
+                        };
+                    } else {
+                        allMessageReadTemp[senderid].count += 0;
+                        allMessageReadTemp[senderid].latestMessage = message;
+                        allMessageReadTemp[resiverid].latestMessage = message;
+                    }
+                } else {
+                    if (!allMessageReadTemp[senderid]) {
+                        allMessageReadTemp[senderid] = {
+                            count: 1,
+                            latestMessage: message
+                        };
+                        allMessageReadTemp[resiverid] = {
+                            count: 1,
+                            latestMessage: message
+                        };
+                    } else {
+                        allMessageReadTemp[senderid].count += 1;
+                        allMessageReadTemp[senderid].latestMessage = message;
+                        allMessageReadTemp[resiverid].latestMessage = message;
+                    }
                 }
-            })
+            }
+            state.userChats.forEach(({ seen, senderid, message, resiverid }) => {
+                recordUnreadMessage({ senderid, message, seen, resiverid });
+            });
             state.allMessageRead = allMessageReadTemp
-
-            // console.log(state.allMessageRead);
         },
     }
 })
 
-export const { addNewChats,refreshChats } = inboxSlice.actions;
+export const { addNewChats, refreshChats } = inboxSlice.actions;
 
 export default inboxSlice.reducer;

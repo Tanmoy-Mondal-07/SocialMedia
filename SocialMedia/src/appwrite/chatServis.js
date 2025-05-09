@@ -1,5 +1,5 @@
 import conf from '../conf/conf.js';
-import { Client, ID, Databases, Query, Permission, Role } from "appwrite";
+import { Client, ID, Databases } from "appwrite";
 
 export class Service {
     client = new Client();
@@ -26,6 +26,22 @@ export class Service {
             )
         } catch (error) {
             console.log("Appwrite serive :: writeChat :: error", error);
+        }
+    }
+
+    async updateSeen(chatId) {
+        console.log('seen hit');
+        try {
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseid,
+                conf.appwriteInboxCollectionid,
+                chatId,
+                {
+                    seen: true
+                }
+            )
+        } catch (error) {
+            console.log("Appwrite serive :: updateSeen :: error", error);
         }
     }
 
@@ -67,10 +83,10 @@ export class Service {
             );
         } catch (error) {
             console.log("Appwrite service :: subscribeToChat :: error", error);
-            return false  
+            return false
         }
     }
-    
+
 }
 
 

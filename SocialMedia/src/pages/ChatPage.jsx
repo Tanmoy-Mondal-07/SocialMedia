@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import appwriteInboxServicConfig from '../appwrite/chatServis'
 import { useSelector } from 'react-redux'
@@ -34,6 +34,22 @@ export default function ChatPage() {
   };
 
   useEffect(() => {
+    // setTimeout(() => {
+    messages.forEach(async (msg) => {
+      if (!msg.seen && msg.$id) {
+        try {
+          await appwriteInboxServicConfig.updateSeen(msg.$id);
+          // Optionally update local state so you don't re-mark same message
+          setmessages((prev) => prev.map(m => m.$id === msg.$id ? { ...m, seen: true } : m));
+        } catch (err) {
+          console.error('Failed to mark message seen', err);
+        }
+      }
+    })
+  // }, 2000);
+  }, [messages]);
+
+  useEffect(() => {
     getProfilesByCache(resiverid)
       .then((profile) => setsenderProfile(profile))
     setmessages(messagesFromStor)
@@ -45,7 +61,7 @@ export default function ChatPage() {
   }, [messages]);
 
   return senderid && (
-    <div className="w-full rounded-lg mx-auto h-screen flex flex-col bg-bground-200 text-fground-200 shadow-md animate-fadeIn">
+    <div className="w-full rounded-lg mx-auto h-dvh flex flex-col bg-bground-100 text-fground-200 shadow-md animate-fadeIn">
       {/* Header */}
       <div className="flex items-center gap-3 p-3 bg-white shadow animate-slideIn">
         <button onClick={() => navigate(-1)}><ArrowLeft /></button>

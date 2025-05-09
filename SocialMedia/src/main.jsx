@@ -11,7 +11,7 @@ import {
   TermsAndPrivacy, CreatPosts, EditPost,
   Posts, Followers, Following, Notifications,
   Report, Feedback, SearchPage, ChatPage,
-  FeatureUnavailable,
+  FeatureUnavailable, Inbox,
 } from './pages'
 import GithubLogin from './pages/GithubLogin.jsx'
 
@@ -84,7 +84,7 @@ const router = createBrowserRouter([
         element: (<AuthLayout authentication><Following /></AuthLayout>)
       }, {
         path: '/inbox',
-        element: <FeatureUnavailable />
+        element: <Inbox />
       }, {
         path: '/notification',
         element: (<AuthLayout authentication><Notifications /></AuthLayout>)

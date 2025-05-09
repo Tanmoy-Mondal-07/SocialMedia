@@ -25,7 +25,9 @@ function App() {
       ; (async () => {
         await appwriteInboxServicConfig.subscribeToChat(response => {
           if (response.senderid === currentUserData || response.resiverid === currentUserData) {
-            dispatch(addNewChats({ userChats: [response] }))
+            if (response.seen === false) {
+              dispatch(addNewChats({ userChats: [response] }))
+            }
           }
         })
           .then((res) => res ? setsocketLive(true) : setsocketLive(false))
@@ -39,7 +41,7 @@ function App() {
           Query.equal("senderid", currentUserData),
           Query.equal("resiverid", currentUserData)
         ]),
-        Query.limit(25)
+        Query.limit(250)
       ]
       appwriteInboxServicConfig.getChats(queries)
         .then((res) => dispatch(refreshChats({ userChats: res.documents?.reverse() })))
@@ -111,9 +113,9 @@ function App() {
   return (
     <>
       <Header />
-      <h1 className="hidden text-2xl sm:block">
+      {/* <h1 className="hidden text-2xl sm:block">
         This website is optimized for mobile devices only
-      </h1>
+      </h1> */}
       <main className="min-h-[calc(100vh-250px)] px-4 sm:px-6 lg:px-8">
         <Container>
           <Outlet />
