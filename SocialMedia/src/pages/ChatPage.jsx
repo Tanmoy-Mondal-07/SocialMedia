@@ -46,13 +46,14 @@ export default function ChatPage() {
         }
       }
     })
-  // }, 2000);
+    // }, 2000);
   }, [messages]);
 
   useEffect(() => {
     getProfilesByCache(resiverid)
       .then((profile) => setsenderProfile(profile))
-    setmessages(messagesFromStor)
+    const filterdData = messagesFromStor.filter((res) => (res.senderid === senderid && res.resiverid === resiverid) || (res.senderid === resiverid && res.resiverid === senderid))
+    setmessages(filterdData)
   }, [messagesFromStor])
 
   //go to the bottom of the sms list
