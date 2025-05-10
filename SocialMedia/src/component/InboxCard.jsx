@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import getProfilesByCache from '../utils/getProfilesThroughache'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { User2 } from 'lucide-react'
 
 function InboxCard({ senderIds }) {
     const navigate = useNavigate()
@@ -18,14 +19,14 @@ function InboxCard({ senderIds }) {
     }, [Messages, senderIds])
 
     return messageInfo && (
-        <li onClick={()=>navigate(`/message/${senderIds}`)}
+        <li onClick={() => navigate(`/message/${senderIds}`)}
             className={`flex items-start space-x-4 p-4 hover:bg-gray-50 transition-colors ${messageInfo?.count ? 'bg-gray-100' : ''}`}
         >
-            <img
+            {userInfo?.profilePic ? <img
                 src={userInfo?.profilePic}
                 alt={userInfo?.profilePic}
-                className="w-10 h-10 rounded-full flex-shrink-0"
-            />
+                className="w-10 h-10 rounded-full flex items-center object-cover"
+            /> : <User2 className="w-10 h-10 rounded-full flex items-center object-cover" />}
             <div className="flex-1">
                 <div className="flex justify-between items-center">
                     <p className="font-medium text-gray-900">{userInfo?.username}</p>
