@@ -24,7 +24,7 @@ function InboxCard({ senderIds }) {
             <img
                 src={userInfo?.profilePic}
                 alt={userInfo?.profilePic}
-                className="w-10 h-10 rounded-full flex-shrink-0"
+                className="w-10 h-10 rounded-full flex items-center object-cover"
             />
             <div className="flex-1">
                 <div className="flex justify-between items-center">
