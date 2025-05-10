@@ -38,7 +38,7 @@ function NotificationsCard({
     <ul>
       <li
         className={`flex items-start space-x-3 p-3 rounded-lg mb-2 transition-all duration-200 ease-in-out 
-      hover:bg-body-100 ${seen ? 'bg-body-0' : 'bg-body-300'}
+      hover:bg-body-100 ${seen ? 'bg-body-0' : 'bg-body-400'}
       transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop
       `}
       >
