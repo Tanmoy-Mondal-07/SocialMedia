@@ -51,7 +51,7 @@ function Login() {
       <div className="flex flex-col items-center gap-2 w-full">
         <img src={loginTextSvg} alt="Login" className="h-16 object-contain" />
 
-        <div className="h-4 min-h-[1rem] w-60 flex justify-center items-center text-xs text-red-500">
+        <div className="h-4 min-h-[1rem] w-60 flex justify-center items-center text-xs text-text-denger">
           {error ? (
             <p>{error}</p>
           ) : (
@@ -83,15 +83,15 @@ function Login() {
       <div className="mt-6 flex flex-col items-center">
         {/* Divider */}
         <div className="relative w-full flex items-center mb-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-3 text-gray-500 text-sm">or continue with</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="flex-grow border-t border-body-300"></div>
+          <span className="mx-3 text-text-color-200 text-sm">or continue with</span>
+          <div className="flex-grow border-t border-body-300"></div>
         </div>
 
         {/* GitHub Button */}
         <button
           variant="outline"
-          className="w-full max-w-sm flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+          className="w-full max-w-sm flex items-center justify-center gap-2 px-6 py-2 border border-body-300 rounded-lg text-sm font-medium text-text-color-300 hover:bg-body-100 transition"
           onClick={loginWithgit}
         >
           <Github className="w-5 h-5" />
@@ -99,10 +99,10 @@ function Login() {
         </button>
       </div>
 
-      <Link to="/signup" className="text-sm text-center text-fground-200 mt-4">
+      <Link to="/signup" className="text-sm text-center text-text-color-600 mt-4">
         Don’t have an account? <u>Sign Up</u>
       </Link>
-      <Link to='/termsandprivacy' className='pt-0 text-fground-100 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
+      <Link to='/termsandprivacy' className='pt-0 text-text-color-300 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
     </LoginContainer>
   )
 }

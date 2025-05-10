@@ -68,21 +68,21 @@ export default function PostHandler({
   return (
     <form
       onSubmit={handleSubmit(onFormSubmit)}
-      className="space-y-5 max-w-md mx-auto p-6 border rounded-2xl shadow bg-bground-100 border-fground-200"
+      className="space-y-5 max-w-md mx-auto p-6 border rounded-2xl shadow bg-body-0 border-body-1000"
     >
-      <h2 className="text-xl font-semibold text-center text-fground-200">
+      <h2 className="text-xl font-semibold text-center text-text-color-600">
         Create a Post
       </h2>
 
       {/* Image Upload */}
       <div
         onClick={handleClick}
-        className="border-2 border-dashed border-[--color-bground-200] bg-[--color-bground-200] rounded-lg p-4 cursor-pointer text-center"
+        className="border-2 border-dashed border-body-300 bg-body-300 rounded-lg p-4 cursor-pointer text-center"
       >
         {preview ? (
           <img src={preview} alt="Preview" className="w-full h-48 object-cover rounded-lg" />
         ) : (
-          <div className="flex flex-col items-center text-[--color-mground-100]">
+          <div className="flex flex-col items-center text-text-color-200">
             <ImageIcon className="w-10 h-10 mb-2" />
             <p className="text-sm">Click to upload (.jpg .jpeg .png)</p>
           </div>
@@ -100,7 +100,7 @@ export default function PostHandler({
       {/* Visibility */}
       <select
         {...register("visibility")}
-        className="w-full p-3 border rounded-lg text-[--color-fground-100] bg-[--color-bground-100] border-[--color-bground-200]"
+        className="w-full p-3 border rounded-lg text-text-color-300 bg-body-0 border-body-300"
       >
         <option value="" disabled>
           Select visibility "temp disabled"
@@ -117,15 +117,15 @@ export default function PostHandler({
         type="text"
         placeholder="Title"
         {...register("title", { required: true })}
-        className="w-full p-3 border rounded-lg text-[--color-fground-100] bg-[--color-bground-100] border-[--color-bground-200]"
+        className="w-full p-3 border rounded-lg text-text-color-300 bg-body-0 border-body-300"
       />
-      {errors.title && <p className="text-red-500 text-sm">Title is required.</p>}
+      {errors.title && <p className="text-text-denger text-sm">Title is required.</p>}
 
       {/* Content */}
       <textarea
         placeholder="What's on your mind? (Optional)"
         {...register("content")}
-        className="w-full p-3 border rounded-lg min-h-[100px] text-[--color-fground-100] bg-[--color-bground-100] border-[--color-bground-200]"
+        className="w-full p-3 border rounded-lg min-h-[100px] text-text-color-300 bg-body-0 border-body-300"
       />
 
       <Button type="submit" classNameActive="w-full">
