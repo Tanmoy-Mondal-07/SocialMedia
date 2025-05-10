@@ -4,7 +4,7 @@ import appwriteInboxServicConfig from '../appwrite/chatServis'
 import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import getProfilesByCache from "../utils/getProfilesThroughache";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User2 } from "lucide-react";
 import { Button } from "../component";
 
 export default function ChatPage() {
@@ -66,11 +66,11 @@ export default function ChatPage() {
       {/* Header */}
       <div className="flex items-center gap-3 p-3 bg-white shadow animate-slideIn">
         <button onClick={() => navigate(-1)}><ArrowLeft /></button>
-        <img
+        {senderProfile?.profilePic ? <img
           src={senderProfile?.profilePic}
           alt="Receiver"
           className="w-10 h-10 rounded-full object-cover"
-        />
+        /> : <User2 className="w-10 h-10 rounded-full flex items-center object-cover" />}
         <span className="font-semibold text-gray-800">{senderProfile?.username}</span>
       </div>
 
