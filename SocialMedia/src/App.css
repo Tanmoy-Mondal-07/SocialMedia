@@ -7,6 +7,30 @@
   --color-text-color-500: #11212d;
   --color-text-color-600: #06141b; */
 
+  /* @theme {
+  --color-inputbox-active: rgb(96, 165, 250);
+  --color-text-denger: rgb(255, 59, 48);
+
+  --color-text-color-100: rgb(255, 255, 255);
+  --color-text-color-200: rgb(107, 114, 128);
+  --color-text-color-300: rgb(55, 65, 81);
+  --color-text-color-400: rgb(31, 41, 55);
+  --color-text-color-500: rgb(17, 24, 39);
+  --color-text-color-600: rgb(0, 0, 0);
+
+  --color-body-0: rgb(255, 255, 255);
+  --color-body-100: rgb(243, 244, 246);
+  --color-body-200: rgb(229, 231, 235);
+  --color-body-300: rgb(209, 213, 219);
+  --color-body-400: rgb(156, 163, 175);
+  --color-body-500: rgb(107, 114, 128);
+  --color-body-600: rgb(75, 85, 99);
+  --color-body-700: rgb(55, 65, 81);
+  --color-body-800: rgb(31, 41, 55);
+  --color-body-900: rgb(17, 24, 39);
+  --color-body-1000: rgb(0, 0, 0);
+} */
+
 @theme {
   --color-inputbox-active: rgb(96, 165, 250);
   --color-text-denger: rgb(255, 59, 48);
@@ -18,16 +42,16 @@
   --color-text-color-500: rgb(17, 24, 39);
   --color-text-color-600: rgb(0, 0, 0);
 
-  --color-body-0: #ccd0cf;
+  --color-body-0: white;
   --color-body-100: rgb(243, 244, 246);
   --color-body-200: rgb(229, 231, 235);
-  --color-body-300: #11212d;
+  --color-body-300: #ccd0cf;
   --color-body-400: rgb(156, 163, 175);
   --color-body-500: rgb(107, 114, 128);
   --color-body-600: rgb(75, 85, 99);
   --color-body-700: rgb(55, 65, 81);
   --color-body-800: rgb(31, 41, 55);
-  --color-body-900: rgb(17, 24, 39);
+  --color-body-900: #06141b;
   --color-body-1000: rgb(0, 0, 0);
 }
 
