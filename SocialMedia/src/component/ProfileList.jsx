@@ -22,7 +22,7 @@ function ProfileList({ userId }) {
         flex items-center space-x-4
         max-w-xl mx-auto
         p-4
-        bg-white dark:bg-gray-800
+        bg-body-0
         rounded-lg
         shadow-md
         hover:shadow-lg
@@ -34,7 +34,7 @@ function ProfileList({ userId }) {
       tabIndex={0}
     >
       <div className="flex-shrink-0">
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+        <div className="w-12 h-12 rounded-full overflow-hidden bg-body-100 flex items-center justify-center">
           {profileDats?.profilePic ? (
             <img
               src={profileDats.profilePic}
@@ -43,16 +43,16 @@ function ProfileList({ userId }) {
               loading="lazy"
             />
           ) : (
-            <Image className="w-6 h-6 text-gray-400" />
+            <Image className="w-6 h-6 text-body-400" />
           )}
         </div>
       </div>
 
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+        <p className="text-sm font-medium text-text-color-500 truncate">
           {profileDats?.username || 'Unknown User'}
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+        <p className="text-xs text-text-color-200 truncate">
           @{profileDats?.username || 'username'}
         </p>
       </div>

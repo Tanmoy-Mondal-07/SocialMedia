@@ -33,11 +33,11 @@ function Postcard({
 
     return (
         <div
-            className="bg-white shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto 
+            className="bg-body-0 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto 
         transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
 
             <div onClick={() => navigate(`/profile/${userId}`)} className="flex items-center p-4">
-                <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-gray-200 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full overflow-hidden mr-4 bg-body-200 flex items-center justify-center">
                     {profileDats.profilePic ? (
                         <img
                             src={profileDats.profilePic}
@@ -50,25 +50,25 @@ function Postcard({
                     )}
                 </div>
                 <div>
-                    <strong className="block text-gray-800">{profileDats.username}</strong>
-                    <span className="text-xs text-gray-500">{getTimeAgo(time)}</span>
+                    <strong className="block text-text-color-400">{profileDats.username}</strong>
+                    <span className="text-xs text-text-color-200">{getTimeAgo(time)}</span>
                 </div>
             </div>
 
             <div onClick={() => navigate(`/post/${userId}/${postId}`)}>
                 {title && (
                     <div className="px-4 pb-1">
-                        <h2 className="text-sm font-semibold text-gray-900">{title}</h2>
+                        <h2 className="text-sm font-semibold text-text-color-500">{title}</h2>
                     </div>
                 )}
 
                 <div className="px-4 pb-2">
-                    <p className="text-sm text-gray-800 whitespace-pre-line">{caption}</p>
+                    <p className="text-sm text-text-color-400 whitespace-pre-line">{caption}</p>
                 </div>
 
                 <div className="w-full">
                     {!imageUrl ? (
-                        <div className="w-full h-1 bg-gray-300" />
+                        <div className="w-full h-1 bg-body-300" />
                     ) : (
                         <img
                             src={imageUrl}

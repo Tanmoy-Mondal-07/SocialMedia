@@ -62,12 +62,12 @@ function Signup() {
 
         <div className="h-4 w-full text-center">
           {error ? (
-            <p className="text-xs text-red-500">{error}</p>
+            <p className="text-xs text-text-denger">{error}</p>
           ) : (
             <>
-              {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
-              {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
-              {errors.password && <p className="text-xs text-red-500">{errors.password.message}</p>}
+              {errors.name && <p className="text-xs text-text-denger">{errors.name.message}</p>}
+              {errors.email && <p className="text-xs text-text-denger">{errors.email.message}</p>}
+              {errors.password && <p className="text-xs text-text-denger">{errors.password.message}</p>}
             </>
           )}
           {loading && <BeatLoader color="fground-200" size={8} />}
@@ -100,15 +100,15 @@ function Signup() {
       <div className="mt-6 flex flex-col items-center">
         {/* Divider */}
         <div className="relative w-full flex items-center mb-4">
-          <div className="flex-grow border-t border-gray-300"></div>
-          <span className="mx-3 text-gray-500 text-sm">or continue with</span>
-          <div className="flex-grow border-t border-gray-300"></div>
+          <div className="flex-grow border-t border-body-300"></div>
+          <span className="mx-3 text-text-color-200 text-sm">or continue with</span>
+          <div className="flex-grow border-t border-body-300"></div>
         </div>
 
         {/* GitHub Button */}
         <button
           variant="outline"
-          className="w-full max-w-sm flex items-center justify-center gap-2 px-6 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-100 transition"
+          className="w-full max-w-sm flex items-center justify-center gap-2 px-6 py-2 border border-body-300 rounded-lg text-sm font-medium text-text-color-300 hover:bg-body-100 transition"
           onClick={loginWithgit}
         >
           <Github className="w-5 h-5" />
@@ -116,10 +116,10 @@ function Signup() {
         </button>
       </div>
 
-      <Link to="/login" className="text-sm text-center text-fground-200 mt-4">
+      <Link to="/login" className="text-sm text-center text-text-color-600 mt-4">
         Already have an account? <u>Log In</u>
       </Link>
-      <Link to='/termsandprivacy' className='pt-0 text-fground-100 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
+      <Link to='/termsandprivacy' className='pt-0 text-text-color-300 text-left mt-4 text-xs'><u>terms/privacy</u></Link>
     </LoginContainer>
 
   )

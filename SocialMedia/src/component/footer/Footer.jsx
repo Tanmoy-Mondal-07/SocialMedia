@@ -43,7 +43,7 @@ function Footer() {
   ]
 
   return (
-    <div className="fixed bottom-0 max-h-[50px] w-full bg-bground-100 border-t border-fground-200 z-50">
+    <div className="fixed bottom-0 max-h-[50px] w-full bg-body-0 border-t border-body-1000 z-50">
       <div className="flex justify-around pb-2">
         {navItems.map((item) =>
           item.active ? (
@@ -51,7 +51,7 @@ function Footer() {
               key={item.name}
               onClick={() => navigate(item.slug)}
               className={`flex flex-col items-center text-xs font-medium px-6 py-1 transition-colors duration-150 hover:cursor-pointer md:px-20 sm:px-10 ${
-                location.pathname === item.slug ? 'text-fground-200' : 'text-mground-100'
+                location.pathname === item.slug ? 'text-text-color-600' : 'text-text-color-200'
               }`}
             >
               {item.icon}

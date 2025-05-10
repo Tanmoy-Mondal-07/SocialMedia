@@ -62,16 +62,16 @@ export default function ChatPage() {
   }, [messages]);
 
   return senderid && (
-    <div className="w-full rounded-lg mx-auto h-dvh flex flex-col bg-bground-100 text-fground-200 shadow-md animate-fadeIn">
+    <div className="w-full rounded-lg mx-auto h-dvh flex flex-col bg-body-0 text-text-color-600 shadow-md animate-fadeIn">
       {/* Header */}
-      <div className="flex items-center gap-3 p-3 bg-white shadow animate-slideIn">
+      <div className="flex items-center gap-3 p-3 bg-body-0 shadow animate-slideIn">
         <button onClick={() => navigate(-1)}><ArrowLeft /></button>
         {senderProfile?.profilePic ? <img
           src={senderProfile?.profilePic}
           alt="Receiver"
           className="w-10 h-10 rounded-full object-cover"
         /> : <User2 className="w-10 h-10 rounded-full flex items-center object-cover" />}
-        <span className="font-semibold text-gray-800">{senderProfile?.username}</span>
+        <span className="font-semibold text-text-color-400">{senderProfile?.username}</span>
       </div>
 
       {/* Messages */}
@@ -83,8 +83,8 @@ export default function ChatPage() {
           >
             <div
               className={`inline-block max-w-[75%] px-4 py-2 rounded-full shadow text-sm sm:text-base animate-fadeInUp ${msg.senderid === senderid
-                ? "bg-fground-100 text-white rounded-tr-none"
-                : "bg-white text-gray-900 border border-gray-300 rounded-tl-none"
+                ? "bg-body-700 text-white rounded-tr-none"
+                : "bg-body-0 text-text-color-500 border border-body-300 rounded-tl-none"
                 }`}
             >
               {msg.message}
@@ -97,17 +97,16 @@ export default function ChatPage() {
       {/* Input */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex gap-2 p-2 sm:p-4 bg-white pb-2.5 sm:mb-0 shadow mt-2 animate-slideIn"
+        className="flex gap-2 p-2 sm:p-4 bg-body-0 pb-2.5 sm:mb-0 shadow mt-2 animate-slideIn"
       >
         <input
           type="text"
           {...register("message", { required: true })}
           placeholder="Type a message..."
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm sm:text-base"
+          className="flex-1 px-3 py-2 border border-body-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-inputbox-active text-sm sm:text-base"
         />
         <Button
           type="submit"
-        // className="px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors text-sm sm:text-base"
         >
           Send
         </Button>

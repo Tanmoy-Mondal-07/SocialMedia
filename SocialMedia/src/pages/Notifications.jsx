@@ -117,10 +117,10 @@ function Notifications() {
   if (error) return <h1>{error}</h1>
 
   return cachedNotifications && (
-    <div className='bg-white p-4 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto'>
+    <div className='bg-body-0 p-4 shadow-md rounded-lg overflow-hidden mb-6 max-w-xl mx-auto'>
       <div className="flex justify-between items-center mb-4 ">
         <h2 className="text-xl font-semibold">Notifications</h2>
-        <button onClick={markAllAsRead} className="flex items-center text-sm text-gray-600 hover:text-gray-800">
+        <button onClick={markAllAsRead} className="flex items-center text-sm text-body-600 hover:text-text-color-400">
           <Check className="h-4 w-4 mr-1" />
           Mark all as read
         </button>

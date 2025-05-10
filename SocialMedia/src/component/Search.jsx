@@ -88,7 +88,7 @@ function Search({ items = [], onSearch }) {
       onFocus={handleFocus}
       className="relative w-full"
     >
-      <div className="flex w-full bg-gray-200 p-2 rounded-lg">
+      <div className="flex w-full bg-body-200 p-2 rounded-lg">
         <input
           type="text"
           placeholder="Search profiles..."
@@ -101,20 +101,20 @@ function Search({ items = [], onSearch }) {
           type="button"
           onClick={() => triggerSearch(searchTerm)}
           aria-label="Search"
-          className="p-2 hover:cursor-pointer bg-gray-400"
+          className="p-2 hover:cursor-pointer bg-body-400"
         >
           <SearchIcon className="w-5 h-5" />
         </button>
       </div>
 
       {showDropdown && filteredItems.length > 0 && (
-        <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md max-h-48 overflow-y-auto text-sm">
+        <ul className="absolute z-10 w-full mt-1 bg-body-0 border border-body-300 rounded-md max-h-48 overflow-y-auto text-sm">
           {filteredItems.map((item, index) => (
             <li
               key={item}
               onMouseDown={() => triggerSearch(item)}
               onMouseEnter={() => setHighlightIndex(index)}
-              className={`px-3 py-2 cursor-pointer ${highlightIndex === index ? 'bg-gray-400' : ''}`}
+              className={`px-3 py-2 cursor-pointer ${highlightIndex === index ? 'bg-body-400' : ''}`}
             >
               {item}
             </li>

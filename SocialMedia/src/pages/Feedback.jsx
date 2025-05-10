@@ -34,12 +34,12 @@ function Feedback() {
 
     if (submitResponse) {
         return (
-            <div className="bg-white p-6 shadow-lg rounded-2xl max-w-md mx-auto text-center">
-                <h2 className="text-2xl font-semibold text-blue-600 mb-2">Thank You for Your Feedback</h2>
-                <p className="text-gray-700">
+            <div className="bg-body-0 p-6 shadow-lg rounded-2xl max-w-md mx-auto text-center">
+                <h2 className="text-2xl font-semibold text-inputbox-active mb-2">Thank You for Your Feedback</h2>
+                <p className="text-text-color-300">
                     We sincerely appreciate you taking the time to share your thoughts with us. Your insights are invaluable and help us enhance our services.
                 </p>
-                <p className="text-gray-700 mt-2">
+                <p className="text-text-color-300 mt-2">
                     Rest assured, we are committed to using your feedback to improve our app and provide a better experience for all our users.
                 </p>
             </div>
@@ -47,11 +47,11 @@ function Feedback() {
     }
 
     return (
-        <div className="bg-white p-6 shadow-lg rounded-2xl max-w-md mx-auto">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800">Feedback</h2>
+        <div className="bg-body-0 p-6 shadow-lg rounded-2xl max-w-md mx-auto">
+            <h2 className="text-2xl font-semibold mb-4 text-text-color-400">Feedback</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
-                    <label htmlFor="feedbackText" className="block text-gray-700 mb-2">
+                    <label htmlFor="feedbackText" className="block text-text-color-300 mb-2">
                         Your Feedback
                     </label>
                     <textarea
@@ -60,13 +60,13 @@ function Feedback() {
                             required: 'Feedback is required',
                             maxLength: { value: 500, message: 'Max length is 500 characters' },
                         })}
-                        className={`w-full min-h-[120px] p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200 ${errors.feedbackText ? 'border-red-500' : 'border-gray-300'
+                        className={`w-full min-h-[120px] p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200 ${errors.feedbackText ? 'border-text-denger' : 'border-body-300'
                             }`}
                         placeholder="Enter your feedback..."
                         disabled={isSubmitting}
                     />
                     {errors.feedbackText && (
-                        <p className="text-red-500 text-sm mt-1">{errors.feedbackText.message}</p>
+                        <p className="text-text-denger text-sm mt-1">{errors.feedbackText.message}</p>
                     )}
                 </div>
                 <Button

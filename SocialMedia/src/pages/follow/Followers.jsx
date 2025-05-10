@@ -20,7 +20,7 @@ function Followers() {
     }, [userId])
 
     return (
-        <div className="max-w-xl mx-auto p-6 bg-bground-100 rounded-lg text-fground-200 space-y-6 shadow-lg">
+        <div className="max-w-xl mx-auto p-6 bg-body-0 rounded-lg text-text-color-600 space-y-6 shadow-lg">
             <h2>Followers</h2>
             {followers?.documents.map((accounts) => (
                 <ProfileList

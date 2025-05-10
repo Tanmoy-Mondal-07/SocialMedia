@@ -7,7 +7,7 @@ export default function Inbox() {
   const list = useSelector((state) => state.inbox.resivedUserList)
 
   return currentUserId && (
-    <div className="max-w-md mx-auto shadow-lg rounded-lg overflow-hidden bg-white">
+    <div className="max-w-md mx-auto shadow-lg rounded-lg overflow-hidden bg-body-0">
       <div className="border-b px-4 py-3">
         <h2 className="text-xl font-semibold">Inbox</h2>
       </div>

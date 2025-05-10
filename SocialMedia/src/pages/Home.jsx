@@ -54,7 +54,7 @@ function Home() {
             <MoonLoader size={30} speedMultiplier={1.5} color="red" />
           </div>
         }
-        endMessage={<p className="text-center text-gray-500 py-4">Nothing to Show</p>}
+        endMessage={<p className="text-center text-text-color-200 py-4">Nothing to Show</p>}
       >
         {posts.map((post) => {
           if (!postList.includes(post.$id)) {

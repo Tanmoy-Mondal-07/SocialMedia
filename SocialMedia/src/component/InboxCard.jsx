@@ -20,7 +20,7 @@ function InboxCard({ senderIds }) {
 
     return messageInfo && (
         <li onClick={() => navigate(`/message/${senderIds}`)}
-            className={`flex items-start space-x-4 p-4 hover:bg-gray-50 transition-colors ${messageInfo?.count ? 'bg-gray-100' : ''}`}
+            className={`flex items-start space-x-4 p-4 hover:bg-gray-50 transition-colors ${messageInfo?.count ? 'bg-body-100' : ''}`}
         >
             {userInfo?.profilePic ? <img
                 src={userInfo?.profilePic}
@@ -29,12 +29,12 @@ function InboxCard({ senderIds }) {
             /> : <User2 className="w-10 h-10 rounded-full flex items-center object-cover" />}
             <div className="flex-1">
                 <div className="flex justify-between items-center">
-                    <p className="font-medium text-gray-900">{userInfo?.username}</p>
-                    <span className="text-xs text-gray-500">
+                    <p className="font-medium text-text-color-500">{userInfo?.username}</p>
+                    <span className="text-xs text-text-color-200">
                         {messageInfo.count} Unseen Message{messageInfo?.count > 1 ? 's' : ''}
                     </span>
                 </div>
-                <p className="text-sm text-gray-600 truncate">{messageInfo?.latestMessage}</p>
+                <p className="text-sm text-body-600 truncate">{messageInfo?.latestMessage}</p>
             </div>
         </li>
     )

@@ -33,7 +33,7 @@ function Profile({
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-bground-100 rounded-lg text-fground-200 space-y-6 shadow-lg
+    <div className="max-w-xl mx-auto p-6 bg-body-0 rounded-lg text-text-color-600 space-y-6 shadow-lg
     transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop">
       <div className="flex items-center space-x-6">
         {imageUrl ? (
@@ -41,26 +41,26 @@ function Profile({
             src={imageUrl}
             alt="Profile"
             onClick={() => setModalOpen(true)}
-            className="w-24 h-24 rounded-full object-cover border-2 border-fground-200 shadow-sm cursor-pointer hover:opacity-90 transition"
+            className="w-24 h-24 rounded-full object-cover border-2 border-body-1000 shadow-sm cursor-pointer hover:opacity-90 transition"
           />
         ) : (
-          <div className="w-24 h-24 flex items-center justify-center rounded-full border-2 border-fground-200 shadow-sm bg-gray-100">
-            <Image className="text-fground-200 w-8 h-8" />
+          <div className="w-24 h-24 flex items-center justify-center rounded-full border-2 border-body-1000 shadow-sm bg-body-100">
+            <Image className="text-text-color-600 w-8 h-8" />
           </div>
         )}
         <div className="space-y-1">
           <h2 className="text-3xl font-bold leading-tight">{username}</h2>
-          <p className="text-sm text-bground-200 font-mono">@{username}</p>
+          <p className="text-sm text-text-color-200 font-mono">@{username}</p>
         </div>
       </div>
 
       {bio && (
-        <div className="text-base text-left text-fground-100 leading-relaxed">
+        <div className="text-base text-left text-text-color-300 leading-relaxed">
           {bio}
         </div>
       )}
 
-      <div className="flex justify-between text-center border-y border-fground-200 py-4">
+      <div className="flex justify-between text-center border-y border-body-1000 py-4">
         <div onClick={() => navigate(`/followers/${userId}`)} className='hover:cursor-pointer'>
           <p className="text-sm tracking-wide">Followers</p>
           <p className="font-semibold text-xl">{followersCount}</p>
@@ -86,7 +86,7 @@ function Profile({
             <Button
               onClick={onFollowClick}
               className={`w-full flex items-center justify-center gap-2
-        px-4 py-2 rounded-md  ${isFollowing ? 'bg-bground-100 text-fground-200 border border-fground-200' : 'bg-fground-200 text-bground-100'}`}
+        px-4 py-2 rounded-md  ${isFollowing ? 'bg-body-0 text-text-color-600 border border-body-1000' : 'bg-body-1000 text-bground-100'}`}
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </Button>
@@ -99,11 +99,11 @@ function Profile({
 
       {isModalOpen &&
         createPortal(
-          <div className="fixed inset-0 flex items-center justify-center z-10 bg-black/50">
+          <div className="fixed inset-0 flex items-center justify-center z-10 bg-body-1000/50">
             <div className="relative">
               <img src={imageUrl} alt="Full Profile" className="max-w-[90vw] max-h-[90vh]" />
               <button
-                className="absolute top-1 right-1 bg-bground-100 text-fground-200 rounded-full p-1 hover:bg-bground-200"
+                className="absolute top-1 right-1 bg-body-0 text-text-color-600 rounded-full p-1 hover:bg-body-300"
                 onClick={() => setModalOpen(false)}
               >
                 <Minimize2 size="20" />

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function TermsAndPrivacy() {
   return (
-    <div className="max-w-3xl text-left mx-auto px-6 py-12 text-fground-200">
+    <div className="max-w-3xl text-left mx-auto px-6 py-12 text-text-color-600">
       <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
       <p className="mb-4">
         This project is a personal side project created by an individual developer who is still
