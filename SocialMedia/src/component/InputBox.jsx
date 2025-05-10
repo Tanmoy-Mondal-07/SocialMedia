@@ -7,7 +7,7 @@ const InputBox = forwardRef(
     return (
       <div className="flex flex-col gap-1 w-full">
         {label && (
-          <label htmlFor={id} className="text-sm font-medium text-fground-100">
+          <label htmlFor={id} className="text-sm font-medium text-text-color-300">
             {label}
           </label>
         )}
@@ -15,7 +15,7 @@ const InputBox = forwardRef(
           id={id}
           type={type}
           ref={ref}
-          className={`w-full px-3 py-2 rounded-md border border-bground-200 focus:outline-none focus:ring-2 focus:ring-fground-200 transition duration-150 ${classNameEX}`}
+          className={`w-full px-3 py-2 rounded-md border border-body-300 focus:outline-none focus:ring-2 focus:ring-body-1000 transition duration-150 ${classNameEX}`}
           {...props}
         />
       </div>

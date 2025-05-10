@@ -100,14 +100,14 @@ function Postfooter({
     }
 
     return (
-        <div className="relative flex items-center justify-between px-4 py-3 bg-gray-50 border-t border-gray-200">
+        <div className="relative flex items-center justify-between px-4 py-3 bg-body-0 border-t border-body-200">
             {/* Left side actions */}
             <div className="flex items-center space-x-5">
                 {postLikesInfo &&
                     <div className="transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
                         <Button
                             onClick={likeClicked}
-                            className="flex items-center justify-center w-8 h-8 hover:text-red-500 transition-transform duration-200 ease-in-out transform hover:scale-110"
+                            className="flex items-center justify-center w-8 h-8 hover:text-text-denger transition-transform duration-200 ease-in-out transform hover:scale-110"
                         >
                             <div className="flex items-center">
                                 {userLiked ?
@@ -123,7 +123,7 @@ function Postfooter({
                 {postLikesInfo &&
                     <div className="transition-opacity duration-500 ease-in-out opacity-0 animate-fade-slide-in">
                         <Button onClick={() => navigate(`/post/${userId}/${postId}`)}
-                            className="flex items-center hover:text-blue-500 transition-transform duration-200 ease-in-out transform hover:scale-110">
+                            className="flex items-center hover:text-inputbox-active transition-transform duration-200 ease-in-out transform hover:scale-110">
                             <div className="flex items-center">
                                 <MessageCircle className="w-5 h-5 mr-1" />
                                 {commentCount > 0 && (
@@ -145,7 +145,7 @@ function Postfooter({
             <div className="relative" ref={menuRef}>
                 <Button
                     ref={buttonRef}
-                    className="flex items-center justify-center w-8 h-8 hover:text-gray-600 transition"
+                    className="flex items-center justify-center w-8 h-8 hover:text-body-600 transition"
                     onClick={() => setShowMenu((prev) => !prev)}
                 >
                     <MoreVertical className="w-5 h-5" />
@@ -153,17 +153,17 @@ function Postfooter({
 
                 {/* Dropdown */}
                 {showMenu && (
-                    <div className="absolute right-0 bottom-1 mt-1 w-36 bg-white border border-gray-200 rounded-md shadow-lg z-10 text-sm">
+                    <div className="absolute right-0 bottom-1 mt-1 w-36 bg-body-0 border border-body-200 rounded-md shadow-lg z-10 text-sm">
                         <ul className="py-1">
                             {userPost ? (
                                 <>
                                     <li>
-                                        <button onClick={() => navigate(`/editpost/${postId}`)} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        <button onClick={() => navigate(`/editpost/${postId}`)} className="w-full text-left px-4 py-2 hover:bg-body-100">
                                             Edit Post
                                         </button>
                                     </li>
                                     <li>
-                                        <button onClick={() => dletePost(postId)} className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                                        <button onClick={() => dletePost(postId)} className="w-full text-left px-4 py-2 text-text-denger hover:bg-red-50">
                                             Delete
                                         </button>
                                     </li>
@@ -173,12 +173,12 @@ function Postfooter({
                                     <li>
                                         <button
                                             onClick={() => navigate(`/report/${postId}`)}
-                                            className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                            className="w-full text-left px-4 py-2 hover:bg-body-100">
                                             Report
                                         </button>
                                     </li>
                                     <li>
-                                        <button onClick={handleShare} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                                        <button onClick={handleShare} className="w-full text-left px-4 py-2 hover:bg-body-100">
                                             Share
                                         </button>
                                     </li>

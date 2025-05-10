@@ -48,7 +48,7 @@ function SearchPage() {
     }, []);
 
     return (
-        <div className="w-full max-w-md mx-auto mt-5 p-4 bg-white rounded-lg shadow">
+        <div className="w-full max-w-md mx-auto mt-5 p-4 bg-body-0 rounded-lg shadow">
             <Search items={SerchedTextItems} onSearch={handleSearch} />
             <ul className="mt-8 space-y-2 w-full">
 

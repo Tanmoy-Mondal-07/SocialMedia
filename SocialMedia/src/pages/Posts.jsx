@@ -140,7 +140,7 @@ function Posts() {
 
   return (
     <>
-      <div className="max-w-xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8
+      <div className="max-w-xl mx-auto bg-body-0 shadow-lg rounded-lg p-6 my-8
       transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop">
         {/* user header */}
         <div className="flex justify-between items-start mb-4 relative">
@@ -151,8 +151,8 @@ function Posts() {
               className="w-14 h-14 rounded-full object-cover shadow-md"
             />
             <div>
-              <h2 className="text-lg font-semibold text-gray-800">{authorInfo?.username}</h2>
-              <p className="text-xs text-gray-500">
+              <h2 className="text-lg font-semibold text-text-color-400">{authorInfo?.username}</h2>
+              <p className="text-xs text-text-color-200">
                 {new Date(postInfo.$createdAt).toLocaleString()}
               </p>
             </div>
@@ -162,34 +162,34 @@ function Posts() {
           <div className="relative" ref={menuRef}>
             <button
               onClick={toggleMenu}
-              className="text-gray-500 hover:text-gray-700 p-2 rounded-full"
+              className="text-text-color-200 hover:text-text-color-300 p-2 rounded-full"
             >
               <MoreHorizontal />
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-10">
+              <div className="absolute right-0 mt-2 w-40 bg-body-0 shadow-lg rounded-lg z-10">
                 {(currentUserInfo?.$id === userId) ? (
                   <>
-                    <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
+                    <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-body-100 text-sm">
                       Share
                     </button>
 
-                    <button onClick={() => navigate(`/editpost/${postId}`)} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
+                    <button onClick={() => navigate(`/editpost/${postId}`)} className="block w-full text-left px-4 py-2 hover:bg-body-100 text-sm">
                       Edit Post
                     </button>
 
-                    <button onClick={() => dletePost(postId)} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm text-red-500">
+                    <button onClick={() => dletePost(postId)} className="block w-full text-left px-4 py-2 hover:bg-body-100 text-sm text-text-denger">
                       Delete
                     </button>
                   </>
                 ) : (
                   <>
-                    <button onClick={() => navigate(`/report/${postId}`)} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
+                    <button onClick={() => navigate(`/report/${postId}`)} className="block w-full text-left px-4 py-2 hover:bg-body-100 text-sm">
                       Report
                     </button>
 
-                    <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm">
+                    <button onClick={handleShare} className="block w-full text-left px-4 py-2 hover:bg-body-100 text-sm">
                       Share
                     </button>
                   </>
@@ -200,10 +200,10 @@ function Posts() {
         </div>
 
         {/* post content */}
-        <h3 className="text-2xl font-semibold mb-2 text-gray-800">{postInfo.title}</h3>
+        <h3 className="text-2xl font-semibold mb-2 text-text-color-400">{postInfo.title}</h3>
 
         {postInfo.content && (
-          <p className="text-gray-700 mb-4 whitespace-pre-line">{postInfo.content}</p>
+          <p className="text-text-color-300 mb-4 whitespace-pre-line">{postInfo.content}</p>
         )}
 
         {postInfo.mediaUrl && (
@@ -220,13 +220,13 @@ function Posts() {
         <div className="flex items-center mt-4 gap-4">
           <button
             onClick={likeClicked}
-            className="flex items-center space-x-1 text-red-500 hover:text-red-600"
+            className="flex items-center space-x-1 text-text-denger hover:text-red-600"
           >
             {userLiked ? <Heart fill='red' size={20} /> : <Heart size={20} />}
             <span className="text-sm">{postLikesInfo?.likeCount}</span>
           </button>
           <button
-            className="flex items-center space-x-1 text-gray-600 hover:text-gray-700"
+            className="flex items-center space-x-1 text-body-600 hover:text-text-color-300"
           >
             <MessageCircle size={20} />
             <span className="text-sm">{postInfo.commentsCount}</span>
@@ -243,12 +243,12 @@ function Posts() {
                 name="comment"
                 placeholder="Write a comment..."
                 rows={3}
-                className="w-full px-4 py-2 pr-12 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none"
+                className="w-full px-4 py-2 pr-12 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-inputbox-active resize-none"
               />
               <div className="absolute right-2 top-2 z-10">
                 <button
                   type="submit"
-                  className="p-1 text-blue-500 hover:text-blue-700"
+                  className="p-1 text-inputbox-active hover:text-blue-700"
                 >
                   <Send size={25} />
                 </button>

@@ -38,7 +38,7 @@ function NotificationsCard({
     <ul>
       <li
         className={`flex items-start space-x-3 p-3 rounded-lg mb-2 transition-all duration-200 ease-in-out 
-      hover:bg-gray-100 ${seen ? 'bg-white' : 'bg-bground-200'}
+      hover:bg-body-100 ${seen ? 'bg-body-0' : 'bg-body-300'}
       transition-opacity duration-300 ease-in-out animate-fade-slide-in-fromtop
       `}
       >
@@ -50,9 +50,9 @@ function NotificationsCard({
         />
         <div onClick={markAsRead} className="flex-1">
           <div className="flex justify-between items-start">
-            <h5 className="text-sm text-gray-700 leading-relaxed">
+            <h5 className="text-sm text-text-color-300 leading-relaxed">
               {contentType === 'follow' && (
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-text-color-400">
                   <div
                     className='hover:underline cursor-pointer'
                     onClick={() => navigate(`/profile/${relatedUserId}`)}>{relatedUserName}</div> started following you
@@ -60,7 +60,7 @@ function NotificationsCard({
               )}
 
               {contentType === 'comment' && (
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-text-color-400">
                   <div
                     className='hover:underline cursor-pointer'
                     onClick={() => navigate(`/profile/${relatedUserId}`)}>{relatedUserName}</div> commented "{commentSlice}" on your post{' '}
@@ -68,7 +68,7 @@ function NotificationsCard({
                     onClick={() =>
                       navigate(`/post/${relatedPostAuthorId}/${relatedPostId}`)
                     }
-                    className="font-medium text-blue-600 hover:underline cursor-pointer transition-colors duration-150"
+                    className="font-medium text-inputbox-active hover:underline cursor-pointer transition-colors duration-150"
                   >
                     {relatedPostTitle}
                   </span>
@@ -76,7 +76,7 @@ function NotificationsCard({
               )}
 
               {contentType === 'replay' && (
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-text-color-400">
                   <div
                     className='hover:underline cursor-pointer'
                     onClick={() => navigate(`/profile/${relatedUserId}`)}>{relatedUserName}</div> replied "{commentSlice}" on the post{' '}
@@ -84,23 +84,23 @@ function NotificationsCard({
                     onClick={() =>
                       navigate(`/post/${relatedPostAuthorId}/${relatedPostId}`)
                     }
-                    className="font-medium text-blue-600 hover:underline cursor-pointer transition-colors duration-150"
+                    className="font-medium text-inputbox-active hover:underline cursor-pointer transition-colors duration-150"
                   >
                     {relatedPostTitle}
                   </span>
                 </span>
               )}
             </h5>
-            <span className="text-xs text-mground-100 ml-2">
+            <span className="text-xs text-text-color-200 ml-2">
               {getTimeAgo(time)}
             </span>
           </div>
 
           {!seen && (
-            <div className="mt-2 flex space-x-4 text-gray-500">
+            <div className="mt-2 flex space-x-4 text-text-color-200">
               <button
                 onClick={markAsRead}
-                className="flex items-center text-xs hover:text-gray-700 transition-colors duration-150"
+                className="flex items-center text-xs hover:text-text-color-300 transition-colors duration-150"
               >
                 <Eye className="h-4 w-4 mr-1" /> Read
               </button>
@@ -110,7 +110,7 @@ function NotificationsCard({
 
         <button
           onClick={deleteNotification}
-          className="text-gray-400 hover:text-gray-600 transition-colors duration-150"
+          className="text-body-400 hover:text-body-600 transition-colors duration-150"
         >
           <X className="h-5 w-5" />
         </button>
