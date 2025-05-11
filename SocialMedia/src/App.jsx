@@ -17,52 +17,59 @@ import { Query } from 'appwrite'
 
 function App() {
   const dispatch = useDispatch()
-  const [socketLive, setsocketLive] = useState(false)
+  const [socketLive, setSocketLive] = useState(false)
   const currentUserData = useSelector((state) => state.auth.userData?.$id)
 
+
+
   useEffect(() => {
-    if (currentUserData && !socketLive) {
-      ; (async () => {
-        await appwriteInboxServicConfig.subscribeToChat(response => {
-          if (response.senderid === currentUserData || response.resiverid === currentUserData) {
-            if (!response.seen) {
-              dispatch(addNewChats({ userChats: [response] }))
+    if (!currentUserData) return;
+    // console.log("umm");
+
+    // Subscribe to incoming chats
+    if (!socketLive) {
+      (async () => {
+        try {
+          const success = await appwriteInboxServicConfig.subscribeToChat((response) => {
+            if (
+              (response.senderid === currentUserData || response.resiverid === currentUserData) &&
+              !response.seen
+            ) {
+              dispatch(addNewChats({ userChats: [response] }));
             }
-          }
-        })
-          .then((res) => res ? setsocketLive(true) : setsocketLive(false))
+          });
+          setSocketLive(!!success);
+        } catch (err) {
+          console.error("Failed to subscribe to chat:", err);
+          setSocketLive(false);
+        }
       })();
     }
 
-    if (currentUserData) {
-      const queries = [
-        Query.orderDesc("$createdAt"),
-        Query.or([
-          Query.equal("senderid", currentUserData),
-          Query.equal("resiverid", currentUserData)
-        ]),
-        Query.limit(50)
-      ]
-      appwriteInboxServicConfig.getChats(queries)
-        .then((res) => {
+    // Fetch initial chat messages
+    const queries = [
+      Query.orderDesc("$createdAt"),
+      Query.or([
+        Query.equal("senderid", currentUserData),
+        Query.equal("resiverid", currentUserData),
+      ]),
+      Query.limit(50)
+    ];
 
-          const updatedChats = res.documents?.map(chat => {
-            if (chat.senderid === currentUserData) {
-              return {
-                ...chat,
-                seen: true
-              };
-            }
-            return chat;
-          }).reverse();
+    appwriteInboxServicConfig.getChats(queries)
+      .then((res) => {
+        const updatedChats = res.documents?.map(chat => (
+          chat.senderid === currentUserData ? { ...chat, seen: true } : chat
+        )).reverse()
 
-          dispatch(refreshChats({ userChats: updatedChats }));
-        })
-        .catch((error) => console.log(error));
+        dispatch(refreshChats({ userChats: updatedChats }));
+      })
+      .catch((error) => console.error("Failed to fetch chats:", error));
 
-    }
+  }, [currentUserData, socketLive]);
 
-  }, [currentUserData])
+
+
 
   useEffect(() => {
     const checkAuthStatus = async () => {

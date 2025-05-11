@@ -23,7 +23,7 @@ function Footer() {
         sethaveMessages(true);
       }
     }
-    console.log(userData?.$id);
+    // console.log(userData?.$id);
   }, [Messages])
 
 
