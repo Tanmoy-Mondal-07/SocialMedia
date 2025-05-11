@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     userChats: [],
     resivedUserList: [],
-    allMessageRead: {}
+    allMessageRead: {},
+    unSeenMessageDot: false
 };
 
 const buildUserList = (chats) => {
@@ -19,6 +20,7 @@ const buildMessageReadMap = (chats) => {
     const messageMap = {};
     chats.forEach(({ senderid, resiverid, seen, message }) => {
         const increment = seen ? 0 : 1;
+        // if (seen) initialState.unSeenMessageDot = true
 
         [senderid, resiverid].forEach(userId => {
             if (!messageMap[userId]) {
@@ -32,19 +34,28 @@ const buildMessageReadMap = (chats) => {
     return messageMap;
 };
 
+const buildunSeenMessageDot = (chats) => {
+    chats.forEach(({ seen }) => {
+        if (!seen) return true
+    })
+    return false
+}
+
 const inboxSlice = createSlice({
     name: "inbox",
     initialState,
     reducers: {
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
-            state.resivedUserList = buildUserList(state.userChats);
-            state.allMessageRead = buildMessageReadMap(state.userChats);
+            state.resivedUserList = buildUserList(action.payload.userChats);
+            state.allMessageRead = buildMessageReadMap(action.payload.userChats);
+            state.unSeenMessageDot = buildunSeenMessageDot(action.payload.userChats);
         },
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
-            state.resivedUserList = buildUserList(state.userChats);
-            state.allMessageRead = buildMessageReadMap(state.userChats);
+            state.resivedUserList = buildUserList(action.payload.userChats);
+            state.allMessageRead = buildMessageReadMap(action.payload.userChats);
+            state.unSeenMessageDot = buildunSeenMessageDot(action.payload.userChats);
         },
     }
 });
