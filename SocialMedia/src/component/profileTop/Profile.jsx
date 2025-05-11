@@ -86,7 +86,7 @@ function Profile({
             <Button
               onClick={onFollowClick}
               className={`w-full flex items-center justify-center gap-2
-        px-4 py-2 rounded-md  ${isFollowing ? 'bg-body-0 text-text-color-600 border border-body-1000' : 'bg-body-1000 text-bground-100'}`}
+        px-4 py-2 rounded-md  ${isFollowing ? 'bg-body-0 text-text-color-600 border border-body-1000' : 'bg-body-1000 text-text-color-100'}`}
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </Button>
