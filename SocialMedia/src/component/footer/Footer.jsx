@@ -12,6 +12,7 @@ function Footer() {
   const Messages = useSelector((state) => state.inbox.allMessageRead)
 
   useEffect(() => {
+    sethaveMessages(false)
     if (Messages) {
       const hasMessages = Object.values(Messages).some(msg => msg.count > 0);
       if (hasMessages) sethaveMessages(true);
