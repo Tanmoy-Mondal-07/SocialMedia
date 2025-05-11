@@ -39,7 +39,6 @@ export default function ChatPage() {
       if ((msg.senderid !== senderid) && !msg.seen && msg.$id) {
         try {
           await appwriteInboxServicConfig.updateSeen(msg.$id);
-          // Optionally update local state so you don't re-mark same message
           setmessages((prev) => prev.map(m => m.$id === msg.$id ? { ...m, seen: true } : m));
         } catch (err) {
           console.error('Failed to mark message seen', err);
