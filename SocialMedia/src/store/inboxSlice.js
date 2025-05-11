@@ -38,7 +38,7 @@ const inboxSlice = createSlice({
     reducers: {
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
-            state.resivedUserList = buildUserList(state.userChats);
+            state.resivedUserList = buildUserList([...state.userChats, ...action.payload.userChats].reverse());
             state.allMessageRead = buildMessageReadMap(state.userChats);
         },
         refreshChats: (state, action) => {
