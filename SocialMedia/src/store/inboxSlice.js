@@ -8,7 +8,7 @@ const initialState = {
 
 const buildUserList = (chats) => {
     const users = new Set();
-    chats.reverse().forEach(({ senderid,resiverid }) => {
+    chats.reverse().forEach(({ senderid, resiverid }) => {
         users.add(senderid);
         users.add(resiverid);
     });
@@ -37,13 +37,13 @@ const inboxSlice = createSlice({
     initialState,
     reducers: {
         addNewChats: (state, action) => {
-            state.userChats = [...state.userChats, ...action.payload.userChats];
-            state.resivedUserList = buildUserList([...state.userChats, ...action.payload.userChats].reverse());
+            state.userChats = [...action.payload.userChats, ...state.userChats];
+            state.resivedUserList = buildUserList(state.userChats);
             state.allMessageRead = buildMessageReadMap(state.userChats);
         },
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
-            state.resivedUserList = buildUserList(action.payload.userChats.reverse());
+            state.resivedUserList = buildUserList(state.userChats);
             state.allMessageRead = buildMessageReadMap(state.userChats);
         },
     }

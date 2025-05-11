@@ -54,7 +54,7 @@ function App() {
               };
             }
             return chat;
-          }).reverse();
+          })
 
           dispatch(refreshChats({ userChats: updatedChats }));
         })

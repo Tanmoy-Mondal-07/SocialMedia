@@ -75,7 +75,7 @@ export default function ChatPage() {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto mt-4 space-y-2 px-2 sm:px-4">
-        {messages?.map((msg, Index) => (
+        {messages?.reverse().map((msg, Index) => (
           (msg.senderid === resiverid || msg.senderid === senderid) ? <div
             key={Index}
             className={`flex ${msg.senderid === senderid ? "justify-end" : "justify-start"}`}
