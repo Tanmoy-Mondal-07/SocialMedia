@@ -44,8 +44,22 @@ function App() {
         Query.limit(50)
       ]
       appwriteInboxServicConfig.getChats(queries)
-        .then((res) => dispatch(refreshChats({ userChats: res.documents?.reverse() })))
-        .catch((error) => console.log(error))
+        .then((res) => {
+
+          const updatedChats = res.documents?.map(chat => {
+            if (chat.senderid === currentUserData) {
+              return {
+                ...chat,
+                seen: true
+              };
+            }
+            return chat;
+          }).reverse();
+
+          dispatch(refreshChats({ userChats: updatedChats }));
+        })
+        .catch((error) => console.log(error));
+
     }
 
   }, [currentUserData])

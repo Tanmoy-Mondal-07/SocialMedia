@@ -9,10 +9,10 @@ const initialState = {
 const buildUserList = (chats) => {
     const users = new Set();
     chats.forEach(({ senderid, resiverid }) => {
-        users.add(senderid);
         users.add(resiverid);
+        users.add(senderid); 
     });
-    return Array.from(users);
+    return Array.from(users).reverse();
 };
 
 const buildMessageReadMap = (chats) => {
