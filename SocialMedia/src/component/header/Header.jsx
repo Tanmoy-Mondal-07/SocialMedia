@@ -51,7 +51,7 @@ function Header() {
               src={logoTextSvg}
               alt="Logo"
               className="h-[1.6rem] py-[0.2rem]"
-            /><h5 className='border-2 text-text-color-200 border-body-300 px-2 text-xs rounded-full'>Test-Server</h5>
+            /><h5 className='border-2 text-text-color-200 border-body-300 px-2 text-xs rounded-full'>Main-Server</h5>
           </div>
 
           <div className="flex items-center justify-end gap-5">
