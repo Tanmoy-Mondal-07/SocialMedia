@@ -8,7 +8,8 @@ const initialState = {
 
 const buildUserList = (chats) => {
     const users = new Set();
-    chats.forEach(({ senderid,resiverid }) => {
+    const chat = chats
+    chat.reverse().forEach(({ senderid,resiverid }) => {
         users.add(senderid);
         users.add(resiverid);
     });
