@@ -12,7 +12,7 @@ const buildUserList = (chats) => {
         users.add(senderid);
         users.add(resiverid);
     });
-    return Array.from(users).reverse();
+    return Array.from(users);
 };
 
 const buildMessageReadMap = (chats) => {
@@ -39,11 +39,13 @@ const inboxSlice = createSlice({
         addNewChats: (state, action) => {
             state.userChats = [...state.userChats, ...action.payload.userChats];
             state.resivedUserList = buildUserList(state.userChats);
+            // console.log(state.resivedUserList);
             state.allMessageRead = buildMessageReadMap(state.userChats);
         },
         refreshChats: (state, action) => {
             state.userChats = action.payload.userChats;
             state.resivedUserList = buildUserList(state.userChats);
+            // console.log(state.resivedUserList);
             state.allMessageRead = buildMessageReadMap(state.userChats);
         },
     }
