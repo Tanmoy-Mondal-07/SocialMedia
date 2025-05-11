@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Home, Search, Mail, User, LogIn, MailOpen } from 'lucide-react'
+import { Home, Search, User, LogIn, MessageSquare, LucideMessageSquareDot } from 'lucide-react'
 
 function Footer() {
+  const [haveMessages, sethaveMessages] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
   const authStatus = useSelector((state) => state.auth.status)
   const userData = useSelector((state) => state.auth.userData)
-  const haveMessage = useSelector((state) => state.inbox.unSeenMessageDot)
+  const Messages = useSelector((state) => state.inbox.allMessageRead)
+
+  useEffect(() => {
+    if (Messages) {
+      const hasMessages = Object.values(Messages).some(msg => msg.count > 0);
+      if (hasMessages) sethaveMessages(true);
+    }
+  }, [Messages])
+
 
   const navItems = [
     {
@@ -25,9 +34,14 @@ function Footer() {
     },
     {
       name: 'Inbox',
-      icon: (haveMessage ? <Mail size={20} /> : <MailOpen size={20} />),
+      icon: <MessageSquare size={20} />,
       slug: '/inbox',
-      active: authStatus
+      active: (authStatus && !haveMessages)
+    }, {
+      name: 'Inbox',
+      icon: <LucideMessageSquareDot size={20} />,
+      slug: '/inbox',
+      active: (authStatus && haveMessages)
     },
     {
       name: 'Profile',
