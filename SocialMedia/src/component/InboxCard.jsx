@@ -18,6 +18,8 @@ function InboxCard({ senderIds }) {
         }
     }, [Messages, senderIds])
 
+    const messageSlice = (messageInfo?.latestMessage?.length < 25) ? messageInfo?.latestMessage : messageInfo?.latestMessage?.slice(0, 25) + "..."
+
     return messageInfo && (
         <li onClick={() => navigate(`/message/${senderIds}`)}
             className={`flex items-start space-x-4 p-4 hover:bg-gray-50 transition-colors ${messageInfo?.count ? 'bg-body-100' : ''}`}
@@ -34,7 +36,7 @@ function InboxCard({ senderIds }) {
                         {messageInfo.count} Unseen Message{messageInfo?.count > 1 ? 's' : ''}
                     </span>
                 </div>
-                <p className="text-sm text-body-600 truncate">{messageInfo?.latestMessage}</p>
+                <p className="text-sm text-body-600 truncate">{messageSlice}</p>
             </div>
         </li>
     )
