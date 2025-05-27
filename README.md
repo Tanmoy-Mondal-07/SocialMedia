@@ -27,19 +27,19 @@
 
 ## 🔗 Table of Contents
 
-- [🌐 Live Demo](#🌐-live-demo)
-- [📱 Overview](#📱-overview)
-- [✨ Features](#✨-features)
-- [🚀 Tech Stack](#🚀-tech-stack)
-- [📁 Folder Structure](#📁-folder-structure)
-- [🗄️ Database Structure](#🗄️-database-structure)
-- [⚙️ Installation & Setup](#⚙️-installation-&-setup)
-  - [☑️ Prerequisites](#☑️-prerequisites)
-  - [⚙️ Installation](#⚙️-installation)
-- [📌 Project Roadmap](#📌-project-roadmap)
-- [🔰 Contributing](#🔰-contributing)
-- [📄 License](#📄-license)
-- [👤 Author](#👤-author)
+- [🌐 Live Demo](#-live-demo)
+- [📱 Overview](#-overview)
+- [✨ Features](#-features)
+- [🚀 Tech Stack](#-tech-stack)
+- [📁 Folder Structure](#-folder-structure)
+- [🗄️ Database Structure](#-database-structure)
+- [⚙️ Installation & Setup](#-installation-&-setup)
+  - [☑️ Prerequisites](#-prerequisites)
+  - [⚙️ Installation](#-installation)
+- [📌 Project Roadmap](#-project-roadmap)
+- [🔰 Contributing](#-contributing)
+- [📄 License](#-license)
+- [👤 Author](#-author)
 
 ---
 
