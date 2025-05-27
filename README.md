@@ -83,8 +83,8 @@ Check out the live demo of this project here:
 
 ```sh
 └── SocialMedia/
-    ├── LICENSE
-    ├──SocialMedia/
+	├── LICENSE
+	├──SocialMedia/
 	│	├── public/              # Static assets
 	│	├── src/
 	│	│   ├── app/             # Redux store and configuration
@@ -98,7 +98,7 @@ Check out the live demo of this project here:
 	│	├── .env                 # Environment variables
 	│	├── package.json         # Project metadata and scripts
 	│	└── tailwind.config.js   # Tailwind CSS configuration
-    └── appwriteFunctions        # Appwrite functions
+	└── appwriteFunctions        # Appwrite functions
         ├── commentFunction
         │   └── src
         │       └── main.js      # Appwrite functions for comment system
