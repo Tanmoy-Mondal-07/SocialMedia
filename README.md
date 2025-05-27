@@ -99,12 +99,12 @@ Check out the live demo of this project here:
 	│	├── package.json         # Project metadata and scripts
 	│	└── tailwind.config.js   # Tailwind CSS configuration
 	└── appwriteFunctions        # Appwrite functions
-        ├── commentFunction
-        │   └── src
-        │       └── main.js      # Appwrite functions for comment system
-        └── followFunction
-            └── src
-                └── main.js      # Appwrite functions for follow unfollow
+		├── commentFunction
+		│   └── src
+		│       └── main.js      # Appwrite functions for comment system
+		└── followFunction
+		    └── src
+		        └── main.js      # Appwrite functions for follow unfollow
 ```
 
 ## 🗄️ Database Structure
