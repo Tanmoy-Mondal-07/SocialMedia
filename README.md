@@ -111,68 +111,68 @@ Check out the live demo of this project here:
 ### 🗄️ Database Structure
 
 ```sh
-	└── Database
+└── Database
 
-		├── UserProfileCollection
-		│   ├── Fields: username*, bio, avatarUrl
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      C R W D
+	├── UserProfileCollection
+	│   ├── Fields: username*, bio, avatarUrl
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      C R W D
 
-		├── PostCollection
-		│   ├── Fields: userId*, content, mediaUrl, likesCount, visibility, title*, commentsCount
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      C R W D
+	├── PostCollection
+	│   ├── Fields: userId*, content, mediaUrl, likesCount, visibility, title*, commentsCount
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      C R W D
 
-		├── ReportCollection
-		│   ├── Fields: userId*, postId, reportText*
-		│   └── Permissions:
-		│       ├── Dev:        C R W D
-		│       └── Users:      C X X X
+	├── ReportCollection
+	│   ├── Fields: userId*, postId, reportText*
+	│   └── Permissions:
+	│       ├── Dev:        C R W D
+	│       └── Users:      C X X X
 
-		├── CommentsCollection
-		│   ├── Fields: commentId, postId*, authorId*, content*, likesCount
-		│   ├── Accessed By: Function { postId, commentId = null, content }
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      X X X X
+	├── CommentsCollection
+	│   ├── Fields: commentId, postId*, authorId*, content*, likesCount
+	│   ├── Accessed By: Function { postId, commentId = null, content }
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      X X X X
 
-		├── FollowersStats
-		│   ├── Fields: Document ID, followersCount, followingCount
-		│   ├── Accessed By: Function { followeeId }
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      X X X X
+	├── FollowersStats
+	│   ├── Fields: Document ID, followersCount, followingCount
+	│   ├── Accessed By: Function { followeeId }
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      X X X X
 
-		├── FollowsEvent
-		│   ├── Fields: followerId*, followeeId*
-		│   ├── Accessed By: Function { followeeId }
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      X X X X
+	├── FollowsEvent
+	│   ├── Fields: followerId*, followeeId*
+	│   ├── Accessed By: Function { followeeId }
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      X X X X
 
-		├── Notifications
-		│   ├── Fields: userId, type(comment|follow|replay), relatedUserId, relatedPostId, seen, commentText
-		│   ├── Accessed By:
-		│       ├── Function { followeeId }
-		│       └── Function { postId, commentId = null, content }
-		│   └── Permissions:
-		│       └── User($ID):  X R W D
+	├── Notifications
+	│   ├── Fields: userId, type(comment|follow|replay), relatedUserId, relatedPostId, seen, commentText
+	│   ├── Accessed By:
+	│       ├── Function { followeeId }
+	│       └── Function { postId, commentId = null, content }
+	│   └── Permissions:
+	│       └── User($ID):  X R W D
 
-		├── LikesCollection          # Requires custom access control via an Appwrite Function
-		│   ├── Fields: userId*, postId*, commentId
-		│   ├── Notes: Needs to be secured via custom function
-		│   └── Permissions:
-		│       ├── Any:        X R X X
-		│       └── Users:      C R X D
+	├── LikesCollection          # Requires custom access control via an Appwrite Function
+	│   ├── Fields: userId*, postId*, commentId
+	│   ├── Notes: Needs to be secured via custom function
+	│   └── Permissions:
+	│       ├── Any:        X R X X
+	│       └── Users:      C R X D
 
-		├── InboxCollection          # Requires custom access control via an Appwrite Function
-		│   ├── Fields: senderId, receiverId, message, seen
-		│   ├── Notes: Must be secured with custom function
-		│   └── Permissions:
-		│       ├── Any:        X R U X
-		│       └── Users:      C R U D
+	├── InboxCollection          # Requires custom access control via an Appwrite Function
+	│   ├── Fields: senderId, receiverId, message, seen
+	│   ├── Notes: Must be secured with custom function
+	│   └── Permissions:
+	│       ├── Any:        X R U X
+	│       └── Users:      C R U D
 ```
 
 Legend:
@@ -317,7 +317,7 @@ Contributions are welcome! If you'd like to contribute:
 <summary>Contributor Graph</summary>
 <br>
 <p align="left">
-   <a href="https://github.com{/Tanmoy-Mondal-07/SocialMedia/}graphs/contributors">
+   <a href="https://github.com/Tanmoy-Mondal-07/SocialMedia/graphs/contributors">
       <img src="https://contrib.rocks/image?repo=Tanmoy-Mondal-07/SocialMedia">
    </a>
 </p>
