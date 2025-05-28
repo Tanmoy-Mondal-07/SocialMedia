@@ -36,6 +36,7 @@
 - [⚙️ Installation & Setup](#-installation-&-setup)
   - [☑️ Prerequisites](#-prerequisites)
   - [⚙️ Installation](#-installation)
+  - [🛠️ Setting Up Appwrite Functions](#-🛠️-setting-up-appwrite-functions)
 - [📌 Project Roadmap](#-project-roadmap)
 - [🔰 Contributing](#-contributing)
 - [📄 License](#-license)
@@ -83,8 +84,8 @@ Check out the live demo of this project here:
 
 ```sh
 └── SocialMedia/
-    ├── LICENSE
-    ├──SocialMedia/
+	├── LICENSE
+	├── SocialMedia/
 	│	├── public/              # Static assets
 	│	├── src/
 	│	│   ├── app/             # Redux store and configuration
@@ -98,20 +99,90 @@ Check out the live demo of this project here:
 	│	├── .env                 # Environment variables
 	│	├── package.json         # Project metadata and scripts
 	│	└── tailwind.config.js   # Tailwind CSS configuration
-    └── appwriteFunctions        # Appwrite functions
-        ├── commentFunction
-        │   └── src
-        │       └── main.js      # Appwrite functions for comment system
-        └── followFunction
-            └── src
-                └── main.js      # Appwrite functions for follow unfollow
+	└── appwriteFunctions        # Appwrite functions
+		├── commentFunction
+		│   └── src
+		│       └── main.js      # Appwrite functions for comment system
+		└── followFunction
+		    └── src
+		        └── main.js      # Appwrite functions for follow unfollow
 ```
 
-## 🗄️ Database Structure
+### 🗄️ Database Structure
 
 ```sh
+	└── Database
 
+		├── UserProfileCollection
+		│   ├── Fields: username*, bio, avatarUrl
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      C R W D
+
+		├── PostCollection
+		│   ├── Fields: userId*, content, mediaUrl, likesCount, visibility, title*, commentsCount
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      C R W D
+
+		├── ReportCollection
+		│   ├── Fields: userId*, postId, reportText*
+		│   └── Permissions:
+		│       ├── Dev:        C R W D
+		│       └── Users:      C X X X
+
+		├── CommentsCollection
+		│   ├── Fields: commentId, postId*, authorId*, content*, likesCount
+		│   ├── Accessed By: Function { postId, commentId = null, content }
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      X X X X
+
+		├── FollowersStats
+		│   ├── Fields: Document ID, followersCount, followingCount
+		│   ├── Accessed By: Function { followeeId }
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      X X X X
+
+		├── FollowsEvent
+		│   ├── Fields: followerId*, followeeId*
+		│   ├── Accessed By: Function { followeeId }
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      X X X X
+
+		├── Notifications
+		│   ├── Fields: userId, type(comment|follow|replay), relatedUserId, relatedPostId, seen, commentText
+		│   ├── Accessed By:
+		│       ├── Function { followeeId }
+		│       └── Function { postId, commentId = null, content }
+		│   └── Permissions:
+		│       └── User($ID):  X R W D
+
+		├── LikesCollection          # Requires custom access control via an Appwrite Function
+		│   ├── Fields: userId*, postId*, commentId
+		│   ├── Notes: Needs to be secured via custom function
+		│   └── Permissions:
+		│       ├── Any:        X R X X
+		│       └── Users:      C R X D
+
+		├── InboxCollection          # Requires custom access control via an Appwrite Function
+		│   ├── Fields: senderId, receiverId, message, seen
+		│   ├── Notes: Must be secured with custom function
+		│   └── Permissions:
+		│       ├── Any:        X R U X
+		│       └── Users:      C R U D
 ```
+
+Legend:
+
+* `C` = Create
+* `R` = Read
+* `W` = Write
+* `D` = Delete
+* `X` = No permission
+* `*` = Required field
 
 
 ## ⚙️ Installation & Setup
@@ -144,26 +215,30 @@ Install SocialMedia using one of the following methods:
 3. **Setup Environment Variables**
    Create a `.env` file in the root directory and add your Appwrite project credentials:
 
-   ```env
-	VITE_APPWRITE_URL=
-	VITE_APPWRITE_PROJECT_ID=
-	VITE_APPWRITE_DATABASE_ID=
+	```env
+	# Appwrite Project Configuration
+	VITE_APPWRITE_URL=                      # The endpoint URL of your Appwrite server
+	VITE_APPWRITE_PROJECT_ID=              # Your Appwrite project ID
+	VITE_APPWRITE_DATABASE_ID=             # The ID of your Appwrite database
 
-	VITE_APPWRITE_USER_PROFILE_COLLECTION_ID=
-	VITE_APPWRITE_POST_COLLECTION_ID=
-	VITE_APPWRITE_FOLLOW_STATE_COLLECTION_ID=
-	VITE_APPWRITE_FOLLOW_EVENT_COLLECTION_ID=
-	VITE_APPWRITE_COMMENTS_COLLECTION_ID=
-	VITE_APPWRITE_NOTIFICATIONS_COLLECTION_ID=
-	VITE_APPWRITE_REPORT_COLLECTION_ID=
-	VITE_APPWRITE_LIKE_COLLECTION_ID=
-	VITE_APPWRITE_INBOX_COLLECTION_ID=
+	# Collection IDs
+	VITE_APPWRITE_USER_PROFILE_COLLECTION_ID=     # Collection for user profile data
+	VITE_APPWRITE_POST_COLLECTION_ID=             # Collection for posts
+	VITE_APPWRITE_FOLLOW_STATE_COLLECTION_ID=     # Collection to track follow state between users
+	VITE_APPWRITE_FOLLOW_EVENT_COLLECTION_ID=     # Collection for follow/unfollow events
+	VITE_APPWRITE_COMMENTS_COLLECTION_ID=         # Collection for post comments
+	VITE_APPWRITE_NOTIFICATIONS_COLLECTION_ID=    # Collection for user notifications
+	VITE_APPWRITE_REPORT_COLLECTION_ID=           # Collection for content reports (e.g., abuse or spam)
+	VITE_APPWRITE_LIKE_COLLECTION_ID=             # Collection for likes on posts or comments
+	VITE_APPWRITE_INBOX_COLLECTION_ID=            # Collection for private chat or messaging inboxes
 
-	VITE_APPWRITE_BUCKET_AVATAR_ID=
+	# Bucket IDs
+	VITE_APPWRITE_BUCKET_AVATAR_ID=               # Storage bucket for user avatars
 
-	VITE_APPWRITE_FOLLOW_FUNCTION_ID=
-	VITE_APPWRITE_COMMENT_FUNCTION_ID=
-   ```
+	# Function IDs
+	VITE_APPWRITE_FOLLOW_FUNCTION_ID=             # Function to handle follow/unfollow logic
+	VITE_APPWRITE_COMMENT_FUNCTION_ID=            # Function to handle comment creation/processing
+	```
 
 4. **Run the Development Server**
 
@@ -176,6 +251,31 @@ Install SocialMedia using one of the following methods:
    ```bash
    npm run build
    ```
+### 🛠️ Setting Up Appwrite Functions
+
+1. **Create a New Appwrite Function**
+   Go to your Appwrite dashboard and create a new function.
+
+2. **Replace the `main.js` File**
+   After creating the function, replace the default `main.js` file with your custom version.
+
+	```bash
+	└── Function/                 # Appwrite Function repository
+	    ├── node_modules/...
+	    ├── src/
+	    │   └── main.js           # Replace this file with your custom main.js
+	    ├── package.json
+	    └── package-lock.json
+	```
+
+3. **Configure Environment Variables and Permissions**
+   Don’t forget to set the required environment variables and configure the appropriate permissions for your Appwrite function.
+
+4. **Learn More**
+   To understand Appwrite functions in more detail, refer to the following resources:
+
+   * [YouTube Guide](https://www.youtube.com/watch?v=UAPt7VBL_T8&list=PL-nc7zI7zjsbGzYBiG_V3tEFpmlzzbJgC)
+   * [Official Documentation](https://appwrite.io/docs/products/functions/quick-start)
 
 ---
 ## 📌 Project Roadmap
