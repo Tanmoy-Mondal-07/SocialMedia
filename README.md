@@ -317,7 +317,7 @@ Contributions are welcome! If you'd like to contribute:
 <summary>Contributor Graph</summary>
 <br>
 <p align="left">
-   <a href="https://github.com{/Tanmoy-Mondal-07/SocialMedia/}graphs/contributors">
+   <a href="https://github.com/Tanmoy-Mondal-07/SocialMedia/graphs/contributors">
       <img src="https://contrib.rocks/image?repo=Tanmoy-Mondal-07/SocialMedia">
    </a>
 </p>
