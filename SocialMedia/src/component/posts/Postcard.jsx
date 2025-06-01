@@ -27,6 +27,19 @@ function Postcard({
             .catch((err) => console.log(err))
     }, [userId])
 
+    const urlRegex = /(https?:\/\/[^\s]+)/;
+    const match = caption.match(urlRegex);
+
+    const content = {
+        caption: caption,
+        url: null
+    };
+
+    if (match) {
+        content.url = match[0];
+        content.caption = caption.replace(match[0], '').trim();
+    }
+
     // console.log(profileDats);
 
     if (!profileDats) return null;
@@ -62,9 +75,23 @@ function Postcard({
                     </div>
                 )}
 
-                <div className="px-4 pb-2">
-                    <p className="text-sm text-text-color-400 whitespace-pre-line">{caption}</p>
+                <div className="px-4 pb-2 space-y-1">
+                    <p className="text-sm text-text-color-400 whitespace-pre-line">
+                        {content.caption}
+                    </p>
+
+                    {content.url && (
+                        <a
+                            href={content.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 text-sm underline break-all hover:text-blue-600 transition-colors"
+                        >
+                            {content.url}
+                        </a>
+                    )}
                 </div>
+
 
                 <div className="w-full">
                     {!imageUrl ? (

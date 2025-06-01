@@ -136,7 +136,21 @@ function Posts() {
     }
   }
 
+  
   if (!authorInfo || !postInfo) return null;
+
+  const urlRegex = /(https?:\/\/[^\s]+)/;
+  const match = postInfo.content.match(urlRegex);
+
+  const content = {
+    caption: postInfo.content,
+    url: null
+  };
+
+  if (match) {
+    content.url = match[0];
+    content.caption = postInfo.content.replace(match[0], '').trim();
+  }
 
   return (
     <>
@@ -203,7 +217,23 @@ function Posts() {
         <h3 className="text-2xl font-semibold mb-2 text-text-color-400">{postInfo.title}</h3>
 
         {postInfo.content && (
-          <p className="text-text-color-300 mb-4 whitespace-pre-line">{postInfo.content}</p>
+          <div className="text-text-color-300 mb-4 whitespace-pre-line">
+            <p className="text-sm text-text-color-400 whitespace-pre-line">
+              {content.caption}
+            </p>
+
+            {content.url && (
+              <a
+                href={content.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 text-sm underline break-all hover:text-blue-600 transition-colors"
+              >
+                {content.url}
+              </a>
+            )}
+          </div>
+
         )}
 
         {postInfo.mediaUrl && (
