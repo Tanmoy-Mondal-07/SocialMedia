@@ -49,7 +49,8 @@ function Login() {
   return (
     <LoginContainer>
       <div className="flex flex-col items-center gap-2 w-full">
-        <img src={loginTextSvg} alt="Login" className="h-16 object-contain" />
+        {/* <img src={loginTextSvg} alt="Login" className="h-16 object-contain" /> */}
+        <h2 className="text-4xl font-medium font-serif text-zinc-600 italic object-contain"> Login </h2>
 
         <div className="h-4 min-h-[1rem] w-60 flex justify-center items-center text-xs text-text-denger">
           {error ? (

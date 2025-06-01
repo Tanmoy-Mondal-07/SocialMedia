@@ -58,7 +58,8 @@ function Signup() {
   return (
     <LoginContainer>
       <div className="w-full flex flex-col items-center gap-2">
-        <img src={signUpSvg} alt="Sign Up" className="h-12 object-contain" />
+        {/* <img src={signUpSvg} alt="Sign Up" className="h-12 object-contain" /> */}
+        <h2 className="text-4xl font-medium font-serif text-zinc-600 italic object-contain"> Sign Up </h2>
 
         <div className="h-4 w-full text-center">
           {error ? (
